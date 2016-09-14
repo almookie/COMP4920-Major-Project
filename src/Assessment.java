@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 //Jackie has been here
+//Leon has been here
 public class Assessment {
 	private HashMap<Student, Double> marks; 
 	private double mean, standardDeviation, mode, median, range, weighting;
