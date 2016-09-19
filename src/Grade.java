@@ -2,9 +2,19 @@ import java.util.ArrayList;
 
 public class Grade {
 	private ArrayList<Student> students;
+	private int graduationYear;
 	
-	public Grade() {
-		
+	public Grade(int graduationYear) {
+		students = new ArrayList<Student>();
+		this.graduationYear = graduationYear;
+	}
+	
+	public void setGraduationYear(int graduationYear) {
+		this.graduationYear = graduationYear;
+	}
+	
+	public int getGraduationYear() {
+		return this.graduationYear;
 	}
 	
 	public void addStudent(Student student) {
