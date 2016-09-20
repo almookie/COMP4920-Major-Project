@@ -7,21 +7,19 @@ public class displayScreen {
 	
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
-    	 
-    	 
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
     	 //buttons
-    	 JButton creation = new JButton("creation");
-    	 JButton searching = new JButton("searching");
+    	 JButton managmentButton = new JButton("creation");
+    	 JButton searchingButton = new JButton("searching");
     	 
     	 //center to the pane
-    	 creation.setAlignmentX(Component.CENTER_ALIGNMENT); 
-    	 searching.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	 managmentButton.setAlignmentX(Component.CENTER_ALIGNMENT); 
+    	 searchingButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	 
     	 //adding to the menu panel
-    	 menu.add(creation);
-    	 menu.add(searching);
+    	 menu.add(managmentButton);
+    	 menu.add(searchingButton);
     	 
     	 //such that its vertical
     	 menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
@@ -32,8 +30,8 @@ public class displayScreen {
     	 final JPanel mainPanel = new JPanel(cardLayout);
     	 
     	 //example panels
-    	 JPanel creationPanel = new JPanel(new BorderLayout() );
-    	 creationPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+    	 JPanel managmentPanel = new JPanel(new BorderLayout() );
+    	 managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
          JPanel searchingPanel = new JPanel(new BorderLayout() );
          searchingPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
          
@@ -41,15 +39,16 @@ public class displayScreen {
          JLabel label1 = new JLabel("here goes stuff about CREATION");
          JLabel label2 = new JLabel("here SEARCHING stuff may be");
     	 
-         creationPanel.add(label1);
+         managmentPanel.add(label1);
          searchingPanel.add(label2);
          
-         mainPanel.add(creationPanel, "panel1");
-         mainPanel.add(searchingPanel, "panel2");
+         mainPanel.add(managmentPanel, "managmentPanel");
+         mainPanel.add(searchingPanel, "searchingPanel");
          
          //Note: This gives the effect of the page expanding 
          //from the center of the page
          //Center the display
+         
          frame.setLocationRelativeTo(null);
          frame.setLayout(new BorderLayout());
           
@@ -57,22 +56,21 @@ public class displayScreen {
          frame.add(menu,      BorderLayout.WEST);
          frame.add(mainPanel, BorderLayout.CENTER);
          
-         creation.addActionListener(new ActionListener() {
+         
+         managmentButton.addActionListener(new ActionListener() {
 
              @Override
              public void actionPerformed(ActionEvent e) {
-                 cardLayout.show(mainPanel, "panel1");
+                 cardLayout.show(mainPanel, "managmentPanel");
              }
          });
-         searching.addActionListener(new ActionListener() {
+         searchingButton.addActionListener(new ActionListener() {
 
              @Override
              public void actionPerformed(ActionEvent e) {
-                 cardLayout.show(mainPanel, "panel2");
+                 cardLayout.show(mainPanel, "searchingPanel");
              }
          });
-         
-         
          
          //maximise to display size
          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
