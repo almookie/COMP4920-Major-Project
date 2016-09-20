@@ -14,7 +14,10 @@ public class displayScreen {
          
          //Center the display
          frame.setLocationRelativeTo(null);
-         
+
+         frame.setLayout(new BorderLayout());
+         frame.add(new Button("Menue"),   BorderLayout.WEST);
+         frame.add(new Button("PAne"), BorderLayout.CENTER);
          //maximise to display size
          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
