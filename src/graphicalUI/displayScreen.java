@@ -32,18 +32,18 @@ public class displayScreen {
     	 //example panels
     	 JPanel managmentPanel = new JPanel(new BorderLayout() );
     	 managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-         JPanel searchingPanel = new JPanel(new BorderLayout() );
-         searchingPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+         markingPanel mP = new markingPanel();
+         
+         mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));
          
          //filler content remove later
          JLabel label1 = new JLabel("here goes stuff about CREATION");
          JLabel label2 = new JLabel("here SEARCHING stuff may be");
     	 
          managmentPanel.add(label1);
-         searchingPanel.add(label2);
          
          mainPanel.add(managmentPanel, "managmentPanel");
-         mainPanel.add(searchingPanel, "searchingPanel");
+         mainPanel.add(mP, "searchingPanel");
          
          //Note: This gives the effect of the page expanding 
          //from the center of the page
