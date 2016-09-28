@@ -7,6 +7,8 @@ public class displayScreen {
 	
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
+    	 frame.setMinimumSize(new Dimension(400,400));
+    	 
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
     	 //buttons
@@ -24,23 +26,23 @@ public class displayScreen {
     	 //such that its vertical
     	 menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
     	 menu.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-
+    	 
+    	 
     	 //cardlayout for the main panel two switch between possible classes of panels we create
          final CardLayout cardLayout = new CardLayout();
     	 final JPanel mainPanel = new JPanel(cardLayout);
     	 
     	 //example panels
-    	 JPanel managmentPanel = new JPanel(new BorderLayout() );
-    	 managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+    	 JPanel managmentPanel = new managementScreen();
          markingPanel mP = new markingPanel();
          
+         managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
          mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));
          
          //filler content remove later
          JLabel label1 = new JLabel("here goes stuff about CREATION");
          JLabel label2 = new JLabel("here SEARCHING stuff may be");
     	 
-         managmentPanel.add(label1);
          
          mainPanel.add(managmentPanel, "managmentPanel");
          mainPanel.add(mP, "searchingPanel");
