@@ -1,12 +1,23 @@
+/***************************************
+		IMPORTS
+ ***************************************/
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//Jackie has been here
-//Leon has been here
+
 public class Assessment {
+
+	
+	/***************************************
+			FIELDS
+	 ***************************************/
 	private HashMap<Student, Double> marks; 
 	private double mean, standardDeviation, mode, median, range, weighting;
 	
+	
+	/***************************************
+			CONSTRUCTOR
+	 ***************************************/
 	public Assessment(ArrayList<Student> students) {
 		mode = median = range =	mean = standardDeviation = weighting = 0;
 		marks = new HashMap<Student, Double>();
@@ -16,6 +27,19 @@ public class Assessment {
 		}
 	}
 	
+
+	/***************************************
+			PUBLIC METHODS
+	 ***************************************/
+	//	ADD
+	public void addMark(Student student, double mark) {
+		marks.put(student, mark);
+	}
+	
+	
+	/***************************************
+			PRIVATE METHODS
+	 ***************************************/
 	// TODO: Unfinished
 	/**
 	 * Recalculates required values
@@ -65,9 +89,5 @@ public class Assessment {
 			
 			standardDeviation = Math.sqrt(standardDeviationSum / count);
 		}
-	}
-
-	public void addMark(Student student, double mark) {
-		marks.put(student, mark);
 	}
 }

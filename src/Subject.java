@@ -1,44 +1,58 @@
+/***************************************
+		IMPORTS
+ ***************************************/
 import java.util.ArrayList;
 
+
 public class Subject {
+	
+	
+	/***************************************
+			FIELDS
+	 ***************************************/
 	private String name;
 	private String shortcode;
 	private ArrayList<Class> classes;
 	
+	
+	/***************************************
+			CONSTRUCTOR
+	 ***************************************/
 	public Subject(String name, String shortcode) {
 		this.name = name;
 		this.shortcode = shortcode;
-		this.classes = new ArrayList<Class>();		
+		this.classes = new ArrayList<Class>();	
 	}
 	
+	
+	/***************************************
+			METHODS
+	 ***************************************/
+	//	ADD
 	public void addClass(Class new_class) {
 		classes.add(new_class);
 	}
 	
+	//	REMOVE
 	public void removeClass(Class delete_class) {
 		classes.remove(delete_class);
 	}
 	
-	public boolean hasClass(Class check_class) {
+	// 	HAS
+	public boolean hasClass(Class check_class) { 
 		return classes.contains(check_class);
 	}
 	
-	public void setName(String name) {
-		this.name = name;
-	}
+	//	GETS
+	public String getName(String name) { return name; }
+	public String getShortcode(String shortcode) { return shortcode; }
+	public ArrayList<Class> getClasses() { return this.classes; }
 	
-	public String getName(String name) {
-		return name;
-	}
+	//	SETS
+	public void setName(String name) { this.name = name; }
+	public void setShortcode(String shortcode) { this.shortcode = shortcode; }
 	
-	public void setShortcode(String shortcode) {
-		this.shortcode = shortcode;
-	}
-	
-	public String getShortcode(String shortcode) {
-		return shortcode;
-	}
-	
+	//	MISC
 	@Override
 	public boolean equals (Object o) {
 		if (this == o) return true;
