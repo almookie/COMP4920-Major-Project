@@ -2,6 +2,7 @@
 		IMPORTS
  ***************************************/
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Subject {
@@ -12,47 +13,54 @@ public class Subject {
 	 ***************************************/
 	private String name;
 	private String shortcode;
-	private ArrayList<Class> classes;
+	private ArrayList<Grade> gradeList;
+	private ArrayList<Student> studentList;
+	private HashMap<Class, Grade> classMap;
 	
 	
 	/***************************************
 			CONSTRUCTOR
 	 ***************************************/
-	public Subject(String name, String shortcode) {
+	public Subject(String name, String sCode, Grade g) {
 		this.name = name;
-		this.shortcode = shortcode;
-		this.classes = new ArrayList<Class>();	
+		this.shortcode = sCode;
+		this.gradeList = new ArrayList<Grade>();
+		this.studentList = new ArrayList<Student>();
+		this.classMap = new HashMap<Class, Grade>();	
 	}
 	
 	
 	/***************************************
 			METHODS
 	 ***************************************/
-	//	ADD
-	public void addClass(Class new_class) {
-		classes.add(new_class);
+	// 	CLASS
+	public void addClass(int classID, Grade g) { 
+		this.classMap.put(new Class(classID, g), g);
 	}
+	public void removeClass(Class c) { this.classMap.remove(c); }
 	
-	//	REMOVE
-	public void removeClass(Class delete_class) {
-		classes.remove(delete_class);
-	}
+	//	STUDENT
+	public void addStudent(Student stu) { this.studentList.add(stu); }
+	public void removeStudent(Student stu) { this.studentList.remove(stu); }
 	
-	// 	HAS
-	public boolean hasClass(Class check_class) { 
-		return classes.contains(check_class);
-	}
+	//	GRADE
+	public void addGrade(Grade g) { this.gradeList.add(g); }
+	public void removeGrade(Grade g) { this.gradeList.remove(g); }
 	
 	//	GETS
-	public String getName(String name) { return name; }
-	public String getShortcode(String shortcode) { return shortcode; }
-	public ArrayList<Class> getClasses() { return this.classes; }
+	public ArrayList<Student> getStudentList() { return this.studentList; }
+	public HashMap<Class, Grade> getClassMap() { return this.classMap; }
+	
+	public String getName() { return this.name; }
+	public String getShortcode() { return this.shortcode; }
+	public ArrayList<Grade> getGradeList() { return this.gradeList; }
 	
 	//	SETS
 	public void setName(String name) { this.name = name; }
 	public void setShortcode(String shortcode) { this.shortcode = shortcode; }
 	
-	//	MISC
+	
+/*	//	MISC
 	@Override
 	public boolean equals (Object o) {
 		if (this == o) return true;
@@ -74,5 +82,9 @@ public class Subject {
 		}
 		return output;
 	}
+	
+	public boolean hasClass(Class check_class) { 
+		return classes.contains(check_class);
+	}*/
 
 }

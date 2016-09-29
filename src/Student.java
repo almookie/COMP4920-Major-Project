@@ -10,7 +10,8 @@ public class Student {
 	private int ID;
 	private String givenName, surname;
 	private Grade grade;
-	private HashMap<Subject, Class> classes;
+	private HashMap<Class, Subject> classMap;
+	private HashMap<Assessment, Class> assessmentMap;
 	
 	
 	/***************************************
@@ -22,37 +23,32 @@ public class Student {
 		this.givenName= givenName;
 		this.surname = surname;
 		this.grade = grade;
-		this.classes = new HashMap<Subject, Class>();
+		this.classMap = new HashMap<Class, Subject>();
+		this.assessmentMap = new HashMap<Assessment, Class>();
 	}
 	
 	/***************************************
 			METHODS
 	 ***************************************/
-	//	ADD
-	//	e_class (enrolled class) since class is taken by java
-	public void addClass(Subject subject, Class e_class) {
-		this.classes.put(subject, e_class);
-	}
+	//	CLASSES
+	public void addClass(Class c, Subject s) { this.classMap.put(c, s); }
+	public void removeClass(Class c) { this.classMap.remove(c); }
 	
-	//	REMOVE
-	//	by class
-	public void removeClass(Subject subject) {
-		this.classes.remove(subject);
+	//	ASSESSMENT
+	public void addAssessment(String aName, Class c) {
+		this.assessmentMap.put(new Assessment(aName), c);
 	}
-	// 	by subject
-	public void removeSubject(Class e_class) {
-		this.classes.values().remove(e_class);
+	public void removeAssessment(Assessment a) { 
+		this.assessmentMap.remove(a); 
 	}
 	
 	//	GETS
+	public HashMap<Class, Subject> getClassMap() { return this.classMap; }
+	public HashMap<Assessment, Class> getAssMap() { return this.assessmentMap; }
 	public int getID() { return ID; }
 	public String getGivenName() { return this.givenName; }
 	public String getSurname() { return this.surname; }
 	public Grade getGrade() { return this.grade; }
-		//	classes
-	public HashMap<Subject, Class> getCourses() { return this.classes; }
-	public ArrayList<Class> getClasses() { return (ArrayList<Class>)this.classes.values(); } 	//	I think this works?
-	public ArrayList<Subject> getSubjects() { return (ArrayList<Subject>)this.classes.keySet(); } 		//	I think this works?
 	
 	//	SETS
 	public void setID(int ID) { this.ID = ID; }
@@ -60,6 +56,7 @@ public class Student {
 	public void setSurname(String surname) { this.surname = surname; }
 	public void setGrade(Grade grade) { this.grade = grade; }
 	
+	/*
 	//	MISC
 	@Override
 	public boolean equals (Object o) {
@@ -74,5 +71,5 @@ public class Student {
 		final int result = 17;
 		return 37 * result + ID;
 	}
-	
+	*/
 }

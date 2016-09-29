@@ -11,35 +11,44 @@ public class Assessment {
 	/***************************************
 			FIELDS
 	 ***************************************/
-	private HashMap<Student, Double> marks; 
+	private String assignTitle;
+	private HashMap<Student, Double> marksMap;
 	private double mean, standardDeviation, mode, median, range, weighting;
 	
 	
 	/***************************************
 			CONSTRUCTOR
 	 ***************************************/
-	public Assessment(ArrayList<Student> students) {
+	public Assessment(String name) {
+		this.assignTitle = name;
 		mode = median = range =	mean = standardDeviation = weighting = 0;
-		marks = new HashMap<Student, Double>();
-		
-		for (Student student : students) {
-			marks.put(student, null);
-		}
+		this.marksMap = new HashMap<Student, Double>();
 	}
 	
 
 	/***************************************
 			PUBLIC METHODS
 	 ***************************************/
-	//	ADD
-	public void addMark(Student student, double mark) {
-		marks.put(student, mark);
-	}
+	//	STUDENT
+	public void addStudent(Student stu) { this.marksMap.put(stu, null); }
+	public void removeStudent(Student stu) { this.marksMap.remove(stu); }
+	
+	//	MARK
+	public void addMark(Student stu, Double mark) { this.marksMap.put(stu, mark); }
+	public void removeMark(Student stu) { this.marksMap.remove(stu, null); }
+	
+	//	GETS
+	public HashMap<Student, Double> getmarksMap() { return this.marksMap; }
+	public String getAssignName() { return this.assignTitle; }
+	
+	//	SETS
+	public void setAssignName(String name) { this.assignTitle = name; }
 	
 	
 	/***************************************
 			PRIVATE METHODS
 	 ***************************************/
+	
 	// TODO: Unfinished
 	/**
 	 * Recalculates required values
@@ -53,8 +62,8 @@ public class Assessment {
 		double lowest = Double.MIN_VALUE;
 		double highest = Double.MAX_VALUE;
 		
-		for (Student student : marks.keySet()) {
-			mark = marks.get(student);
+		for (Student student : marksMap.keySet()) {
+			mark = marksMap.get(student);
 			
 			// if a mark hasn't been entered yet, don't count the student in calculations
 			if (mark == null) {
@@ -76,8 +85,8 @@ public class Assessment {
 			// calculate the standard deviation
 			double standardDeviationSum = 0;
 			
-			for (Student student : marks.keySet()) { 
-				mark = marks.get(student);
+			for (Student student : marksMap.keySet()) { 
+				mark = marksMap.get(student);
 				
 				// if a mark hasn't been entered yet, don't count the student in calculations
 				if (mark == null) {
@@ -89,5 +98,5 @@ public class Assessment {
 			
 			standardDeviation = Math.sqrt(standardDeviationSum / count);
 		}
-	}
+	}	
 }

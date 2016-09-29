@@ -10,9 +10,9 @@ public class Class {
 			FIELDS
 	 ***************************************/
 	private int classID;
-	private ArrayList<Student> students; 
-	private ArrayList<Assessment> assessments;
 	private Grade grade;
+	private ArrayList<Student> studentList; 
+	private ArrayList<Assessment> assessmentList;
 	
 	
 	/***************************************
@@ -21,38 +21,40 @@ public class Class {
 	public Class(int classID, Grade grade) {
 		this.classID = classID;
 		this.grade = grade;
-		students = new ArrayList<Student>();
-		assessments = new ArrayList<Assessment>();
+		this.studentList = new ArrayList<Student>();
+		this.assessmentList = new ArrayList<Assessment>();
 	}
 	
 	
 	/***************************************
 			METHODS
 	 ***************************************/
-	//	ADD
-	public void addStudent(Student student) {
-		students.add(student);
-	}
-	public void addMark(Assessment assessment, Student student, double mark) {
-		assessment.addMark(student, mark);
-	}
 	
-	//	REMOVE
-	public void removeStudent(Student student) {
-		students.remove(student);
-	}
+	//	STUDENT
+	public void addStudent(Student stu) { studentList.add(stu); }
+	public void removeStudent(Student stu) { studentList.remove(stu); }
 	
-	//	HAS
-	public boolean hasStudent(Student student) {
-		return (students.contains(student));
+	//	ASSESSMENT
+	public void addAssessment(String name) {
+		this.assessmentList.add(new Assessment(name));
 	}
+	public void removeAssessment(Assessment a, Class c) { this.assessmentList.remove(a); }
 	
 	//	GETS
+	public ArrayList<Student> getStudentList() { return this.studentList; }
+	public ArrayList<Assessment> getAssessmentList() { return this.assessmentList; }
+	
 	public int getClassID() { return this.classID; }
 	public Grade getGrade() { return this.grade; }
 
 	//	SETS
 	public void setClassID(int classID) { this.classID = classID; }
 	public void setGrade(Grade grade) { this.grade = grade; }
+	
+	
+	/*
+	public boolean hasStudent(Student student) {
+		return (students.contains(student));
+	}*/
 	
 }

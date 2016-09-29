@@ -10,56 +10,61 @@ public class Grade {
 	/***************************************
 			FIELDS
 	 ***************************************/
-	private ArrayList<Student> students;
+	
 	private int grade;
 	private int graduationYear;
+	private ArrayList<Subject> subjectList;
+	private ArrayList<Student> studentList;
 	
 	
 	/***************************************
 			CONSTRUCTOR
 	 ***************************************/
 	public Grade(int graduationYear, int grade) {
-		students = new ArrayList<Student>();
 		this.grade = grade;
 		this.graduationYear = graduationYear;
+		this.subjectList = new ArrayList<Subject>();
+		this.studentList = new ArrayList<Student>();
 	}
 	
 	
 	/***************************************
 			METHODS
 	 ***************************************/
-	//	ADD
-	public void addStudent(Student student) {
-		 students.add(student);
-	}
+	//	SUBJECT
+	public void addSubject(Subject s) { this.subjectList.add(s); }
+	public void removeSubject(Subject s) { this.subjectList.remove(s); }
 	
-	//	REMOVE
-	public void removeStudent(Student student) {
-		students.remove(student);
-	}
+	//	STUDENT
+	public void addStudent(Student stu) { this.studentList.add(stu); }
+	public void removeStudent(Student stu) { this.studentList.remove(stu); }
 	
-	//	HAS
-	public boolean hasStudent(int ID) {
+	//	GETS
+	public ArrayList<Subject> getSubjectList() { return this.subjectList; }
+	public ArrayList<Student> getStudentList() { return this.studentList; }
+	
+	public int getGrade() { return this.grade; }
+	public int getGraduationYear() { return this.graduationYear; }
+
+	//	SETS
+	public void setGrade(int grade) { this.grade = grade; }
+	public void setGraduationYear(int graduationYear) { this.graduationYear = graduationYear; }
+
+	//	Commenting these for now just testing basics
+/*	
+ * public int getStudentCount() { return students.size(); }
+ * 
+ * public boolean hasStudent(int ID) {
 		for (Student student : students) {
 			if (student.getID() == ID) return true;
 		}
 		return false;
 	}
 	
-	//	GETS
 	public Student getStudent(int ID) {
 		for (Student student : students) {
 			if (student.getID() == ID) return student;
 		}
 		return null;
-	}
-	public int getGrade() { return this.grade; }
-	public int getGraduationYear() { return this.graduationYear; }
-	
-	public int getStudentCount() { return students.size(); }
-	
-	//	SETS
-	public void setGrade(int grade) { this.grade = grade; }
-	public void setGraduationYear(int graduationYear) { this.graduationYear = graduationYear; }
-
+	}*/
 }
