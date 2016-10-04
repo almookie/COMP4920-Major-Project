@@ -57,7 +57,7 @@ public class Subject {
 		this.shortcode = shortcode;
 	}
 	
-	public String getShortcode(String shortcode) {
+	public String getShortcode() {
 		return shortcode;
 	}
 	
