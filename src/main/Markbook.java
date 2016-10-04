@@ -169,6 +169,10 @@ public class Markbook {
 		return c.getGrade().getYear(getCurrentYear()) + c.getSubject().getShortcode() + c.getClassNumber();
 	}
 	
+	public ArrayList<Grade> getGrades() {
+		return grades;
+	}
+	
 	public String toString() {
 		String returnString = "Subjects:\n";
 		
