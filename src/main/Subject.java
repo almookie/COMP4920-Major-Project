@@ -16,6 +16,7 @@ public class Subject {
 	
 	private String name;
 	private String shortcode;
+	private ArrayList<Class> classList;
 	private ArrayList<Grade> gradeList;
 	private HashMap<Class, Grade> classGradeMap;
 	private ArrayList<Student> studentList;
@@ -28,6 +29,7 @@ public class Subject {
 	public Subject(String name, String sCode, Grade g) {
 		this.name = name;
 		this.shortcode = sCode;
+		this.classList = new ArrayList<Class>();
 		this.gradeList = new ArrayList<Grade>();
 		this.classGradeMap = new HashMap<Class, Grade>();	
 		this.studentList = new ArrayList<Student>();
@@ -37,6 +39,14 @@ public class Subject {
 	/***************************************
 			METHODS
 	 ***************************************/
+	
+	public void addClass(Class c) {
+		classList.add(c);
+	}
+	
+	public void removeClass(Class c) {
+		classList.remove(c);
+	}
 	
 	//	GRADE
 	public void _addGrade(Grade g) { gradeList.add(g); }
@@ -60,6 +70,11 @@ public class Subject {
 	//	SETS
 	public void _setName(String name) { this.name = name; }
 	public void _setShortcode(String shortcode) { this.shortcode = shortcode; }
+
+
+	public ArrayList<Class> getClasses() {		
+		return classList;	
+	}
 	
 	
 /*	//	MISC

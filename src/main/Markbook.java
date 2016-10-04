@@ -96,6 +96,16 @@ public class Markbook {
 		return true;
 	}
 	
+	// Function that returns a list of all the classes in the markbook
+	public ArrayList<Class> getClasses() {
+		ArrayList<Class> classes = new ArrayList<Class>();
+		for (Grade g : gradeList) {
+			classes.addAll(g.getClasses());
+		}
+		
+		return classes;
+	}
+	
 	
 	public HashMap<Class, Grade> getClassList(Subject s) { return s._getClassGradeMap(); }
 

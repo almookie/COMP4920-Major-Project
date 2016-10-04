@@ -53,6 +53,16 @@ public class Grade {
 	public void _setGrade(int grade) { this.grade = grade; }
 	public void _setGraduationYear(int graduationYear) { this.graduationYear = graduationYear; }
 
+
+	public ArrayList<Class> getClasses() {
+		ArrayList<Class> classes = new ArrayList<Class>();
+		for (Subject s : subjectList) {
+			classes.addAll(s.getClasses());
+		}
+		
+		return classes;		
+	}
+
 	
 	//	Commenting these for now just testing basics
 /*	
