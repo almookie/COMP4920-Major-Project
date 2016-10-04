@@ -24,11 +24,39 @@ public class Markbook {
 			Grade grade = new Grade(i);
 			grades.add(grade);
 		}
+
+		String first_names[] = { "Ali",
+				"Bill",
+				"Tony",
+				"Tim",
+				"Steve",
+				"Adam",
+				"Natalie",
+				"Sara",
+				"Sarah",
+				"Mark",
+				"Bruce",
+				"Andrew"
+		};
+
+		String last_names[] = {	"Johnson",
+				"Smith",
+				"Williams",
+				"Wu",
+				"Sun",
+				"Broseph",
+				"Jones",
+				"Adams",
+				"Li",
+				"Pham",
+				"Banner",
+				"Davidson"
+		};
 		
 		// generate students for each grade
 		for (Grade g : grades) {
 			for (int i = 0; i < 10; i++) {
-				Student s = new Student(studentIDCounter, "Name " + studentIDCounter, "Surname " + studentIDCounter);
+				Student s = new Student(studentIDCounter, first_names[(int)(Math.random() * ((first_names.length - 1)))], last_names[(int)(Math.random() * ((first_names.length - 1)))]);
 				g.addStudent(s);
 				studentIDCounter++;				
 			}
