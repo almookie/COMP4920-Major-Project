@@ -7,13 +7,16 @@ import java.util.Map;
 
 public class Assessment {
 	private HashMap<Student, Double> marks; 
-	private double mean, standardDeviation, mode, median, range, weighting;
+	private double mean, standardDeviation, median, range, weighting;
+	private ArrayList<Double> mode;
 	private String name;
 	
-	public Assessment(String name, int weighting, ArrayList<Student> students) {
-		mode = median = range =	mean = standardDeviation = 0;
+	public Assessment(String name, double weighting, ArrayList<Student> students) {
+		median = range = mean = standardDeviation = 0;
 		this.name = name;
 		this.weighting = weighting;
+		this.mode = new ArrayList<Double>();
+		
 		marks = new HashMap<Student, Double>();
 		
 		for (Student student : students) {
@@ -25,7 +28,9 @@ public class Assessment {
 	/**
 	 * Recalculates required values
 	 */
-	private void updateStatistics() {
+	//	Temporailiy public (was private)
+	//	Need to make it public for demo, can change later.
+	public void updateStatistics() {
 		
 		double sum = 0;
 		int totalCount = 0;
@@ -58,16 +63,21 @@ public class Assessment {
 		
 		//	Mode
 		Integer highest = 0;
-		Double mode_mark = null;
+		ArrayList<Double> mode_mark = new ArrayList<Double>();
 		
 		for (Map.Entry<Double, Integer> element : marksMap.entrySet()) {
 			
 			Double mark = element.getKey();
 			Integer freq = element.getValue();
 			
-			if(freq > highest) {
+			if (freq == highest) {
+				mode_mark.add(mark);
+				System.out.println("SAME " + mark);
+			} else if(freq > highest) {
 				highest = freq;
-				mode_mark = mark;
+				mode_mark = new ArrayList<Double>();
+				mode_mark.add(mark);
+				System.out.println("New " + mark);
 			}
 		}
 		
@@ -80,11 +90,11 @@ public class Assessment {
 		Collections.sort(markList);
 		
 		if (totalCount % 2 == 0) {
-			double m1 = markList.get(totalCount/2);
-			double m2 =  markList.get(totalCount/2 + 1);
+			double m1 = markList.get(totalCount/2 - 1);
+			double m2 =  markList.get(totalCount/2);
 			median = (m1 + m2) / 2;
 		} else {
-			median = markList.get((totalCount + 1) / 2);
+			median = markList.get((totalCount + 1) / 2 - 1);
 		}
 		
 		
@@ -173,7 +183,7 @@ public class Assessment {
 		this.name = name;
 	}
 	
-	public double getMode() {
+	public ArrayList<Double> getMode() {
 		return mode;
 	}
 	
@@ -199,5 +209,9 @@ public class Assessment {
 		output += "\nand Weighting: " + weighting + "\n";
 		
 		return output;
+	}
+
+	public double getMedian() {
+		return median;
 	}
 }
