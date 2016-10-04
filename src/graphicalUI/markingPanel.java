@@ -1,6 +1,7 @@
 package graphicalUI;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -38,6 +40,30 @@ public class markingPanel extends JPanel {
 
 	public markingPanel(final Markbook mB) {
 		
+		 //sample buttons for menu using box layout vertical span
+
+	  	 
+	  	 //cardlayout for the main panel two switch between possible classes of panels we create
+	       final CardLayout cardLayout = new CardLayout();
+	  	 final JPanel main = new JPanel(cardLayout);
+	  	 
+	  	 //example panels
+	       
+	       
+	       //filler content remove later
+	  	JPanel newAssesment = new JPanel();
+	  	newAssesment.setLayout(new BoxLayout(newAssesment, BoxLayout.Y_AXIS));
+	  	newAssesment.add(new JLabel("classname?"));
+	  	newAssesment.add(new JTextField());
+	  	newAssesment.add(new JLabel("firstname?"));
+	  	newAssesment.add(new JTextField());
+	  	newAssesment.add(new JLabel("Option3?"));
+	  	newAssesment.add(new JTextField());
+	  	newAssesment.add(new JLabel("Option4?"));
+	  	newAssesment.add(new JTextField());
+	  	newAssesment.add(new JButton("Create"));
+
+	  	
 		this.setLayout(new BorderLayout());
 		
 		final JPanel searchPanel = new JPanel();
@@ -117,30 +143,7 @@ public class markingPanel extends JPanel {
     	final ArrayList<Class> classes = mB.getClasses();
 
 		String[][] data1 = new String[1][3];
-//		for(Class c11 : classes){ 
-//			data1 = new String[1][3];
-//			columnNames = new String[2];
-//			columnNames[0] = "fistName";
-//			columnNames[1] = "lastName";
-//					
-//
-//			System.out.println( c11.getGrade().getYear(mB.getCurrentYear()) + c11.getSubject().getName()+c11.getGrade().getYear(mB.getCurrentYear()));
-//				for(Assessment a: c11.getAssessments()){
-//					columnNames = appendArray(columnNames, a.getName() );
-//					System.out.println( a.getName());
-//					
-//					for(Student s :c11.getStudents() ){
-//						System.out.print( "    name =" + s.getGivenName()+ " " + s.getSurname() + " ");
-//						System.out.println("     mark =>" + a.getMark(s));
-//						String temp[][] = new String[1][3];
-//						temp[0][0] =s.getGivenName();
-//						temp[0][1] =s.getSurname();
-//						temp[0][2] = Double.toString(a.getMark(s));
-//						
-//						data1 = concat(data1,temp);
-//					}
-//				}
-//			}
+
 		
 		for(int i=0; i<classes.size() ; i++){
  			data1 = new String[1][3];
@@ -169,9 +172,9 @@ public class markingPanel extends JPanel {
          	//SHOULD BE ABLE TO ADD DYNAMICALLY IN A LOOP
      		//needbuttoon for focus
      		JLabel className = new JLabel("Class: " + cName);
+     		
      		className.setBorder(new EtchedBorder(EtchedBorder.RAISED));
      		className.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
      		
      		final DefaultTableModel model = new DefaultTableModel(data1, columnNames);
      		final JTable table = new JTable( model );
@@ -192,15 +195,23 @@ public class markingPanel extends JPanel {
  				}	
              	
              });
-
+             
              labelsPanel.add(className, gbc);
+             JButton addAssesment = new JButton("new assesment");
+             addAssesment.addActionListener(new ActionListener() {
+
+                 @Override
+                 public void actionPerformed(ActionEvent e) {
+                     cardLayout.show(main, "newAssesment");
+                 }
+             });
+             labelsPanel.add(addAssesment);
              labelsPanel.add(scrollPane, gbc);
              
          }
 		
 
-	        
-
+	     
         JScrollPane scroll = new JScrollPane(labelsPanel);
 		viewPanel.add(scroll, BorderLayout.CENTER);
 		
@@ -335,8 +346,17 @@ public class markingPanel extends JPanel {
 		
 		
 		
-		
-		this.add(overall);
+
+	       main.add(overall, "overall");
+	       main.add(newAssesment, "newAssesment");
+
+	  
+	
+			this.add(main);
+
+	
+	
+	
 	}
 	    
     public JPanel getPanel(){
@@ -364,7 +384,30 @@ public class markingPanel extends JPanel {
     }
 
 }
-
+//for(Class c11 : classes){ 
+//data1 = new String[1][3];
+//columnNames = new String[2];
+//columnNames[0] = "fistName";
+//columnNames[1] = "lastName";
+//		
+//
+//System.out.println( c11.getGrade().getYear(mB.getCurrentYear()) + c11.getSubject().getName()+c11.getGrade().getYear(mB.getCurrentYear()));
+//	for(Assessment a: c11.getAssessments()){
+//		columnNames = appendArray(columnNames, a.getName() );
+//		System.out.println( a.getName());
+//		
+//		for(Student s :c11.getStudents() ){
+//			System.out.print( "    name =" + s.getGivenName()+ " " + s.getSurname() + " ");
+//			System.out.println("     mark =>" + a.getMark(s));
+//			String temp[][] = new String[1][3];
+//			temp[0][0] =s.getGivenName();
+//			temp[0][1] =s.getSurname();
+//			temp[0][2] = Double.toString(a.getMark(s));
+//			
+//			data1 = concat(data1,temp);
+//		}
+//	}
+//}
 
 
 
