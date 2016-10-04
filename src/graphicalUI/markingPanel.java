@@ -108,13 +108,19 @@ public class markingPanel extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 		JPanel labelsPanel = new JPanel(new GridBagLayout());
 		JPanel searchResultsPanel = new JPanel(new BorderLayout());
-		String[] columnNames = {"Given Name", "Surename"};
+		String[] columnNames = new String[2];
 
     	ArrayList<Class> classes = mB.getClasses();
-		String[][] data1 = new String[1][3];;
 
+		String[][] data1 = new String[1][3];;
 		for(Class c11 : classes){ 
-			System.out.println( c11.getGrade().getYear(mB.getCurrentYear()));
+			data1 = new String[1][3];
+			columnNames = new String[2];
+			columnNames[0] = "fistName";
+			columnNames[1] = "lastName";
+					
+
+			System.out.println( c11.getGrade().getYear(mB.getCurrentYear()) + c11.getSubject().getName()+c11.getGrade().getYear(mB.getCurrentYear()));
 				for(Assessment a: c11.getAssessments()){
 					columnNames = appendArray(columnNames, a.getName() );
 					System.out.println( a.getName());
@@ -130,7 +136,6 @@ public class markingPanel extends JPanel {
 						data1 = concat(data1,temp);
 					}
 				}
-				break;
 			}
 		
 		
@@ -148,18 +153,35 @@ public class markingPanel extends JPanel {
 		
 		
 		
-		
-		
-        for(int i=0; i<20 ; i++){
+        for(int i=0; i<classes.size() ; i++){
+			data1 = new String[1][3];
+			columnNames = new String[2];
+			columnNames[0] = "fistName";
+			columnNames[1] = "lastName";
+					
+			Class c11 = classes.get(i);
+			String cName = c11.getGrade().getYear(mB.getCurrentYear()) + c11.getSubject().getName()+c11.getGrade().getYear(mB.getCurrentYear());
+			System.out.println(cName);
+				for(Assessment a: c11.getAssessments()){
+					columnNames = appendArray(columnNames, a.getName() );
+					System.out.println( a.getName());
+					
+					for(Student s :c11.getStudents() ){
+						System.out.print( "    name =" + s.getGivenName()+ " " + s.getSurname() + " ");
+						System.out.println("     mark =>" + a.getMark(s));
+						String temp[][] = new String[1][3];
+						temp[0][0] =s.getGivenName();
+						temp[0][1] =s.getSurname();
+						temp[0][2] = Double.toString(a.getMark(s));
+						
+						data1 = concat(data1,temp);
+					}
+				}
         	//SHOULD BE ABLE TO ADD DYNAMICALLY IN A LOOP
     		//needbuttoon for focus
-    		JLabel className = new JLabel("Class ??");
+    		JLabel className = new JLabel("Class: " + cName);
     		className.setBorder(new EtchedBorder(EtchedBorder.RAISED));
     		className.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    		
-    		JLabel className1 = new JLabel("Assignment 1");
-    		className1.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-    		className1.setBorder(BorderFactory.createLineBorder(Color.RED));
 
     		
     		final DefaultTableModel model = new DefaultTableModel(data1, columnNames);
@@ -183,7 +205,6 @@ public class markingPanel extends JPanel {
             });
 
             labelsPanel.add(className, gbc);
-            labelsPanel.add(className1, gbc);
             labelsPanel.add(scrollPane, gbc);
         }
 		

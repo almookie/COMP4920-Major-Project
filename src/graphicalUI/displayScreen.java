@@ -35,10 +35,10 @@ public class displayScreen {
     	 final JPanel mainPanel = new JPanel(cardLayout);
     	 
     	 //example panels
-    	 JPanel managmentPanel = new managementScreen(mB);
+    	 //JPanel managmentPanel = new managementScreen(mB);
          markingPanel mP = new markingPanel(mB);
          
-         managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+         //managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
          mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));
          
          //filler content remove later
@@ -46,7 +46,7 @@ public class displayScreen {
          JLabel label2 = new JLabel("here SEARCHING stuff may be");
     	 
          
-         mainPanel.add(managmentPanel, "managmentPanel");
+         //mainPanel.add(managmentPanel, "managmentPanel");
          mainPanel.add(mP, "searchingPanel");
          
          //Note: This gives the effect of the page expanding 
