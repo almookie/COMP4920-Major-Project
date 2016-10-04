@@ -264,6 +264,9 @@ public class markingPanel extends JPanel {
         return result;
     }
     public String[][] concat(String[][] a, String[][] b) {
+    	if(a[0][0]==null){
+    		return b;
+    	}
         String[][] result = new String[a.length + b.length][];
         System.arraycopy(a, 0, result, 0, a.length);
         System.arraycopy(b, 0, result, a.length, b.length);
