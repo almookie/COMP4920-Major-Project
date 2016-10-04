@@ -155,8 +155,10 @@ public class Markbook {
 		grades.add(g);
 	}
 	
-	public Student createStudent(String givenName, String surname) {
-		return new Student(studentIDCounter++, givenName, surname);
+	public Student addStudent(String givenName, String surname, Grade g) {
+		Student s = new Student(studentIDCounter++, givenName, surname);
+		g.addStudent(s);
+		return s;
 	}
 	
 	public int getCurrentYear() {
