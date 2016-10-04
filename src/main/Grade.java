@@ -56,7 +56,7 @@ public class Grade {
 	}
 	
 	public int getYear(int year) {
-		return 12 - (year - 2016);
+		return 12 - (graduationYear - year);
 	}
 	
 	public String toString() {

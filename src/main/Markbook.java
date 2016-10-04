@@ -89,14 +89,14 @@ public class Markbook {
 		}
 		
 		// Create a bunch of classes to flesh out subjects
-		for (int i = 0; i <= subjects.size(); i++) {
+		for (int i = 0; i <= subjects.size() - 1; i++) {
 			
 			// add 3 classes to each subject
 			for (int j = 0; j <= 2; j++) {
 				int Min = 0;
 				int Max = grades.size() - 1;
 				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
-				Class c = subjects.get(j).addClass(grades.get(random_value));
+				Class c = subjects.get(i).addClass(grades.get(random_value));
 				
 				// add 3 random students to this class
 				for (int k = 0; k <= 2; k++) {
