@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Markbook implements MarkbookAPI {
+public class Markbook {
 
 	/***************************************
 				FIELDS
