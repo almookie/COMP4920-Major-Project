@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import main.Class;
 import main.Markbook;
 import main.Student;
+import main.Subject;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -312,7 +314,7 @@ public class managementScreen extends JPanel  {
 	 * 		may want to set a max size, and add more when end reached
 	 * 
 	 */
-	private JScrollPane setupFilterResultsPanel(Object[][] initialData) {
+	private JScrollPane setupFilterResultsPanel(ArrayList<Object[]> initialData) {
 		//create panel to store all results
 		JPanel resultsPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -376,12 +378,11 @@ public class managementScreen extends JPanel  {
 		ArrayList<Object[]> data = new ArrayList<Object[]>();
 		
 		//obtain an array list of all students
-		ArrayList<Student> allStudents = mB.getSubjects();
+		ArrayList<Subject> allSubjects = mB.getSubjects();
 		
 		//add each student into the table
-		for (Student student : allStudents) {
-			String name = student.getSurname()+ ","+ student.getGivenName();
-			Object[] item = {name, student};
+		for (Subject subject : allSubjects) {;
+			Object[] item = {subject.getName(), subject};
 			data.add(item);
 		}
 		
@@ -414,29 +415,36 @@ public class managementScreen extends JPanel  {
 		GridBagConstraints newc = new GridBagConstraints();
 		newc.fill = GridBagConstraints.HORIZONTAL;
 		newc.gridwidth = GridBagConstraints.REMAINDER;
-		newc.weightx = 1;
+		newc.weightx = 1;		
 		
-		//!debug: default data
-		final Object[][] data =
-			{
-			    {"Leon	", "xx"},
-			    {"JAckie ", "cc"},
-			    {"Ali", "aa"},
-			    {"James ", "dd"},
-			};
+		//obtain all classes from back end
+		ArrayList<Class> allClasses = mB.getClasses();
 		
 		//!debug: will loop for each class
-		for(int i=0; i<20 ; i++){
+		for (Class theClass : allClasses){
+			//extract information from the class
+			String name = mB.getLongName(theClass);
+			String subjectName = theClass.getSubject().getName();
+			ArrayList<Student> studentsInClass = theClass.getStudents();
+
 			//create a label to represent the class and its subject
-			JLabel className = new JLabel("Class");
+			JLabel className = new JLabel(name);
 			className.setOpaque(true);
 			className.setBackground(Color.LIGHT_GRAY);
 			//className.setAlignmentX(0);
 			
-			JLabel classSubject = new JLabel("Subject");
+			JLabel classSubject = new JLabel(subjectName);
 			classSubject.setOpaque(true);
 			classSubject.setBackground(Color.LIGHT_GRAY);
 			//className.setAlignmentX(0);
+			
+			//create table elements from studentsInClass
+			ArrayList<Object[]> data = new ArrayList<Object[]>();
+			for (Student student : studentsInClass) {
+				String studentName = student.getSurname()+ ","+ student.getGivenName();
+				Object[] item = {studentName, student};
+				data.add(item);
+			}
 			
 			//create a table to store all students
 			JTable resultsTable = new JTable(new filterDisplayTableModel(data));
