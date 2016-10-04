@@ -14,6 +14,15 @@ public class filterDisplayTableModel extends AbstractTableModel {
     }
     
     
+    /*	take in a new array list of data
+     * 	and refresh any changed
+     * 	!debug: this can be improved
+     */
+    public void refreshData (ArrayList<Object[]> newData) {
+    	data = newData;
+    }
+    
+    
     public int getColumnCount() {
         return columnNames.length;
     }

@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import main.Class;
+import main.Grade;
 import main.Markbook;
 import main.Student;
 import main.Subject;
@@ -16,6 +17,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+//note change get initial data names
+//add more info in students
 
 public class managementScreen extends JPanel  {
 
@@ -26,8 +30,7 @@ public class managementScreen extends JPanel  {
 	public JPanel contentPanel;
 	
 	//action listener
-	private managementScreenActionListener actionListener 
-		= new managementScreenActionListener(this);
+	private managementScreenActionListener actionListener;
 	
 	private Markbook mB;
 	
@@ -38,10 +41,28 @@ public class managementScreen extends JPanel  {
 	//panels for the different filter modes
 	private JPanel studentResults;
 	private JPanel subjectResults;
+	private JPanel gradeResults;
 	private JPanel studentSearch;
 	private JPanel subjectSearch;
+	private JPanel gradeSearch;
 	private JPanel classSearch;
 	
+	//text fields for creation of new items
+	//	new subject
+	private JTextField inputSubjectName;
+	private JTextField inputShortForm;
+	//	new student
+	private JTextField inputGivenName;
+	private JTextField inputSurName;
+	private JComboBox inputStudentGrade;
+	//	new grade
+	private JTextField inputGradeName;
+	
+	//tables which store search results
+	private JTable subjectTable;
+	private JTable studentTable;
+	private JTable gradeTable;
+
 	//variable to keep track of current filter mode
 	private JPanel currentResults;
 	private JPanel currentSearch;
@@ -54,6 +75,7 @@ public class managementScreen extends JPanel  {
 	
 	public managementScreen(Markbook markbook) {
 		mB = markbook;
+		actionListener = new managementScreenActionListener(this, mB);
 		setUpPanel();
 	}
 	
@@ -85,6 +107,85 @@ public class managementScreen extends JPanel  {
 		studentSearch.setVisible(true);
 	}
 	
+	
+	/*	switch the current filter panels to
+	 * 	grade panels
+	 * 
+	 */
+	public void switchToGrade() {
+		currentResults.setVisible(false);
+		currentSearch.setVisible(false);
+		currentResults = gradeResults;
+		currentSearch = gradeSearch;
+		gradeResults.setVisible(true);
+		gradeSearch.setVisible(true);
+	}
+	
+	
+	/*	reads from text fields to add a new subject
+	 * 
+	 */
+	public void addSubject() {
+		String fullName = inputSubjectName.getText();
+		String shortenedName = inputShortForm.getText();
+		//!debug input sanitation here
+		if ((!fullName.isEmpty()) && (!shortenedName.isEmpty())) {
+			//create new subject
+			mB.addSubject(fullName, shortenedName);
+			
+			//refresh subject table
+			filterDisplayTableModel model = (filterDisplayTableModel) subjectTable.getModel();
+			model.refreshData(getInitialDataSubject());
+			model.fireTableDataChanged();
+		}
+	}
+	
+	
+	/*	reads from text fields to add a new student
+	 * 
+	 */
+	public void addStudent() {
+		String givenName = inputGivenName.getText();
+		String surname = inputSurName.getText();
+		filterDisplayComboBoxModel gradeBox = (filterDisplayComboBoxModel) inputStudentGrade.getModel();
+		Object studentGradeObject = gradeBox.getSelectedObject();
+		//!debug input sanitation here
+		
+		if (studentGradeObject != null) {
+			/*System.out.print("name: " + givenName + "\n");
+			System.out.print("name: " + surname + "\n");
+			System.out.print("name: " + ((Grade)studentGradeObject).getYear(mB.getCurrentYear()) + "\n");
+			*/
+			//create new student
+			mB.addStudent(givenName, surname, (Grade) studentGradeObject);
+			
+			//refresh student table
+			filterDisplayTableModel model = (filterDisplayTableModel) studentTable.getModel();
+			model.refreshData(getInitialDataStudent());
+			model.fireTableDataChanged();
+			
+		} else {
+			//!debug TODO
+		}
+	}
+	
+	
+	/*	reads from text fields to add a new grade
+	 * 
+	 */
+	public void addGrade() {
+		String gradeName = inputSubjectName.getText();
+		//!debug input sanitation here
+		if (!gradeName.isEmpty()) {
+			//create new subject
+			//mB.addGrade(gradeName);
+			
+			//refresh subject table
+			filterDisplayTableModel model = (filterDisplayTableModel) subjectTable.getModel();
+			model.refreshData(getInitialDataSubject());
+			model.fireTableDataChanged();
+		}
+	}
 	
 	
 	/*	Set up the initial panel
@@ -154,7 +255,7 @@ public class managementScreen extends JPanel  {
 	
 	
 	/*	set up the filter panel in the top of searchPanel
-	 * 	!debug this is a dummy panel
+	 * 	
 	 */
 	private JPanel setupFilterPanel() {
 		JPanel filterPanel = new JPanel(new GridBagLayout());
@@ -168,12 +269,17 @@ public class managementScreen extends JPanel  {
 		JButton subjectButton = new JButton("Subject");
 		subjectButton.setActionCommand("setFilterSubject");
 		
+		//button to set filter to grades
+		JButton gradeButton = new JButton("Grade");
+		gradeButton.setActionCommand("setFilterGrade");
+		
 		//button to set filter to class
 		JButton classButton = new JButton("Add to Class ->");
 		
 		//listen to actions from the buttons
 		studentButton.addActionListener(actionListener);
 		subjectButton.addActionListener(actionListener);
+		gradeButton.addActionListener(actionListener);
 		
 		//setup locations and size ratios for buttons
 		c.fill = GridBagConstraints.BOTH;
@@ -181,15 +287,19 @@ public class managementScreen extends JPanel  {
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 2;
-		c.weighty = 0.5;
+		c.weighty = 0.33;
 		c.weightx = 0.80;
 		filterPanel.add(studentButton, c);
 		c.gridx = 0;
 		c.gridy = 1;
 		filterPanel.add(subjectButton, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		filterPanel.add(gradeButton, c);
+		
 		c.gridx = 2;
 		c.gridy = 0;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		c.gridwidth = 1;
 		c.weighty = 1;
 		c.weightx = 0.20;
@@ -200,7 +310,7 @@ public class managementScreen extends JPanel  {
 	
 	
 	/*	setup filter display panel on bottom half of search panel
-	 * 	Stores and switches between 2 panels for Student and Subject search
+	 * 	Stores and switches between 3 panels for Student, grade and Subject search
 	 * 	and 3 search bars, one for each button in filterPanel
 	 * 	!debug does not contain filter yet
 	 */
@@ -239,6 +349,14 @@ public class managementScreen extends JPanel  {
 		subjectSearch.setVisible(false);
 		searchBarLocation.add(subjectSearch, c);
 		
+		//create grade search bar
+		gradeSearch = new JPanel(new GridBagLayout());
+		JTextField searchBarGrade = new JTextField
+				("search grades", MAXSEARCHSIZE);
+		gradeSearch.add(searchBarGrade, c);
+		gradeSearch.setVisible(false);
+		searchBarLocation.add(gradeSearch, c);
+		
 		//create class search bar
 		classSearch = new JPanel(new GridBagLayout());
 		JTextField searchBarClass = new JTextField
@@ -257,28 +375,33 @@ public class managementScreen extends JPanel  {
 		filterDisplayPanel.add(searchBarLocation, c);
 		
 		//create search results scroll panels
-		JScrollPane studentResultsScroll = setupFilterResultsPanel(getInitialDataStudent());
-		JScrollPane subjectResultsScroll = setupFilterResultsPanel(getInitialDataSubject());
-
+		subjectTable = setupFilterResultsPanel(getInitialDataSubject());
+		studentTable = setupFilterResultsPanel(getInitialDataStudent());
+		gradeTable = setupFilterResultsPanel(getInitialDataGrade());
+		JScrollPane studentResultsScroll = new JScrollPane(studentTable);
+		JScrollPane subjectResultsScroll = new JScrollPane(subjectTable);
+		JScrollPane gradeResultsScroll = new JScrollPane(gradeTable);
+		
 		//create the search result panel to store the scroll panel
 		studentResults = new JPanel(new GridBagLayout());
 		subjectResults = new JPanel(new GridBagLayout());
+		gradeResults = new JPanel(new GridBagLayout());
 		c.weighty = 0.96;
 		c.weightx = 1;
 		c.gridheight = 2;
 		studentResults.add(studentResultsScroll, c);
-		c.weighty = 0.96;
-		c.weightx = 1;
-		c.gridheight = 2;
 		subjectResults.add(subjectResultsScroll, c);
+		gradeResults.add(gradeResultsScroll, c);
 		
 		currentResults = studentResults;
 		subjectResults.setVisible(false);
+		gradeResults.setVisible(false);
 		c.gridheight = 3;
 		c.weighty = 1;
 		c.weightx = 1;
 		searchResultsLocation.add(studentResults, c);
 		searchResultsLocation.add(subjectResults, c);
+		searchResultsLocation.add(gradeResults, c);
 		
 		//display settings for search location
 		c.gridx = 0;
@@ -286,24 +409,101 @@ public class managementScreen extends JPanel  {
 		c.gridheight = 1;
 		c.weighty = 0.86;
 		c.weightx = 1;
-		filterDisplayPanel.add(searchResultsLocation, c);		
+		filterDisplayPanel.add(searchResultsLocation, c);
 		
+		//"add new" item section
+		//panel to add new subject
+		JPanel addSubjectPanel = new JPanel(new GridBagLayout());
 		JButton newSubject = new JButton("Add New Subject");
-		JButton newStudent  = new JButton("Add New Student");
+		newSubject.setActionCommand("newSubject");
+		inputSubjectName = new JTextField
+				("Full Name", MAXSEARCHSIZE);
+		inputShortForm = new JTextField
+				("Shortened Name", MAXSEARCHSIZE);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 2;
+		c.gridwidth = 1;
+		c.weighty = 0.66;
+		c.weightx = 0.5;
+		addSubjectPanel.add(inputSubjectName, c);
+		c.gridx = 1;
+		c.gridheight = 2;
+		c.gridwidth = 1;
+		addSubjectPanel.add(inputShortForm, c);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;
-		c.weighty = 0.04;
+		c.gridwidth = 2;
+		addSubjectPanel.add(newSubject, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.weighty = 0.14;
 		c.weightx = 1;
-		subjectResults.add(newSubject, c);
-		studentResults.add(newStudent, c);
+		subjectResults.add(addSubjectPanel, c);
+		newSubject.addActionListener(actionListener);
 		
-		//display settings for add new button
+		//panel to add new student
+		JPanel addStudentPanel = new JPanel(new GridBagLayout());
+		JButton newStudent  = new JButton("Add New Student");
+		newStudent.setActionCommand("newStudent");
+		inputGivenName = new JTextField
+				("Given Name", MAXSEARCHSIZE);
+		inputSurName = new JTextField
+				("Surname", MAXSEARCHSIZE);
+		inputStudentGrade = new JComboBox
+				(new filterDisplayComboBoxModel(getInitialDataGrade()));
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.weighty = 0.66;
+		c.weightx = 0.4;
+		addStudentPanel.add(inputGivenName, c);
+		c.gridx = 1;
+		c.gridheight = 2;
+		c.gridwidth = 1;
+		addStudentPanel.add(inputSurName, c);
+		c.weightx = 0.2;
+		c.gridx = 2;
+		addStudentPanel.add(inputStudentGrade, c);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;
-		c.weighty = 0.10; 
+		c.gridwidth = 3;
+		c.weighty = 0.4;
 		c.weightx = 1;
+		addStudentPanel.add(newStudent, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.weighty = 0.14;
+		c.weightx = 1;
+		studentResults.add(addStudentPanel, c);
+		newStudent.addActionListener(actionListener);
+		
+		
+		JPanel addGradePanel = new JPanel(new GridBagLayout());
+		JButton newGrade  = new JButton("Add New Grade");
+		newGrade.setActionCommand("newGrade");
+		inputGradeName = new JTextField
+				("Grade Name", MAXSEARCHSIZE);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.5;
+		addGradePanel.add(inputGradeName, c);
+		c.gridy = 1;
+		addGradePanel.add(newGrade, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.weighty = 0.14;
+		c.weightx = 1;
+		gradeResults.add(addGradePanel, c);
+		
 		
 		return filterDisplayPanel;
 	}
@@ -314,10 +514,9 @@ public class managementScreen extends JPanel  {
 	 * 		may want to set a max size, and add more when end reached
 	 * 
 	 */
-	private JScrollPane setupFilterResultsPanel(ArrayList<Object[]> initialData) {
+	private JTable setupFilterResultsPanel(ArrayList<Object[]> initialData) {
 		//create panel to store all results
 		JPanel resultsPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
 		
 		//Create JTable to store results
 		JTable resultsTable = new JTable(new filterDisplayTableModel(initialData));
@@ -328,14 +527,11 @@ public class managementScreen extends JPanel  {
 		//don't show the header
 		resultsTable.setTableHeader(null);
 		
-		//enable scrolling
-		JScrollPane scrollPane = new JScrollPane(resultsTable);
-		
-		return scrollPane;
+		return resultsTable;
 	}
 	
 	
-	/*	read from back end to obtain Student initial data to display in
+	/*	read from back end to obtain Student initial data to display
 	 * 
 	 */
 	private ArrayList<Object[]> getInitialDataStudent() {
@@ -363,7 +559,7 @@ public class managementScreen extends JPanel  {
 	
 	
 	
-	/*	read from back end to obtain Student initial data to display in
+	/*	read from back end to obtain Student initial data to display
 	 * 
 	 */
 	private ArrayList<Object[]> getInitialDataSubject() {
@@ -383,6 +579,26 @@ public class managementScreen extends JPanel  {
 		//add each student into the table
 		for (Subject subject : allSubjects) {;
 			Object[] item = {subject.getName(), subject};
+			data.add(item);
+		}
+		
+		return data;
+	}
+	
+	
+	/*	read from back end to obtain Grade initial data to display
+	 * 
+	 */
+	private ArrayList<Object[]> getInitialDataGrade() {
+		ArrayList<Object[]> data = new ArrayList<Object[]>();
+		
+		//obtain an array list of all grades
+		ArrayList<Grade> allGrades = mB.getGrades();
+		
+		//add each student into the table
+		
+		for (Grade grade : allGrades) {;
+			Object[] item = {grade.getYear(mB.getCurrentYear()), grade};
 			data.add(item);
 		}
 		
