@@ -27,7 +27,13 @@ public class Subject {
 		}
 		Class c = new Class(grade, classNumberCount);
 		classes.add(c);
-		classesWithinGrades.get(grade).add(c);
+		if (classesWithinGrades.get(grade) == null) {
+			ArrayList<Class> newClassList = new ArrayList<Class>();
+			newClassList.add(c);
+			classesWithinGrades.put(grade, newClassList);
+		} else {
+			classesWithinGrades.get(grade).add(c);			
+		}
 		return c;
 	}
 	
