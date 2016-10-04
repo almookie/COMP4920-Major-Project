@@ -30,6 +30,7 @@ public class Markbook {
 		for (Grade g : grades) {
 			for (int i = 0; i < 10; i++) {
 				Student s = new Student(studentID, "Name " + studentID, "Surname " + studentID);
+				g.addStudent(s);
 				studentID++;				
 			}
 		}
@@ -56,7 +57,7 @@ public class Markbook {
 		};
 		
 		ArrayList<Subject> subjects = new ArrayList<Subject>();
-		for (int i = 0; i <= subject_names.length; i++) {
+		for (int i = 0; i <= subject_names.length - 1; i++) {
 			Subject subject = new Subject(subject_names[i], subject_shortcodes[i]);
 			subjects.add(subject);
 		}
@@ -67,13 +68,16 @@ public class Markbook {
 			// add 3 classes to each subject
 			for (int j = 0; i <= 2; i++) {
 				int Min = 0;
-				int Max = grades.size();
+				int Max = grades.size() - 1;
 				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
 				Class c = new Class(grades.get(random_value));
 				
 				// add 3 random students to this class
 				for (int k = 0; k <= 2; k++) {
-					c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 0) + 1))));
+					Grade tempGrade = c.getGrade();
+					ArrayList<Student> tempStudents = tempGrade.getStudents();
+					Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
+					c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
 				}
 				
 				subjects.get(i).addClass(c);
@@ -91,5 +95,9 @@ public class Markbook {
 		}
 		
 		return classes;
+	}
+	
+	public void addGrade (Grade g) {
+		grades.add(g);
 	}
 }
