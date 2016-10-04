@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class managementScreen extends JPanel  {
 
@@ -11,6 +13,9 @@ public class managementScreen extends JPanel  {
 	
 	public JPanel searchPanel;
 	public JPanel contentPanel;
+	
+	//action listener
+	managementScreenActionListener actionListener = new managementScreenActionListener(this);
 	
 	//current JPanel configuration for filters
 	private JPanel currentSearchBar;
@@ -36,6 +41,35 @@ public class managementScreen extends JPanel  {
 	public managementScreen() {
 		setUpPanel();
 	}
+	
+	
+	/*	switch the current filter panels to
+	 * 	subject panels
+	 * 
+	 */
+	public void switchToSubject() {
+		currentResults.setVisible(false);
+		currentSearch.setVisible(false);
+		currentResults = subjectResults;
+		currentSearch = subjectSearch;
+		subjectResults.setVisible(true);
+		subjectSearch.setVisible(true);
+	}
+	
+	
+	/*	switch the current filter panels to
+	 * 	student panels
+	 * 
+	 */
+	public void switchToStudent() {
+		currentResults.setVisible(false);
+		currentSearch.setVisible(false);
+		currentResults = studentResults;
+		currentSearch = studentSearch;
+		studentResults.setVisible(true);
+		studentSearch.setVisible(true);
+	}
+	
 	
 	
 	/*	Set up the initial panel
@@ -113,10 +147,18 @@ public class managementScreen extends JPanel  {
 		
 		//button to set filter to students
 		JButton studentButton = new JButton("Student");
+		studentButton.setActionCommand("setFilterStudent");
+		
 		//button to set filter to subject
 		JButton subjectButton = new JButton("Subject");
+		subjectButton.setActionCommand("setFilterSubject");
+		
 		//button to set filter to class
 		JButton classButton = new JButton("Class");
+		
+		//listen to actions from the buttons
+		studentButton.addActionListener(actionListener);
+		subjectButton.addActionListener(actionListener);
 		
 		//setup locations and size ratios for buttons
 		c.fill = GridBagConstraints.BOTH;
@@ -137,7 +179,7 @@ public class managementScreen extends JPanel  {
 		c.weighty = 1;
 		c.weightx = 0.20;
 		filterPanel.add(classButton, c);
-	
+		
 		return filterPanel;
 	}
 	
@@ -250,15 +292,28 @@ public class managementScreen extends JPanel  {
 	 */
 	private Object[][] getInitialDataStudent() {
 		Object[][] data = {
-							{"Jackie"},
-							{"Leon"},
-							{"James"},
-							{"Ali"}
+							{"Jackie", "102"},
+							{"Leon", "103"},
+							{"James", "104"},
+							{"Ali", "105"}
 		};
+		
+		//TODO:
+		//	written below; provides the contents of data
+		//data = getStudents(int grade, int year);
 		
 		return data;
 	}
 	
+	
+	//TODO:
+	//provided a grade and year I would want to get a list of all the
+	//students inside and a way to reference back to them
+	//ie in {"Ali", "105"}
+	//	"Ali" would be the name to be displayed
+	//	"105" would be the ID/key provided to that student
+	
+	//public Object[][] getStudents(int grade, int year);
 	
 	
 	/*	read from back end to obtain Student initial data to display in
@@ -296,6 +351,5 @@ public class managementScreen extends JPanel  {
 		//!here to debug container boundary
 		contentPanel.setBackground(Color.GREEN);
 	}
-	
 	
 }
