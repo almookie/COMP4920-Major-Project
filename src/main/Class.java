@@ -36,4 +36,12 @@ public class Class {
 	public void addMark(Assessment assessment, Student student, double mark) {
 		assessment.addMark(student, mark);
 	}
+
+	public ArrayList<Student> getStudents() {
+		return students;
+	}
+
+	public void addAssessment(Assessment a) {
+		assessments.add(a);		
+	}
 }

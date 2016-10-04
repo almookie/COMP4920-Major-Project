@@ -6,9 +6,11 @@ import java.util.HashMap;
 public class Assessment {
 	private HashMap<Student, Double> marks; 
 	private double mean, standardDeviation, mode, median, range, weighting;
+	private String name;
 	
-	public Assessment(ArrayList<Student> students) {
+	public Assessment(ArrayList<Student> students, String name) {
 		mode = median = range =	mean = standardDeviation = weighting = 0;
+		this.name = name;
 		marks = new HashMap<Student, Double>();
 		
 		for (Student student : students) {
@@ -46,8 +48,7 @@ public class Assessment {
 		// if there are marks for us to use, calculate the statistics
 		if (count > 0) {
 			mean = sum / count;
-			range = highest - lowest;
-			
+			range = highest - lowest;			
 			
 			// calculate the standard deviation
 			double standardDeviationSum = 0;

@@ -71,13 +71,23 @@ public class Markbook {
 				
 				// add 3 random students to this class
 				for (int k = 0; k <= 2; k++) {
-					//Grade tempGrade = c.getGrade();
-					//ArrayList<Student> tempStudents = tempGrade.getStudents();
-					//Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
+					
+					// Grade tempGrade = c.getGrade();
+					// ArrayList<Student> tempStudents = tempGrade.getStudents();
+					// Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
 					c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
 				}
 				
-				subjects.get(i).addClass(c);
+				// generate an assessment for each class
+				Assessment a = new Assessment(c.getStudents(), "Test Assessment");
+				for (Student s : c.getStudents()) {
+					
+					// generate a random mark between 0 and 100
+					a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
+				}
+				
+				c.addAssessment(a);
+				subjects.get(i).addClass(c);				
 			}
 		}
 		
