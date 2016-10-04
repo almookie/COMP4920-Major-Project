@@ -142,6 +142,11 @@ public class Markbook {
 		return classes;
 	}
 	
+	public void addSubject(String name, String shortcode) {
+		Subject s = new Subject(name, shortcode);
+		subjects.add(s);
+	}
+	
 	public ArrayList<Subject> getSubjects() {
 		return subjects;
 	}
