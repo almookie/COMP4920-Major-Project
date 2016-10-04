@@ -34,7 +34,7 @@ public class displayScreen {
     	 final JPanel mainPanel = new JPanel(cardLayout);
     	 
     	 //example panels
-    	 JPanel managmentPanel = new managementScreen();
+    	 JPanel managmentPanel = new managementScreen(mB);
          markingPanel mP = new markingPanel(mB);
          
          managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));

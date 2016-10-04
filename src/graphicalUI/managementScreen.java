@@ -1,21 +1,33 @@
 package graphicalUI;
 
 import javax.swing.*;
+
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+import main.Markbook;
+import main.Student;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class managementScreen extends JPanel  {
 
 	private static final long serialVersionUID = 1L;
 	
+	//two main panels that store everything
 	public JPanel searchPanel;
 	public JPanel contentPanel;
 	
 	//action listener
-	managementScreenActionListener actionListener = new managementScreenActionListener(this);
+	private managementScreenActionListener actionListener 
+		= new managementScreenActionListener(this);
+	
+	private Markbook mB;
 	
 	//current JPanel configuration for filters
 	private JPanel currentSearchBar;
@@ -38,7 +50,8 @@ public class managementScreen extends JPanel  {
 	//maximum size for input fields
 	private static int MAXSEARCHSIZE = 20;
 	
-	public managementScreen() {
+	public managementScreen(Markbook markbook) {
+		mB = markbook;
 		setUpPanel();
 	}
 	
@@ -306,6 +319,9 @@ public class managementScreen extends JPanel  {
 		
 		//Create JTable to store results
 		JTable resultsTable = new JTable(new filterDisplayTableModel(initialData));
+		//store the object reference inside a hidden column
+		TableColumnModel columnModel = resultsTable.getColumnModel();
+		columnModel.removeColumn(columnModel.getColumn(1));
 		
 		//don't show the header
 		resultsTable.setTableHeader(null);
@@ -320,41 +336,54 @@ public class managementScreen extends JPanel  {
 	/*	read from back end to obtain Student initial data to display in
 	 * 
 	 */
-	private Object[][] getInitialDataStudent() {
-		Object[][] data = {
+	private ArrayList<Object[]> getInitialDataStudent() {
+		/*Object[][] data = {
 							{"Jackie", "102"},
 							{"Leon", "103"},
 							{"James", "104"},
 							{"Ali", "105"}
-		};
+		};*/
 		
-		//TODO:
-		//	written below; provides the contents of data
-		//data = getStudents(int grade, int year);
+		ArrayList<Object[]> data = new ArrayList<Object[]>();
+		
+		//obtain an array list of all students
+		ArrayList<Student> allStudents = mB.getStudents();
+		
+		//add each student into the table
+		for (Student student : allStudents) {
+			String name = student.getSurname()+ ","+ student.getGivenName();
+			Object[] item = {name, student};
+			data.add(item);
+		}
 		
 		return data;
 	}
 	
 	
-	//TODO:
-	//provided a grade and year I would want to get a list of all the
-	//students inside and a way to reference back to them
-	//ie in {"Ali", "105"}
-	//	"Ali" would be the name to be displayed
-	//	"105" would be the ID/key provided to that student
-	
-	//public Object[][] getStudents(int grade, int year);
-	
 	
 	/*	read from back end to obtain Student initial data to display in
 	 * 
 	 */
-	private Object[][] getInitialDataSubject() {
+	private ArrayList<Object[]> getInitialDataSubject() {
+		/*
 		Object[][] data = {
-							{"Maths"},
-							{"English"},
-							{"Science"},
+							{"Maths", "10"},
+							{"English", "11"},
+							{"Science", "12"},
 		};
+		*/
+		
+		ArrayList<Object[]> data = new ArrayList<Object[]>();
+		
+		//obtain an array list of all students
+		ArrayList<Student> allStudents = mB.getSubjects();
+		
+		//add each student into the table
+		for (Student student : allStudents) {
+			String name = student.getSurname()+ ","+ student.getGivenName();
+			Object[] item = {name, student};
+			data.add(item);
+		}
 		
 		return data;
 	}
@@ -390,10 +419,10 @@ public class managementScreen extends JPanel  {
 		//!debug: default data
 		final Object[][] data =
 			{
-			    {"Leon	"},
-			    {"JAckie "},
-			    {"Ali"},
-			    {"James "},
+			    {"Leon	", "xx"},
+			    {"JAckie ", "cc"},
+			    {"Ali", "aa"},
+			    {"James ", "dd"},
 			};
 		
 		//!debug: will loop for each class
@@ -411,6 +440,10 @@ public class managementScreen extends JPanel  {
 			
 			//create a table to store all students
 			JTable resultsTable = new JTable(new filterDisplayTableModel(data));
+			//store object references inside a hidden column
+			TableColumnModel columnModel = resultsTable.getColumnModel();
+			columnModel.removeColumn(columnModel.getColumn(1));
+			
 			contents.add(className, newc);
 			contents.add(classSubject, newc);
 			contents.add(resultsTable, newc);
