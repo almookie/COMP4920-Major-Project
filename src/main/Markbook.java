@@ -1,5 +1,3 @@
-package main;
-
 /***************************************
 		IMPORTS
  ***************************************/
@@ -7,7 +5,14 @@ package main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Markbook {
+import API.AssessmentAPI;
+import API.ClassAPI;
+import API.GradeAPI;
+import API.StudentAPI;
+import API.SubjectAPI;
+
+
+public class Markbook implements GradeAPI, SubjectAPI, ClassAPI, StudentAPI, AssessmentAPI {
 
 	/***************************************
 				FIELDS
