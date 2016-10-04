@@ -1,71 +1,26 @@
 package main;
 
-/***************************************
-			IMPORTS
- ***************************************/
-
+import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class Assessment {
+	private HashMap<Student, Double> marks; 
+	private double mean, standardDeviation, mode, median, range, weighting;
 	
-	/***************************************
-			FIELDS
-	 ***************************************/
-	
-	private String name;
-	private double maxMark;
-	private double weight;
-	private HashMap<Student, Double> marksMap;
-	//private double mean, standardDeviation, mode, median, range, weighting;
-	
-	
-	/***************************************
-			CONSTRUCTOR
-	 ***************************************/
-	
-	public Assessment(String name, double maxMark, double weight) {
-		this.name = name;
-		this.maxMark = maxMark;
-		this.weight = weight;
-		this.marksMap = new HashMap<Student, Double>();
-		//mode = median = range =	mean = standardDeviation = weighting = 0;
+	public Assessment(ArrayList<Student> students) {
+		mode = median = range =	mean = standardDeviation = weighting = 0;
+		marks = new HashMap<Student, Double>();
+		
+		for (Student student : students) {
+			marks.put(student, null);
+		}
 	}
-	
-
-	/***************************************
-			PUBLIC METHODS
-	 ***************************************/
-	
-	//	STUDENT
-	public void _addStudent(Student stu) { this.marksMap.put(stu, null); }
-	public void _removeStudent(Student stu) { this.marksMap.remove(stu); }
-	
-	//	MARK
-	public void _addMark(Student stu, double mark) { this.marksMap.put(stu, mark); }
-	public void _removeMark(Student stu) { this.marksMap.remove(stu, null); }
-	
-	//	GETS
-	public String _getName() { return this.name; }
-	public Double _getMaxMark() { return this.maxMark; }
-	public Double _getWeight() { return this.weight; }
-	public HashMap<Student, Double> _getMarksMap() { return this.marksMap; }
-	
-	//	SETS
-	public void _setName(String name) { this.name = name; }
-	public void _setMaxMark(double maxMark) { this.maxMark = maxMark; }
-	public void _setWeight(double weight) { this.weight = weight; }
-	
-	
-	/***************************************
-			PRIVATE METHODS
-	 ***************************************/
 	
 	// TODO: Unfinished
 	/**
 	 * Recalculates required values
 	 */
-/*	private void updateStatistics() {
+	private void updateStatistics() {
 		
 		// declare required variables for calculations 
 		Double mark;
@@ -74,8 +29,8 @@ public class Assessment {
 		double lowest = Double.MIN_VALUE;
 		double highest = Double.MAX_VALUE;
 		
-		for (Student student : marksMap.keySet()) {
-			mark = marksMap.get(student);
+		for (Student student : marks.keySet()) {
+			mark = marks.get(student);
 			
 			// if a mark hasn't been entered yet, don't count the student in calculations
 			if (mark == null) {
@@ -97,8 +52,8 @@ public class Assessment {
 			// calculate the standard deviation
 			double standardDeviationSum = 0;
 			
-			for (Student student : marksMap.keySet()) { 
-				mark = marksMap.get(student);
+			for (Student student : marks.keySet()) { 
+				mark = marks.get(student);
 				
 				// if a mark hasn't been entered yet, don't count the student in calculations
 				if (mark == null) {
@@ -110,5 +65,9 @@ public class Assessment {
 			
 			standardDeviation = Math.sqrt(standardDeviationSum / count);
 		}
-	}*/
+	}
+
+	public void addMark(Student student, double mark) {
+		marks.put(student, mark);
+	}
 }
