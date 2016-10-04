@@ -61,7 +61,15 @@ public class markingPanel extends JPanel {
 	  	newAssesment.add(new JTextField());
 	  	newAssesment.add(new JLabel("Option4?"));
 	  	newAssesment.add(new JTextField());
-	  	newAssesment.add(new JButton("Create"));
+	  	JButton create = new JButton("Create");
+	  	create.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(main, "overall");
+            }
+        });
+	  	newAssesment.add(create);
 
 	  	
 		this.setLayout(new BorderLayout());
@@ -318,6 +326,15 @@ public class markingPanel extends JPanel {
                      });
 
                      labelsPanel.add(className, gbc);
+                     JButton addAssesment = new JButton("new assesment");
+                     addAssesment.addActionListener(new ActionListener() {
+
+                         @Override
+                         public void actionPerformed(ActionEvent e) {
+                             cardLayout.show(main, "newAssesment");
+                         }
+                     });
+                     labelsPanel.add(addAssesment);
                      labelsPanel.add(scrollPane, gbc);
                      
                  }
