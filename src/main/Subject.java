@@ -1,7 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Subject {
 	private String name;

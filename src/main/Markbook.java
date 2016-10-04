@@ -6,6 +6,11 @@ public class Markbook {
 	private ArrayList<Subject> subjects;
 	private ArrayList<Grade> grades;
 
+	public Markbook() {
+		this.subjects = new ArrayList<Subject>();
+		this.grades = new ArrayList<Grade>();
+	}
+	
 	public void generateRandomData() {
 		
 		// method for creating random temporary data
@@ -76,12 +81,6 @@ public class Markbook {
 		}
 		
 		// TODO: Unfinished
-		
-		
-		
-		int Min = 5;
-		int Max = 15;
-		int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
 	}
 	
 	public ArrayList<Class> getClasses() {
