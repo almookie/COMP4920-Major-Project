@@ -1,7 +1,14 @@
+package API;
 /***************************************
 			IMPORTS
 ***************************************/
 import java.util.HashMap;
+
+import Assessment;
+import Class;
+import Grade;
+import Student;
+import Subject;
 
 
 /***************************************

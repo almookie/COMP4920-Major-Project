@@ -1,41 +1,45 @@
+package API;
 /***************************************
 			IMPORTS
 ***************************************/
-import java.util.HashMap;
+import java.util.ArrayList;
+
+import Grade;
+import Subject;
 
 
 /***************************************
-			CLASS
+			SUBJECT
 ***************************************/
-public interface ClassAPI {
-
+public interface SubjectAPI {
+	
 	
 	/***********************************
-	* ADD Class
-	* @param classID
+	* ADD Subject
+	* @param sName Subject Name
+	* @param sCode Subject Code
+	* @param g Grade Object
+	* @return boolean success or failed
+	************************************/
+	public boolean addSubject(String sName, String sCode, Grade g);
+	
+	
+	/***********************************
+	* REMOVE Subject
 	* @param s Subject Object
 	* @param g Grade Object
 	* @return boolean success or failed
 	************************************/
-	public boolean addClass(int classID, Subject s, Grade g);
+	public boolean removeSubject(Subject s, Grade g);
 	
 	
 	/***********************************
-	* REMOVE Class
-	* @param c Class Object
-	* @param s Subject Object
-	* @return boolean success or failed
+	* GET ArrayList of Subjects in a grade
+	* @param g Grade Object
+	* @return ArrayList of Subjects
 	************************************/
-	public boolean removeClass(Class c, Subject s);
+	public ArrayList<Subject> getSubjectList(Grade g);
 	
-
-	/***********************************
-	* GET HashMap of Class and Grade given Subject s
-	* @param s Subject Object
-	* @return HashMap<Class, Grade>
-	************************************/
-	public HashMap<Class, Grade> getClassList(Subject s);
-
 	
 	//	Other methods to be included...
 }

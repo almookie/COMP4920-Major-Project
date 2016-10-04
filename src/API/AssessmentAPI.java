@@ -1,4 +1,8 @@
+package API;
 import java.util.ArrayList;
+
+import Assessment;
+import Class;
 
 /***************************************
 			ASSESSMENT
