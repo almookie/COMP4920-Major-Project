@@ -160,7 +160,7 @@ public class markingPanel extends JPanel {
 			columnNames[1] = "lastName";
 					
 			Class c11 = classes.get(i);
-			String cName = c11.getGrade().getYear(mB.getCurrentYear()) + c11.getSubject().getName()+c11.getGrade().getYear(mB.getCurrentYear());
+			String cName = c11.getGrade().getYear(mB.getCurrentYear()) + c11.getSubject().getName()+c11.getClassNumber();
 			System.out.println(cName);
 				for(Assessment a: c11.getAssessments()){
 					columnNames = appendArray(columnNames, a.getName() );
