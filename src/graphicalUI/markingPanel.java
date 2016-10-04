@@ -51,6 +51,7 @@ public class markingPanel extends JPanel {
 		filterTitle.setPreferredSize(new Dimension(50,60));
 		filterTitle.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 		searchPanel.add(filterTitle, BorderLayout.NORTH);
+		JPanel lhs = new JPanel(new BorderLayout());
 		
 		//panel with the search fields
 		JPanel searchFieldsPanels = new JPanel(new GridBagLayout());
@@ -87,7 +88,8 @@ public class markingPanel extends JPanel {
 	    c1.insets = new Insets(100,15,15,5);
 	    JButton getResults = new JButton("Get Results");
 	    searchFieldsPanels.add(getResults,c1);
-		searchPanel.add(searchFieldsPanels);
+	    lhs.add(searchFieldsPanels, BorderLayout.NORTH);
+		searchPanel.add(lhs);
 		
 		viewPanel.setLayout(new BorderLayout());
 		viewPanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
@@ -106,9 +108,37 @@ public class markingPanel extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 		JPanel labelsPanel = new JPanel(new GridBagLayout());
 		JPanel searchResultsPanel = new JPanel(new BorderLayout());
+		String[] columnNames = {"Given Name", "Surename"};
 
-		String[] columnNames = {"First Name", "Last Name", "Mark"};
-		final Object[][] data =
+    	ArrayList<Class> classes = mB.getClasses();
+		String[][] data1 = new String[1][3];;
+
+		for(Class c11 : classes){ 
+			System.out.println( c11.getGrade().getYear(mB.getCurrentYear()));
+				for(Assessment a: c11.getAssessments()){
+					columnNames = appendArray(columnNames, a.getName() );
+					System.out.println( a.getName());
+					
+					for(Student s :c11.getStudents() ){
+						System.out.print( "    name =" + s.getGivenName()+ " " + s.getSurname() + " ");
+						System.out.println("     mark =>" + a.getMark(s));
+						String temp[][] = new String[1][3];
+						temp[0][0] =s.getGivenName();
+						temp[0][1] =s.getSurname();
+						temp[0][2] = Double.toString(a.getMark(s));
+						
+						data1 = concat(data1,temp);
+					}
+				}
+				break;
+			}
+		
+		
+		for(String s : columnNames)
+			System.out.println(s + " =");
+		
+		final Object[][] data=
+				
 			{
 			    {"Leon	", "x1", "1"},
 			    {"JAckie ", "x2", "2"},
@@ -132,7 +162,7 @@ public class markingPanel extends JPanel {
     		className1.setBorder(BorderFactory.createLineBorder(Color.RED));
 
     		
-    		final DefaultTableModel model = new DefaultTableModel(data, columnNames);
+    		final DefaultTableModel model = new DefaultTableModel(data1, columnNames);
     		final JTable table = new JTable( model );
     		table.setPreferredScrollableViewportSize(new Dimension(500, 100));
     		table.setFillsViewportHeight(true);
@@ -187,11 +217,8 @@ public class markingPanel extends JPanel {
             	System.out.println("jtfFilter: "+jtfFilter.getText());
             	System.out.println("jtfFilter1: "+jtfFilter1.getText());
             	System.out.println("jtfFilter2: "+jtfFilter2.getText());
-            	System.out.println("jtfFilter3: "+jtfFilter3.getText());
-            	ArrayList<Class> classes = mB.getClasses();
-        		for(Class c11 : classes){
-        			System.out.println(" c" );
-        		}
+            	System.out.println("jtfFilter3: "+jtfFilter3.getText());            	
+
             }
         });
 		
@@ -205,7 +232,22 @@ public class markingPanel extends JPanel {
     	return current;
     }
     
-	
+    private String[] appendArray(String[] array, String x){
+    	String[] result = new String[array.length + 1];
+
+        for(int i = 0; i < array.length; i++)
+            result[i] = array[i];
+
+        result[result.length - 1] = x;
+
+        return result;
+    }
+    public String[][] concat(String[][] a, String[][] b) {
+        String[][] result = new String[a.length + b.length][];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
+}
 	//TODO
 		//These are the action listeners for the search field
 		//given entire markbook ( with current year; future iteration of code will have year based )

@@ -8,9 +8,10 @@ public class Assessment {
 	private double mean, standardDeviation, mode, median, range, weighting;
 	private String name;
 	
-	public Assessment(ArrayList<Student> students, String name) {
-		mode = median = range =	mean = standardDeviation = weighting = 0;
+	public Assessment(String name, int weighting, ArrayList<Student> students) {
+		mode = median = range =	mean = standardDeviation = 0;
 		this.name = name;
+		this.weighting = weighting;
 		marks = new HashMap<Student, Double>();
 		
 		for (Student student : students) {
@@ -68,11 +69,55 @@ public class Assessment {
 		}
 	}
 	
+	public double getWeighting() {
+		return weighting;
+	}
+	
+	public void setWeighting(double weighting) {
+		this.weighting = weighting;
+	}
+	
 	public double getMark(Student s) {
 		return marks.get(s);
 	}
 
 	public void addMark(Student student, double mark) {
 		marks.put(student, mark);
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public double getMode() {
+		return mode;
+	}
+	
+	public double getMean() {
+		return mean;
+	}
+	
+	public double getRange() {
+		return range;
+	}
+	
+	public double getStandardDeviation() {
+		return standardDeviation;
+	}
+	
+	public String toString() {
+		String output = "Assessment with name: " + name + " and the statistics:\n";
+		output += "Mode: " + mode + "\n";
+		output += "Median: " + median + "\n";
+		output += "Mean: " + mean + "\n";
+		output += "Range: " + range + "\n";
+		output += "Standrd Deviation: " + standardDeviation + "\n";
+		output += "\nand Weighting: " + weighting + "\n";
+		
+		return output;
 	}
 }

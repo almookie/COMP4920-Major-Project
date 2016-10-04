@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Markbook {
 	private ArrayList<Subject> subjects;
 	private ArrayList<Grade> grades;
+	private int studentIDCounter;
 
 	public Markbook() {
 		this.subjects = new ArrayList<Subject>();
 		this.grades = new ArrayList<Grade>();
+		this.studentIDCounter = 0;
 	}
 	
 	public void generateRandomData() {
@@ -22,14 +24,41 @@ public class Markbook {
 			Grade grade = new Grade(i);
 			grades.add(grade);
 		}
+
+		String first_names[] = { "Ali",
+				"Bill",
+				"Tony",
+				"Tim",
+				"Steve",
+				"Adam",
+				"Natalie",
+				"Sara",
+				"Sarah",
+				"Mark",
+				"Bruce",
+				"Andrew"
+		};
+
+		String last_names[] = {	"Johnson",
+				"Smith",
+				"Williams",
+				"Wu",
+				"Sun",
+				"Broseph",
+				"Jones",
+				"Adams",
+				"Li",
+				"Pham",
+				"Banner",
+				"Davidson"
+		};
 		
 		// generate students for each grade
-		int studentID = 0;
 		for (Grade g : grades) {
 			for (int i = 0; i < 10; i++) {
-				Student s = new Student(studentID, "Name " + studentID, "Surname " + studentID);
+				Student s = new Student(studentIDCounter, first_names[(int)(Math.random() * ((first_names.length - 1)))], last_names[(int)(Math.random() * ((first_names.length - 1)))]);
 				g.addStudent(s);
-				studentID++;				
+				studentIDCounter++;				
 			}
 		}
 		
@@ -63,11 +92,11 @@ public class Markbook {
 		for (int i = 0; i <= subjects.size(); i++) {
 			
 			// add 3 classes to each subject
-			for (int j = 0; i <= 2; i++) {
+			for (int j = 0; j <= 2; j++) {
 				int Min = 0;
 				int Max = grades.size() - 1;
 				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
-				Class c = new Class(grades.get(random_value));
+				Class c = subjects.get(j).addClass(grades.get(random_value));
 				
 				// add 3 random students to this class
 				for (int k = 0; k <= 2; k++) {
@@ -79,20 +108,18 @@ public class Markbook {
 				}
 				
 				// generate an assessment for each class
-				Assessment a = new Assessment(c.getStudents(), "Test Assessment");
+				Assessment a = new Assessment("Test Assessment", 100, c.getStudents());
 				for (Student s : c.getStudents()) {
 					
 					// generate a random mark between 0 and 100
 					a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
 				}
 				
-				c.addAssessment(a);
-				subjects.get(i).addClass(c);				
+				c.addAssessment(a);				
 			}
-		}
+		}	
 		
-				
-		// TODO: Unfinished
+		System.out.println(this.toString());		
 	}
 	
 	public ArrayList<Class> getClasses() {
@@ -115,7 +142,35 @@ public class Markbook {
 		return classes;
 	}
 	
+	public ArrayList<Subject> getSubjects() {
+		return subjects;
+	}
+	
 	public void addGrade (Grade g) {
 		grades.add(g);
+	}
+	
+	public Student createStudent(String givenName, String surname) {
+		return new Student(studentIDCounter++, givenName, surname);
+	}
+	
+	public int getCurrentYear() {
+		return 2016;
+	}
+	
+	public String toString() {
+		String returnString = "Subjects:\n";
+		
+		for (Subject s : subjects) {
+			returnString += s.toString();
+		}
+		
+		returnString += "\n";
+		
+		for (Grade g : grades) {
+			returnString += g.toString();			
+		}
+		
+		return returnString;
 	}
 }

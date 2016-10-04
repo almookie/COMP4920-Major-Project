@@ -47,4 +47,8 @@ public class Student {
 		final int result = 17;
 		return 37 * result + ID;
 	}	
+	
+	public String toString() {
+		return "Student Name: " + givenName + " " + surname;
+	}
 }

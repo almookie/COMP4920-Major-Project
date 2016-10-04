@@ -6,11 +6,17 @@ public class Class {
 	private ArrayList<Student> students; 
 	private ArrayList<Assessment> assessments;
 	private Grade grade;
+	private int classNumber;
 	
-	public Class(Grade grade) {
+	public Class(Grade grade, int classNumber) {
 		this.grade = grade;
+		this.classNumber = classNumber;
 		students = new ArrayList<Student>();
 		assessments = new ArrayList<Assessment>();
+	}
+	
+	public int getClassNumber() {
+		return classNumber;
 	}
 	
 	public boolean hasStudent(Student student) {
@@ -47,5 +53,22 @@ public class Class {
 	
 	public ArrayList<Assessment> getAssessments() {
 		return assessments;
+	}
+	
+	public String toString() {
+		String returnString = "Class: " + classNumber + "\n";
+		returnString += "Students within the class:\n";
+		
+		for (Student s : students) {
+			returnString += s.toString() + "\n";
+		}
+		
+		returnString += "\nClass assessments:\n";	
+		
+		for (Assessment a : assessments) {		
+			returnString += a.toString() + "\n";			
+		}
+		
+		return returnString;
 	}
 }
