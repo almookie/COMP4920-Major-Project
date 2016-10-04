@@ -92,4 +92,20 @@ public class Assessment {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public double getMode() {
+		return mode;
+	}
+	
+	public double getMean() {
+		return mean;
+	}
+	
+	public double getRange() {
+		return range;
+	}
+	
+	public double getStandardDeviation() {
+		return standardDeviation;
+	}
 }

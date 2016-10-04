@@ -1,20 +1,34 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Subject {
 	private String name;
 	private String shortcode;
 	private ArrayList<Class> classes;
+	private HashMap<Grade, ArrayList<Class>> classesWithinGrades;
 	
 	public Subject(String name, String shortcode) {
 		this.name = name;
 		this.shortcode = shortcode;
-		this.classes = new ArrayList<Class>();		
+		this.classes = new ArrayList<Class>();	
+		this.classesWithinGrades = new HashMap<Grade, ArrayList<Class>>();
 	}
 	
-	public void addClass(Class new_class) {
-		classes.add(new_class);
+	// creates a new class and returns it
+	public Class addClass(Grade grade) {
+		int classNumberCount;
+		
+		if (classesWithinGrades.get(grade) != null) {
+			classNumberCount = classesWithinGrades.get(grade).size() + 1;
+		} else {
+			classNumberCount = 1;
+		}
+		Class c = new Class(grade, classNumberCount);
+		classes.add(c);
+		classesWithinGrades.get(grade).add(c);
+		return c;
 	}
 	
 	public void removeClass(Class delete_class) {

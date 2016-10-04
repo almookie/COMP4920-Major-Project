@@ -68,7 +68,7 @@ public class Markbook {
 				int Min = 0;
 				int Max = grades.size() - 1;
 				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
-				Class c = new Class(grades.get(random_value));
+				Class c = subjects.get(i).addClass(grades.get(random_value));
 				
 				// add 3 random students to this class
 				for (int k = 0; k <= 2; k++) {
@@ -80,15 +80,14 @@ public class Markbook {
 				}
 				
 				// generate an assessment for each class
-				Assessment a = new Assessment(c.getStudents(), "Test Assessment");
+				Assessment a = new Assessment("Test Assessment", 100, c.getStudents());
 				for (Student s : c.getStudents()) {
 					
 					// generate a random mark between 0 and 100
 					a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
 				}
 				
-				c.addAssessment(a);
-				subjects.get(i).addClass(c);				
+				c.addAssessment(a);				
 			}
 		}
 		

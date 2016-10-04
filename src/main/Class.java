@@ -6,11 +6,17 @@ public class Class {
 	private ArrayList<Student> students; 
 	private ArrayList<Assessment> assessments;
 	private Grade grade;
+	private int classNumber;
 	
-	public Class(Grade grade) {
+	public Class(Grade grade, int classNumber) {
 		this.grade = grade;
+		this.classNumber = classNumber;
 		students = new ArrayList<Student>();
 		assessments = new ArrayList<Assessment>();
+	}
+	
+	public int getClassNumber() {
+		return classNumber;
 	}
 	
 	public boolean hasStudent(Student student) {
