@@ -1,48 +1,58 @@
 /***************************************
-		IMPORTS
+			IMPORTS
  ***************************************/
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 
 public class Assessment {
-
 	
 	/***************************************
 			FIELDS
 	 ***************************************/
-	private String assignTitle;
+	
+	private String name;
+	private double maxMark;
+	private double weight;
 	private HashMap<Student, Double> marksMap;
-	private double mean, standardDeviation, mode, median, range, weighting;
+	//private double mean, standardDeviation, mode, median, range, weighting;
 	
 	
 	/***************************************
 			CONSTRUCTOR
 	 ***************************************/
-	public Assessment(String name) {
-		this.assignTitle = name;
-		mode = median = range =	mean = standardDeviation = weighting = 0;
+	
+	public Assessment(String name, double maxMark, double weight) {
+		this.name = name;
+		this.maxMark = maxMark;
+		this.weight = weight;
 		this.marksMap = new HashMap<Student, Double>();
+		//mode = median = range =	mean = standardDeviation = weighting = 0;
 	}
 	
 
 	/***************************************
 			PUBLIC METHODS
 	 ***************************************/
+	
 	//	STUDENT
-	public void addStudent(Student stu) { this.marksMap.put(stu, null); }
-	public void removeStudent(Student stu) { this.marksMap.remove(stu); }
+	public void _addStudent(Student stu) { this.marksMap.put(stu, null); }
+	public void _removeStudent(Student stu) { this.marksMap.remove(stu); }
 	
 	//	MARK
-	public void addMark(Student stu, Double mark) { this.marksMap.put(stu, mark); }
-	public void removeMark(Student stu) { this.marksMap.remove(stu, null); }
+	public void _addMark(Student stu, double mark) { this.marksMap.put(stu, mark); }
+	public void _removeMark(Student stu) { this.marksMap.remove(stu, null); }
 	
 	//	GETS
-	public HashMap<Student, Double> getmarksMap() { return this.marksMap; }
-	public String getAssignName() { return this.assignTitle; }
+	public String _getName() { return this.name; }
+	public Double _getMaxMark() { return this.maxMark; }
+	public Double _getWeight() { return this.weight; }
+	public HashMap<Student, Double> _getMarksMap() { return this.marksMap; }
 	
 	//	SETS
-	public void setAssignName(String name) { this.assignTitle = name; }
+	public void _setName(String name) { this.name = name; }
+	public void _setMaxMark(double maxMark) { this.maxMark = maxMark; }
+	public void _setWeight(double weight) { this.weight = weight; }
 	
 	
 	/***************************************
@@ -53,7 +63,7 @@ public class Assessment {
 	/**
 	 * Recalculates required values
 	 */
-	private void updateStatistics() {
+/*	private void updateStatistics() {
 		
 		// declare required variables for calculations 
 		Double mark;
@@ -98,5 +108,5 @@ public class Assessment {
 			
 			standardDeviation = Math.sqrt(standardDeviationSum / count);
 		}
-	}	
+	}*/
 }

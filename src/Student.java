@@ -1,5 +1,9 @@
-import java.util.ArrayList;
+/***************************************
+			IMPORTS
+***************************************/
+
 import java.util.HashMap;
+
 
 public class Student {
 
@@ -11,7 +15,7 @@ public class Student {
 	private String givenName, surname;
 	private Grade grade;
 	private HashMap<Class, Subject> classMap;
-	private HashMap<Assessment, Class> assessmentMap;
+	private HashMap<Assessment, Class> assClassMap;
 	
 	
 	/***************************************
@@ -24,37 +28,36 @@ public class Student {
 		this.surname = surname;
 		this.grade = grade;
 		this.classMap = new HashMap<Class, Subject>();
-		this.assessmentMap = new HashMap<Assessment, Class>();
+		this.assClassMap = new HashMap<Assessment, Class>();
 	}
+	
 	
 	/***************************************
 			METHODS
 	 ***************************************/
+	
 	//	CLASSES
-	public void addClass(Class c, Subject s) { this.classMap.put(c, s); }
-	public void removeClass(Class c) { this.classMap.remove(c); }
+	public void _addClass(Class c, Subject s) { classMap.put(c, s); }
+	public void _removeClass(Class c) { classMap.remove(c); }
 	
 	//	ASSESSMENT
-	public void addAssessment(String aName, Class c) {
-		this.assessmentMap.put(new Assessment(aName), c);
-	}
-	public void removeAssessment(Assessment a) { 
-		this.assessmentMap.remove(a); 
-	}
+	public void _addAssessment(String aName, double maxMark, double weight, Class c) { assClassMap.put(new Assessment(aName, maxMark, weight), c); }
+	public void _removeAssessment(Assessment a) {  assClassMap.remove(a);  }
 	
 	//	GETS
-	public HashMap<Class, Subject> getClassMap() { return this.classMap; }
-	public HashMap<Assessment, Class> getAssMap() { return this.assessmentMap; }
-	public int getID() { return ID; }
-	public String getGivenName() { return this.givenName; }
-	public String getSurname() { return this.surname; }
-	public Grade getGrade() { return this.grade; }
-	
+	public int _getID() { return ID; }
+	public String _getGivenName() { return givenName; }
+	public String _getSurname() { return surname; }
+	public Grade _getGrade() { return grade; }
+	public HashMap<Class, Subject> _getClassMap() { return classMap; }
+	public HashMap<Assessment, Class> _getAssMap() { return assClassMap; }
+
 	//	SETS
-	public void setID(int ID) { this.ID = ID; }
-	public void setGivenName(String givenName) { this.givenName = givenName; }
-	public void setSurname(String surname) { this.surname = surname; }
-	public void setGrade(Grade grade) { this.grade = grade; }
+	public void _setID(int ID) { this.ID = ID; }
+	public void _setGivenName(String givenName) { this.givenName = givenName; }
+	public void _setSurname(String surname) { this.surname = surname; }
+	public void _setGrade(Grade grade) { this.grade = grade; }
+	
 	
 	/*
 	//	MISC

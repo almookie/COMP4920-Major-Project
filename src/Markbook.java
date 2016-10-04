@@ -1,185 +1,168 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /***************************************
 		IMPORTS
  ***************************************/
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Markbook implements API{
 
-	public static boolean DEBUG;
+public class Markbook implements GradeAPI, SubjectAPI, ClassAPI, StudentAPI, AssessmentAPI {
+
+	/***************************************
+				FIELDS
+	***************************************/
 	
-/***************************************
-		CONSTUCTOR
-***************************************/
-
+	private static boolean DEBUG_MODE = false;
+	
 	private String markBookName;
 	private ArrayList<Grade> gradeList;
 	
-	public Markbook(String name, boolean DEBUG) {
+	
+	/***************************************
+				CONSTUCTOR
+	 ***************************************/
+	
+	public Markbook(String name) {
 		this.markBookName = name;
 		this.gradeList = new ArrayList<Grade>();
-		if (DEBUG == true) System.out.println("Created School System: " + this.markBookName);
+		if (DEBUG_MODE == true) System.out.println("Created School System: " + this.markBookName);
 	}
 	
 	
-/***************************************
-		API (PUBLIC METHODS)
- ***************************************/
+	/***************************************
+			API (PUBLIC METHODS)
+	 ***************************************/
+	//	TODO: Sanitisation checks
 	
-	//	ADD
-	//	Should it return anything? boolean? or object itself?
-	//	Should it pass argument in strings or objects? (can use gets here to get objects)
-	//	arguments passes objects so that it is more 'mutable' not sure if it is violating abstraction since your giving references away
 	
-/***************************************
-		GRADE
-***************************************/
-	//	ADD GRADE
-	public void addGrade(int currGrade, int gradYear) {
+	/***************************************
+			GRADE
+	***************************************/
+	
+	public boolean addGrade(int currGrade, int gradYear) {
 		Grade grade = new Grade(currGrade, gradYear);
-		this.gradeList.add(grade);
-		if (DEBUG == true) System.out.println("Added Grade " + currGrade + " ,graduating on " + gradYear);
+		gradeList.add(grade);
+		if (DEBUG_MODE == true) System.out.println("Added Grade " + currGrade + " ,graduating on " + gradYear);
+		//	Most boolean methods atm returns True at the moment
+		//	need to check sanitisation for all methods and to return false if it fails?
+		return true;
 	}
 	
-	//	REMOVE GRADE
-	public void removeGrade(Grade g) {
-		this.gradeList.remove(g);
-		if (DEBUG == true) System.out.println("Removed Grade " + g.getGrade() + " ,graduating on " + g.getGraduationYear());
+	
+	public boolean removeGrade(Grade g) {
+		gradeList.remove(g);
+		if (DEBUG_MODE == true) System.out.println("Removed Grade " + g._getGrade() + " ,graduating on " + g._getGraduationYear());
+		return true;
 	}
 
-	//	GETS
+	
 	public ArrayList<Grade> getGradeList() { return this.gradeList; }
-	public ArrayList<Student> getAllStudents() {
-		ArrayList<Student> tempList = new ArrayList<Student>();
-		
-		for (Grade g : this.gradeList) {
-			for (Student s : g.getStudentList()) {
-				tempList.add(s);
-			}
-		}
-		return tempList;
-	}
-	public ArrayList<Student> getStudentsfromGrade(Grade grade) {
-		for(Grade g : this.gradeList) {
-			if (g.equals(grade)) {
-				return g.getStudentList();
-			}
-		}
-		return null;
+	
+	
+	/***************************************
+				SUBJECT
+	***************************************/
+	
+	public boolean addSubject(String sName, String sCode, Grade g) {
+		g._addSubject(new Subject(sName, sCode, g));
+		if (DEBUG_MODE == true) System.out.println("Added Subject " + sName + ":" + sCode + " to grade " + g._getGrade());
+		return true;
 	}
 	
 	
-/***************************************
-		SUBJECT
-***************************************/
-	//	ADD SUBJECT
-	public void addSubject(String sName, String sCode, Grade g) {
-		g.addSubject(new Subject(sName, sCode, g));
-		if (DEBUG == true) System.out.println("Added Subject " + sName + ":" + sCode + " to grade " + g.getGrade());
+	public boolean removeSubject(Subject s, Grade g) {
+		g._removeSubject(s);
+		if (DEBUG_MODE == true) System.out.println("Removed Subject " + s._getName() + ":" + s._getShortcode() + " to grade " + g._getGrade());
+		return true;
 	}
 	
-	//	REMOVE SUBJECT
-	public void removeSubject(Subject s, Grade g) {
-		g.removeSubject(s);
-		if (DEBUG == true) System.out.println("Removed Subject " + s.getName() + ":" + s.getShortcode() + " to grade " + g.getGrade());
+	
+	public ArrayList<Subject> getSubjectList(Grade g) { return g._getSubjectList(); }
+	
+	
+	/***************************************
+				CLASS
+	***************************************/
+	
+	public boolean addClass(int classID, Subject s, Grade g) {
+		s._addClass(classID, g);
+		if (DEBUG_MODE == true) System.out.println("Added Class " + classID + " to " + s._getName() + ":" + s._getShortcode());
+		return true;
 	}
 	
-	//	GETS
-	public ArrayList<Subject> getSubjectList(Grade g) { return g.getSubjectList(); }
-	public ArrayList<Student> getAllSubjStudents(Subject s) { return s.getStudentList(); }
-	public ArrayList<Student> getSubjStudentsFromGrade(Subject subj, Grade grade) {
-		for (Grade g : this.gradeList) {
-			for (Subject s : g.getSubjectList()) {
-				if (s.equals(subj)) {
-					return s.getStudentList();
-				}
-			}
-		}
-		return null;
+	
+	public boolean removeClass(Class c, Subject s) {
+		s._removeClass(c);
+		if (DEBUG_MODE == true) System.out.println("Removed Class " + c._getClassID() + " to " + s._getName() + ":" + s._getShortcode());
+		return true;
 	}
 	
-/***************************************
-		CLASS
-***************************************/
-	public void addClass(int classID, Subject s, Grade g) {
-		s.addClass(classID, g);
-		if (DEBUG == true) System.out.println("Added Class " + classID + " to " + s.getName() + ":" + s.getShortcode());
-	}
 	
-	public void removeClass(Class c, Subject s) {
-		s.removeClass(c);
-		if (DEBUG == true) System.out.println("Removed Class " + c.getClassID() + " to " + s.getName() + ":" + s.getShortcode());
-	}
-	
-	public HashMap<Class, Grade> getClassList(Subject s) { return s.getClassMap(); }
-	public ArrayList<Student> getClassStudentList(Class c) { return c.getStudentList(); }
-	
-	
-/***************************************
-		STUDENT
-***************************************/
-	//	ADD STUDENT
-	public void addStudent(int stuID, String givenName, String surname, Grade grade) {
-		grade.addStudent(new Student(stuID, givenName, surname, grade));
-		if (DEBUG == true) System.out.println("Created Student " + givenName + " " + surname + " ID: " + stuID + " and added to grade " + grade.getGrade());
-	}
-	
-	//	REMOVE STUDENT
-	public void removeStudent(Student s) {
-		s.getGrade().removeStudent(s);
-		if (DEBUG == true) System.out.println("REMOVED STUDENT");
-	}
-	
-	//	ENROL STUDENT TO CLASS
-	public void enrolStudent(Student stu, Class c) {
-		c.addStudent(stu);
-		if (DEBUG == true) System.out.println("Enrolled Stsudent " + stu.getGivenName() + " " + stu.getSurname() + ":" + stu.getID() + " into " + c.getClassID());
-	}
-	
-	//	UNENROL STUDENT FROM CLASS
-	public void unenrolStudent(Student stu, Class c) {
-		c.removeStudent(stu);
-		if (DEBUG == true) System.out.println("UNENROLLED STUDENT");
-	}
-	
-	//	GETS
-	public HashMap<Class, Subject> getClassList(Student stu) { return stu.getClassMap(); }
-	public HashMap<Assessment, Class> getAssessmentList(Student stu) { return stu.getAssMap(); }
-	public ArrayList<Subject> getStuSubjList(Student stu) { return (ArrayList<Subject>)stu.getClassMap().values(); }
+	public HashMap<Class, Grade> getClassList(Subject s) { return s._getClassGradeMap(); }
 
 	
-/***************************************
-		ASSESSMENT
-***************************************/
+	/***************************************
+				STUDENT
+	***************************************/
+	
+	public boolean addStudent(int stuID, String givenName, String surname, Grade g) {
+		g._addStudent(new Student(stuID, givenName, surname, g));
+		if (DEBUG_MODE == true) System.out.println("Created Student " + givenName + " " + surname + " ID: " + stuID + " and added to grade " + g._getGrade());
+		return true;
+	}
+	
+	public boolean removeStudent(Student s) {
+		s._getGrade()._removeStudent(s);
+		if (DEBUG_MODE == true) System.out.println("REMOVED STUDENT");
+		return true;
+	}
+	
+	public boolean enrolStudent(Student stu, Class c) {
+		c._addStudent(stu);
+		if (DEBUG_MODE == true) System.out.println("Enrolled Stsudent " + stu._getGivenName() + " " + stu._getSurname() + ":" + stu._getID() + " into " + c._getClassID());
+		return true;
+	}
+	
+	public boolean unenrolStudent(Student stu, Class c) {
+		c._removeStudent(stu);
+		if (DEBUG_MODE == true) System.out.println("UNENROLLED STUDENT");
+		return true;
+	}
+	
+	
+	public HashMap<Class, Subject> getClassList(Student stu) { return stu._getClassMap(); }
+	public HashMap<Assessment, Class> getAssessmentList(Student stu) { return stu._getAssMap(); }
+
+	
+	/***************************************
+				ASSESSMENT
+	***************************************/
+	
 	//	ADD ASSESSMENT
-	//	Maxmark and weighing not used yet
-	public void addAssessment(String aName, Double maxMark, Double weighing, Class c) {
-		c.addAssessment(aName);
-		if (DEBUG == true) System.out.println("ADDED ASSESSMENT");
+	public boolean addAssessment(String aName, Double maxMark, Double weighing, Class c) {
+		c._addAssessment(aName, maxMark, weighing);
+		if (DEBUG_MODE == true) System.out.println("ADDED ASSESSMENT");
+		return true;
 	}
 	
 	//	REMOVE ASSESSMENT
-	public void removeAssessment(Assessment a, Class c) {
-		c.removeAssessment(a, c);
-		if (DEBUG == true) System.out.println("REMOVED ASSESSMENT");
+	public boolean removeAssessment(Assessment a, Class c) {
+		c._removeAssessment(a, c);
+		if (DEBUG_MODE == true) System.out.println("REMOVED ASSESSMENT");
+		return true;
 	}
 	
 	//	GETS
 	public ArrayList<Assessment> getClassAssessmentList(Class c) {
-		return c.getAssessmentList();
+		return c._getAssessmentList();
 	}
 
-
-	//	DEMO
-	//	NEED TO FIX ACCORDING TO API
 	
-	public void demo() {
+	
+	/***************************************
+				DEMO
+	 ***************************************/
+	public void demoFill() {
 		
 		/*// method for creating random temporary data
 		final int startingYear = 2016;
@@ -268,5 +251,10 @@ public class Markbook implements API{
 			}
 		}	
 		*/
+	}
+
+
+	public void setDebug(boolean b) {
+		DEBUG_MODE = b;
 	}
 }

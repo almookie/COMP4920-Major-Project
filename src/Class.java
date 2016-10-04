@@ -1,6 +1,7 @@
 /***************************************
-		IMPORTS
+			IMPORTS
 ***************************************/
+
 import java.util.ArrayList;
 
 
@@ -9,6 +10,7 @@ public class Class {
 	/***************************************
 			FIELDS
 	 ***************************************/
+	
 	private int classID;
 	private Grade grade;
 	private ArrayList<Student> studentList; 
@@ -18,6 +20,7 @@ public class Class {
 	/***************************************
 			CONSTRUCTOR
 	 ***************************************/
+	
 	public Class(int classID, Grade grade) {
 		this.classID = classID;
 		this.grade = grade;
@@ -31,25 +34,22 @@ public class Class {
 	 ***************************************/
 	
 	//	STUDENT
-	public void addStudent(Student stu) { studentList.add(stu); }
-	public void removeStudent(Student stu) { studentList.remove(stu); }
+	public void _addStudent(Student stu) { studentList.add(stu); }
+	public void _removeStudent(Student stu) { studentList.remove(stu); }
 	
 	//	ASSESSMENT
-	public void addAssessment(String name) {
-		this.assessmentList.add(new Assessment(name));
-	}
-	public void removeAssessment(Assessment a, Class c) { this.assessmentList.remove(a); }
+	public void _addAssessment(String name, double maxMark, double weight) { assessmentList.add(new Assessment(name, maxMark, weight)); }
+	public void _removeAssessment(Assessment a, Class c) { assessmentList.remove(a); }
 	
 	//	GETS
-	public ArrayList<Student> getStudentList() { return this.studentList; }
-	public ArrayList<Assessment> getAssessmentList() { return this.assessmentList; }
-	
-	public int getClassID() { return this.classID; }
-	public Grade getGrade() { return this.grade; }
+	public int _getClassID() { return classID; }
+	public Grade _getGrade() { return grade; }
+	public ArrayList<Student> _getStudentList() { return studentList; }
+	public ArrayList<Assessment> _getAssessmentList() { return assessmentList; }
 
 	//	SETS
-	public void setClassID(int classID) { this.classID = classID; }
-	public void setGrade(Grade grade) { this.grade = grade; }
+	public void _setClassID(int classID) { this.classID = classID; }
+	public void _setGrade(Grade grade) { this.grade = grade; }
 	
 	
 	/*
