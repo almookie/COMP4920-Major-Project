@@ -16,6 +16,8 @@ import main.Subject;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 //note change get initial data names
@@ -73,6 +75,13 @@ public class managementScreen extends JPanel  {
 	//maximum size for input fields
 	private static int MAXSEARCHSIZE = 20;
 	
+	//keep track of selected class
+	private JLabel selectedLabel = null;
+	private Class selectedClass = null;
+	private JTable selectedTable = null;
+	private Color defaultBackground = Color.LIGHT_GRAY;
+	private Color selectedBackground = Color.GRAY;
+	
 	public managementScreen(Markbook markbook) {
 		mB = markbook;
 		actionListener = new managementScreenActionListener(this, mB);
@@ -122,6 +131,19 @@ public class managementScreen extends JPanel  {
 	}
 	
 	
+	/*	select a new class
+	 * 
+	 */
+	public void switchToNewClass(JLabel newLabel, Class newClass, JTable newTable) {
+		if (selectedLabel != null) {
+			selectedLabel.setBackground(defaultBackground);
+		}
+		selectedLabel = newLabel;
+		selectedClass = newClass;
+		selectedTable = newTable;
+		newLabel.setBackground(selectedBackground);
+	}
+	
 	/*	reads from text fields to add a new subject
 	 * 
 	 */
@@ -166,6 +188,33 @@ public class managementScreen extends JPanel  {
 			
 		} else {
 			//!debug TODO
+		}
+	}
+	
+	
+	/*	reads from filter tables to add a subject to a class
+	 * 
+	 */
+	public void studentAddToClass() {
+		int row = studentTable.getSelectedRow();
+		if ((selectedLabel != null ) && (row >= 0)) {
+			filterDisplayTableModel model = (filterDisplayTableModel)studentTable.getModel();
+			Student currentStudent = (Student)model.getValueAt(row, 1);
+			
+			selectedClass.addStudent(currentStudent);
+			
+			//refresh the display
+			filterDisplayTableModel model2 = (filterDisplayTableModel) selectedTable.getModel();
+			
+			ArrayList<Student> studentsInClass = selectedClass.getStudents();
+			ArrayList<Object[]> data = new ArrayList<Object[]>();
+			for (Student student : studentsInClass) {
+				String studentName = student.getSurname()+ ","+ student.getGivenName();
+				Object[] item = {studentName, student};
+				data.add(item);
+			}
+			model2.refreshData(data);
+			model2.fireTableDataChanged();
 		}
 	}
 	
@@ -287,11 +336,13 @@ public class managementScreen extends JPanel  {
 		
 		//button to set filter to class
 		JButton classButton = new JButton("Add to Class ->");
+		classButton.setActionCommand("addStudentToClass");
 		
 		//listen to actions from the buttons
 		studentButton.addActionListener(actionListener);
 		subjectButton.addActionListener(actionListener);
 		gradeButton.addActionListener(actionListener);
+		classButton.addActionListener(actionListener);
 		
 		//setup locations and size ratios for buttons
 		c.fill = GridBagConstraints.BOTH;
@@ -659,12 +710,10 @@ public class managementScreen extends JPanel  {
 			JLabel className = new JLabel(name);
 			className.setOpaque(true);
 			className.setBackground(Color.LIGHT_GRAY);
-			//className.setAlignmentX(0);
 			
 			JLabel classSubject = new JLabel(subjectName);
 			classSubject.setOpaque(true);
 			classSubject.setBackground(Color.LIGHT_GRAY);
-			//className.setAlignmentX(0);
 			
 			//create table elements from studentsInClass
 			ArrayList<Object[]> data = new ArrayList<Object[]>();
@@ -679,6 +728,10 @@ public class managementScreen extends JPanel  {
 			//store object references inside a hidden column
 			TableColumnModel columnModel = resultsTable.getColumnModel();
 			columnModel.removeColumn(columnModel.getColumn(1));
+			
+			//add mouse listener
+			className.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
+			classSubject.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
 			
 			contents.add(className, newc);
 			contents.add(classSubject, newc);
