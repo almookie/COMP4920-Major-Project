@@ -56,7 +56,7 @@ public class Markbook {
 		// generate students for each grade
 		for (Grade g : grades) {
 			for (int i = 0; i < 10; i++) {
-				Student s = new Student(studentIDCounter, first_names[(int)(Math.random() * ((first_names.length - 1)))], last_names[(int)(Math.random() * ((first_names.length - 1)))]);
+				Student s = new Student(studentIDCounter, first_names[(int)(Math.random() * ((first_names.length)))], last_names[(int)(Math.random() * ((first_names.length)))]);
 				g.addStudent(s);
 				studentIDCounter++;				
 			}

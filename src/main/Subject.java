@@ -25,7 +25,7 @@ public class Subject {
 		} else {
 			classNumberCount = 1;
 		}
-		Class c = new Class(grade, classNumberCount);
+		Class c = new Class(grade, this, classNumberCount);
 		classes.add(c);
 		if (classesWithinGrades.get(grade) == null) {
 			ArrayList<Class> newClassList = new ArrayList<Class>();

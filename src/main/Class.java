@@ -6,10 +6,12 @@ public class Class {
 	private ArrayList<Student> students; 
 	private ArrayList<Assessment> assessments;
 	private Grade grade;
+	private Subject subject;
 	private int classNumber;
 	
-	public Class(Grade grade, int classNumber) {
+	public Class(Grade grade, Subject subject, int classNumber) {
 		this.grade = grade;
+		this.subject = subject;
 		this.classNumber = classNumber;
 		students = new ArrayList<Student>();
 		assessments = new ArrayList<Assessment>();
@@ -17,6 +19,10 @@ public class Class {
 	
 	public int getClassNumber() {
 		return classNumber;
+	}
+	
+	public Subject getSubject() {
+		return subject;
 	}
 	
 	public boolean hasStudent(Student student) {
