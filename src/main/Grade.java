@@ -58,5 +58,15 @@ public class Grade {
 	public int getYear(int year) {
 		return 12 - (year - 2016);
 	}
+	
+	public String toString() {
+		String output = "\nGrade with graduation year: " + graduationYear + "(Year: " + (12 - (graduationYear - 2016)) + ")" + " and student list: \n\n";
+		
+		for (Student s : students) {
+			output += s.toString() + "\n";
+		}
+		
+		return output;
+	}
 
 }

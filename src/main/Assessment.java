@@ -108,4 +108,16 @@ public class Assessment {
 	public double getStandardDeviation() {
 		return standardDeviation;
 	}
+	
+	public String toString() {
+		String output = "Assessment with name: " + name + " and the statistics:\n";
+		output += "Mode: " + mode + "\n";
+		output += "Median: " + median + "\n";
+		output += "Mean: " + mean + "\n";
+		output += "Range: " + range + "\n";
+		output += "Standrd Deviation: " + standardDeviation + "\n";
+		output += "\nand Weighting: " + weighting + "\n";
+		
+		return output;
+	}
 }

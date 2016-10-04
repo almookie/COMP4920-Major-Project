@@ -76,9 +76,9 @@ public class Subject {
 	}	
 	
 	public String toString() {
-		String output = "Name: " + name + "\nShortcode: " + shortcode + "\n";
+		String output = "Subject with name: " + name + "\nShortcode: " + shortcode + ", containing the following classes: \n\n";
 		for (Class c : classes) {
-			output += c.toString();
+			output += c.toString() + "\n";
 		}
 		return output;
 	}

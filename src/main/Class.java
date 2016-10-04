@@ -54,4 +54,21 @@ public class Class {
 	public ArrayList<Assessment> getAssessments() {
 		return assessments;
 	}
+	
+	public String toString() {
+		String returnString = "Class: " + classNumber + "\n";
+		returnString += "Students within the class:\n";
+		
+		for (Student s : students) {
+			returnString += s.toString() + "\n";
+		}
+		
+		returnString += "\nClass assessments:\n";	
+		
+		for (Assessment a : assessments) {		
+			returnString += a.toString() + "\n";			
+		}
+		
+		return returnString;
+	}
 }
