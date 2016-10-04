@@ -54,5 +54,9 @@ public class Grade {
 	public ArrayList<Student> getStudents() {
 		return students;
 	}
+	
+	public int getYear(int year) {
+		return 12 - (year - 2016);
+	}
 
 }

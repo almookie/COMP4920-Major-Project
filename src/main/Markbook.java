@@ -126,4 +126,8 @@ public class Markbook {
 	public Student createStudent(String givenName, String surname) {
 		return new Student(studentIDCounter++, givenName, surname);
 	}
+	
+	public int getCurrentYear() {
+		return 2016;
+	}
 }
