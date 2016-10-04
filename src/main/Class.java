@@ -44,4 +44,8 @@ public class Class {
 	public void addAssessment(Assessment a) {
 		assessments.add(a);		
 	}
+	
+	public ArrayList<Assessment> getAssessments() {
+		return assessments;
+	}
 }
