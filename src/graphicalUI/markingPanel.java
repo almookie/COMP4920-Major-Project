@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -26,14 +27,15 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
-import main.Markbook;
+import main.*;
+import main.Class;
 
 public class markingPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel current;
 
-	public markingPanel(Markbook mB) {
+	public markingPanel(final Markbook mB) {
 		
 		this.setLayout(new BorderLayout());
 		
@@ -114,6 +116,10 @@ public class markingPanel extends JPanel {
 			    {"James ",  "x4", "4"},
 			};
 		
+		
+		
+		
+		
         for(int i=0; i<20 ; i++){
         	//SHOULD BE ABLE TO ADD DYNAMICALLY IN A LOOP
     		//needbuttoon for focus
@@ -137,6 +143,7 @@ public class markingPanel extends JPanel {
 				public void tableChanged(TableModelEvent e) {
 					// TODO Auto-generated method stub
 					if(table.isEditing()){
+		            	System.out.println("DEBUG INFO: marking TABLES data edited");
 						String value = (String) table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
 						System.out.println(value);
 					}
@@ -171,7 +178,6 @@ public class markingPanel extends JPanel {
 
 		
 		
-		
 		//LOCATION WHERE INPUT IS RECIEVED for Backend
 		getResults.addActionListener(new ActionListener() {
 
@@ -182,7 +188,10 @@ public class markingPanel extends JPanel {
             	System.out.println("jtfFilter1: "+jtfFilter1.getText());
             	System.out.println("jtfFilter2: "+jtfFilter2.getText());
             	System.out.println("jtfFilter3: "+jtfFilter3.getText());
-
+            	ArrayList<Class> classes = mB.getClasses();
+        		for(Class c11 : classes){
+        			System.out.println(" c" );
+        		}
             }
         });
 		
