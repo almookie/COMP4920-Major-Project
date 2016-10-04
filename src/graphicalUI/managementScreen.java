@@ -369,17 +369,54 @@ public class managementScreen extends JPanel  {
 		contentPanel.setMinimumSize(contentPanelMinimumSize);
 		
 		//!debug; setup button constraints
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridheight = 1;
+		c.gridheight = 3;
 		c.gridwidth = 3;
+		c.weightx = 1;
+		c.weighty = 1;
 		
-		//!debug; :use the search bar to set minimum size
-		contentPanel.add(new JLabel("Content1?"), c);
 		
-		//!here to debug container boundary
-		contentPanel.setBackground(Color.GREEN);
+		//panel to store all tables
+		JPanel contents = new JPanel();
+		contents.setLayout(new GridBagLayout());
+		
+		GridBagConstraints newc = new GridBagConstraints();
+		newc.fill = GridBagConstraints.HORIZONTAL;
+		newc.gridwidth = GridBagConstraints.REMAINDER;
+		newc.weightx = 1;
+		
+		//!debug: default data
+		final Object[][] data =
+			{
+			    {"Leon	"},
+			    {"JAckie "},
+			    {"Ali"},
+			    {"James "},
+			};
+		
+		//!debug: will loop for each class
+		for(int i=0; i<20 ; i++){
+			//create a label to represent the class and its subject
+			JLabel className = new JLabel("Class");
+			className.setOpaque(true);
+			className.setBackground(Color.LIGHT_GRAY);
+			//className.setAlignmentX(0);
+			
+			JLabel classSubject = new JLabel("Subject");
+			classSubject.setOpaque(true);
+			classSubject.setBackground(Color.LIGHT_GRAY);
+			//className.setAlignmentX(0);
+			
+			//create a table to store all students
+			JTable resultsTable = new JTable(new filterDisplayTableModel(data));
+			contents.add(className, newc);
+			contents.add(classSubject, newc);
+			contents.add(resultsTable, newc);
+		}
+		JScrollPane contentScroll = new JScrollPane(contents);
+		contentPanel.add(contentScroll, c);
 	}
 	
 }
