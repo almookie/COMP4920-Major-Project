@@ -158,6 +158,10 @@ public class Markbook {
 		return 2016;
 	}
 	
+	public String getLongName(Class c) {
+		return c.getGrade().getYear(getCurrentYear()) + c.getSubject().getShortcode() + c.getClassNumber();
+	}
+	
 	public String toString() {
 		String returnString = "Subjects:\n";
 		
