@@ -18,9 +18,7 @@ public class Markbook implements GradeAPI, SubjectAPI, ClassAPI, StudentAPI, Ass
 				FIELDS
 	***************************************/
 	
-	private static boolean DEBUG_MODE = false;
-	
-	private String markBookName;
+	private static boolean DEBUG_MODE = false;	
 	private ArrayList<Grade> gradeList;
 	
 	
@@ -28,10 +26,9 @@ public class Markbook implements GradeAPI, SubjectAPI, ClassAPI, StudentAPI, Ass
 				CONSTUCTOR
 	 ***************************************/
 	
-	public Markbook(String name) {
-		this.markBookName = name;
+	public Markbook() {
 		this.gradeList = new ArrayList<Grade>();
-		if (DEBUG_MODE == true) System.out.println("Created School System: " + this.markBookName);
+		if (DEBUG_MODE == true) System.out.println("Created Markbook System");
 	}
 	
 	
