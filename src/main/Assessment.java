@@ -1,7 +1,9 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Assessment {
 	private HashMap<Student, Double> marks; 
@@ -25,7 +27,85 @@ public class Assessment {
 	 */
 	private void updateStatistics() {
 		
-		// declare required variables for calculations 
+		double sum = 0;
+		int totalCount = 0;
+		HashMap<Double, Integer> marksMap = new HashMap<Double, Integer>();
+		ArrayList<Double> markList = new ArrayList<Double>();
+		
+		//	Iterate through all the marks
+		for (Double mark : marks.values()) {
+			sum += mark;
+			totalCount++;
+			
+			//	If that mark exists [+ 1]
+			if (marksMap.containsKey(mark)) {
+				marksMap.put(mark, marksMap.get(mark) + 1);
+			
+			//	If mark doesn't exist [set = 1]
+			} else {
+				marksMap.put(mark, 1);
+			}
+			
+			//	Add mark to the list (used to find Median)
+			markList.add(mark);
+	
+		}
+		
+		
+		//	Mean
+		//	[sum/count]
+		mean = sum/totalCount;
+		
+		//	Mode
+		Integer highest = 0;
+		Double mode_mark = null;
+		
+		for (Map.Entry<Double, Integer> element : marksMap.entrySet()) {
+			
+			Double mark = element.getKey();
+			Integer freq = element.getValue();
+			
+			if(freq > highest) {
+				highest = freq;
+				mode_mark = mark;
+			}
+		}
+		
+		//	[Most Frequent Mark]
+		mode = mode_mark;
+		
+		
+		//	Median
+		//	[Middle Mark]
+		Collections.sort(markList);
+		
+		if (totalCount % 2 == 0) {
+			double m1 = markList.get(totalCount/2);
+			double m2 =  markList.get(totalCount/2 + 1);
+			median = (m1 + m2) / 2;
+		} else {
+			median = markList.get((totalCount + 1) / 2);
+		}
+		
+		
+		//	Range
+		//	[Max - Min]
+		range = markList.get(markList.size() - 1) - markList.get(0);
+		
+		
+		//	Variance (needed for Std Dev)
+		Double temp = 0.0;
+		
+		for (Double mark : markList) {
+			temp += (mark - mean)*(mark - mean);
+		}
+		
+		Double variance = temp/totalCount;
+		
+		// 	Standard Deviation
+		standardDeviation = Math.sqrt(variance);
+
+		/*// declare required variables for calculations 
 		Double mark;
 		double count, sum; 
 		count = sum = 0;
@@ -66,7 +146,7 @@ public class Assessment {
 			}
 			
 			standardDeviation = Math.sqrt(standardDeviationSum / count);
-		}
+		}*/
 	}
 	
 	public double getWeighting() {
