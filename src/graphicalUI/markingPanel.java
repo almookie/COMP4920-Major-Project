@@ -20,6 +20,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 public class markingPanel extends JPanel {
@@ -90,61 +94,68 @@ public class markingPanel extends JPanel {
 		searchTitle.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 		viewPanel.add(searchTitle, BorderLayout.NORTH);
 		
-		
-		//SHOULD BE ABLE TO ADD DYNAMICALLY IN A LOOP
-		JPanel searchResultsPanel = new JPanel(new BorderLayout());
-		//needbuttoon for focus
-		JLabel className = new JLabel("Class ??");
-		className.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-		className.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-		JLabel className1 = new JLabel("Assignment 1");
-		className1.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-		className1.setBorder(BorderFactory.createLineBorder(Color.RED));
 
-		String[] columnNames = {"First Name", "Last Name", "Mark"};
-		Object[][] data =
-			{
-			    {"Leon	", "x", "0"},
-			    {"JAckie ", "x", "0"},
-			    {"Ali",  "x", "0"},
-			    {"James ",  "x", "0"},
-			};
-		
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		JTable table = new JTable( model );
-		table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-		table.setFillsViewportHeight(true);
-        JScrollPane scrollPane = new JScrollPane(table);
-        
-        JLabel className2 = new JLabel("Assignment 2");
-		className1.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-		className1.setBorder(BorderFactory.createLineBorder(Color.RED));
-		
-		DefaultTableModel model1 = new DefaultTableModel(data, columnNames);
-		JTable table1 = new JTable( model1 );
-		table1.setPreferredScrollableViewportSize(new Dimension(500, 100));
-		table1.setFillsViewportHeight(true);
-        JScrollPane scrollPane1 = new JScrollPane(table1);
-        
-		JPanel labelsPanel = new JPanel(new GridBagLayout());
-		
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        
-        labelsPanel.add(className, gbc);
-        labelsPanel.add(className1, gbc);
-        labelsPanel.add(scrollPane, gbc);
-        labelsPanel.add(className2, gbc);
-        labelsPanel.add(scrollPane1, gbc);
+		JPanel labelsPanel = new JPanel(new GridBagLayout());
+		JPanel searchResultsPanel = new JPanel(new BorderLayout());
 
+		String[] columnNames = {"First Name", "Last Name", "Mark"};
+		final Object[][] data =
+			{
+			    {"Leon	", "x1", "1"},
+			    {"JAckie ", "x2", "2"},
+			    {"Ali",  "x3", "3"},
+			    {"James ",  "x4", "4"},
+			};
+		
+        for(int i=0; i<20 ; i++){
+        	//SHOULD BE ABLE TO ADD DYNAMICALLY IN A LOOP
+    		//needbuttoon for focus
+    		JLabel className = new JLabel("Class ??");
+    		className.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+    		className.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    		
+    		JLabel className1 = new JLabel("Assignment 1");
+    		className1.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+    		className1.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+    		
+    		final DefaultTableModel model = new DefaultTableModel(data, columnNames);
+    		final JTable table = new JTable( model );
+    		table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+    		table.setFillsViewportHeight(true);
+            JScrollPane scrollPane = new JScrollPane(table);
+            model.addTableModelListener(new TableModelListener(){
+
+				@Override
+				public void tableChanged(TableModelEvent e) {
+					// TODO Auto-generated method stub
+					if(table.isEditing()){
+						String value = (String) table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+						System.out.println(value);
+					}
+					
+				}
+            	
+            });
+
+            labelsPanel.add(className, gbc);
+            labelsPanel.add(className1, gbc);
+            labelsPanel.add(scrollPane, gbc);
+        }
+		
+
+
+
+        searchResultsPanel.add(labelsPanel,BorderLayout.NORTH);
         
-        
-        searchResultsPanel.add(labelsPanel,BorderLayout.NORTH	);
-        
-		viewPanel.add(searchResultsPanel, BorderLayout.CENTER);
+
+        searchResultsPanel.setPreferredSize(new Dimension(900,2000));
+        JScrollPane scroll = new JScrollPane(labelsPanel);
+		viewPanel.add(scroll, BorderLayout.CENTER);
 		
 		
 		
