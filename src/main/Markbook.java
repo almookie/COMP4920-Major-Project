@@ -17,8 +17,6 @@ public class Markbook {
 		final int startingYear = 2016;
 		final int endYear = 2022;
 		
-		ArrayList<Grade> grades = new ArrayList<Grade>();
-		
 		// generate a number of grades
 		for (int i = startingYear; i <= endYear; i++) {
 			Grade grade = new Grade(i);
@@ -56,7 +54,6 @@ public class Markbook {
 				"Dt"
 		};
 		
-		ArrayList<Subject> subjects = new ArrayList<Subject>();
 		for (int i = 0; i <= subject_names.length - 1; i++) {
 			Subject subject = new Subject(subject_names[i], subject_shortcodes[i]);
 			subjects.add(subject);
@@ -74,9 +71,9 @@ public class Markbook {
 				
 				// add 3 random students to this class
 				for (int k = 0; k <= 2; k++) {
-					Grade tempGrade = c.getGrade();
-					ArrayList<Student> tempStudents = tempGrade.getStudents();
-					Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
+					//Grade tempGrade = c.getGrade();
+					//ArrayList<Student> tempStudents = tempGrade.getStudents();
+					//Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
 					c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
 				}
 				
@@ -84,6 +81,7 @@ public class Markbook {
 			}
 		}
 		
+				
 		// TODO: Unfinished
 	}
 	
