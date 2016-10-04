@@ -151,7 +151,8 @@ public class Markbook {
 		return subjects;
 	}
 	
-	public void addGrade (Grade g) {
+	public void addGrade (int grade) {
+		Grade g = new Grade(12 - grade + getCurrentYear());
 		grades.add(g);
 	}
 	

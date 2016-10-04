@@ -27,6 +27,8 @@ public class managementScreenActionListener implements ActionListener {
 			ms.addStudent();
 		} else if ("newSubject".equals(e.getActionCommand())) {
 			ms.addSubject();
+		} else if ("newGrade".equals(e.getActionCommand())) {
+			ms.addGrade();
 		}
 		
 	}

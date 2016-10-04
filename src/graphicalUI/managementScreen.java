@@ -170,19 +170,31 @@ public class managementScreen extends JPanel  {
 	}
 	
 	
+	/*	check if a string is numeric
+	 * 	credit to "CraigTP"
+	 */
+	public static boolean isNumeric(String str)
+	{
+	  return str.matches("-?\\d+(\\.\\d+)?");
+	}
+	
+	
 	/*	reads from text fields to add a new grade
 	 * 
 	 */
 	public void addGrade() {
-		String gradeName = inputSubjectName.getText();
+		String gradeName = inputGradeName.getText();
+		
 		//!debug input sanitation here
-		if (!gradeName.isEmpty()) {
+		if ((isNumeric(gradeName)) && (!gradeName.isEmpty())) {
+			int gradeNum = Integer.parseInt(gradeName);
+			
 			//create new subject
-			//mB.addGrade(gradeName);
+			mB.addGrade(gradeNum);
 			
 			//refresh subject table
-			filterDisplayTableModel model = (filterDisplayTableModel) subjectTable.getModel();
-			model.refreshData(getInitialDataSubject());
+			filterDisplayTableModel model = (filterDisplayTableModel) gradeTable.getModel();
+			model.refreshData(getInitialDataGrade());
 			model.fireTableDataChanged();
 		}
 	}
@@ -488,7 +500,7 @@ public class managementScreen extends JPanel  {
 		JButton newGrade  = new JButton("Add New Grade");
 		newGrade.setActionCommand("newGrade");
 		inputGradeName = new JTextField
-				("Grade Name", MAXSEARCHSIZE);
+				("Grade Number", MAXSEARCHSIZE);
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
@@ -503,7 +515,7 @@ public class managementScreen extends JPanel  {
 		c.weighty = 0.14;
 		c.weightx = 1;
 		gradeResults.add(addGradePanel, c);
-		
+		newGrade.addActionListener(actionListener);
 		
 		return filterDisplayPanel;
 	}
