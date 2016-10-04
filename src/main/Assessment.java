@@ -67,6 +67,10 @@ public class Assessment {
 			standardDeviation = Math.sqrt(standardDeviationSum / count);
 		}
 	}
+	
+	public double getMark(Student s) {
+		return marks.get(s);
+	}
 
 	public void addMark(Student student, double mark) {
 		marks.put(student, mark);

@@ -105,6 +105,16 @@ public class Markbook {
 		return classes;
 	}
 	
+	public ArrayList<Student> getStudents() {
+		ArrayList<Student> classes = new ArrayList<Student>();
+		
+		for (Grade g : grades) {
+			classes.addAll(g.getStudents());
+		}
+		
+		return classes;
+	}
+	
 	public void addGrade (Grade g) {
 		grades.add(g);
 	}
