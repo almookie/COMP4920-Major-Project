@@ -179,9 +179,11 @@ public class markingPanel extends JPanel {
             	System.out.println("jtfFilter1: "+jtfFilter1.getText());
             	System.out.println("jtfFilter2: "+jtfFilter2.getText());
             	System.out.println("jtfFilter3: "+jtfFilter3.getText());
-           
+
             }
         });
+		
+		
 		
 		
 		this.add(overall);
@@ -191,6 +193,20 @@ public class markingPanel extends JPanel {
     	return current;
     }
     
+	
+	//TODO
+		//These are the action listeners for the search field
+		//given entire markbook ( with current year; future iteration of code will have year based )
+    	//with given search fields
+    		//class 
+    		//student (optional)
+    		//assignments  (optional)
+    		
+        // public (datastructure) searchOn( class , student , assignment )
+    	
+    
+    	// datastructure: with these results. 
+    	// I need some way of modifying these results such that the value changes in the encapsulated data structure
     
     
 }
