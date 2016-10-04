@@ -3,8 +3,6 @@ package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import main.*;
-
 
 public interface MarkbookAPI {
 	

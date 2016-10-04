@@ -2,13 +2,13 @@ package graphicalUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import main.*;
 public class displayScreen {
 	
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
     	 frame.setMinimumSize(new Dimension(400,400));
-    	 
+    	 Markbook mB = new Markbook();
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
     	 //buttons
@@ -34,7 +34,7 @@ public class displayScreen {
     	 
     	 //example panels
     	 JPanel managmentPanel = new managementScreen();
-         markingPanel mP = new markingPanel();
+         markingPanel mP = new markingPanel(mB);
          
          managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
          mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));

@@ -26,12 +26,15 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import main.Markbook;
+
 public class markingPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel current;
 
-	public markingPanel() {
+	public markingPanel(Markbook mB) {
+		
 		this.setLayout(new BorderLayout());
 		
 		JPanel searchPanel = new JPanel();
