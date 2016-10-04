@@ -22,14 +22,14 @@ public class managementScreen extends JPanel  {
 	private JPanel currentSearchResults;
 	
 	//panels for the different filter modes
-	private JScrollPane studentResults;
-	private JScrollPane subjectResults;
+	private JPanel studentResults;
+	private JPanel subjectResults;
 	private JPanel studentSearch;
 	private JPanel subjectSearch;
 	private JPanel classSearch;
 	
 	//variable to keep track of current filter mode
-	private JScrollPane currentResults;
+	private JPanel currentResults;
 	private JPanel currentSearch;
 	
 	//sizes for UI elements
@@ -154,7 +154,7 @@ public class managementScreen extends JPanel  {
 		subjectButton.setActionCommand("setFilterSubject");
 		
 		//button to set filter to class
-		JButton classButton = new JButton("Class");
+		JButton classButton = new JButton("Add to Class ->");
 		
 		//listen to actions from the buttons
 		studentButton.addActionListener(actionListener);
@@ -241,10 +241,23 @@ public class managementScreen extends JPanel  {
 		c.weightx = 1;
 		filterDisplayPanel.add(searchBarLocation, c);
 		
-		//create search results panels
-		studentResults = setupFilterResultsPanel(getInitialDataStudent());
+		//create search results scroll panels
+		JScrollPane studentResultsScroll = setupFilterResultsPanel(getInitialDataStudent());
+		JScrollPane subjectResultsScroll = setupFilterResultsPanel(getInitialDataSubject());
+
+		//create the search result panel to store the scroll panel
+		studentResults = new JPanel(new GridBagLayout());
+		subjectResults = new JPanel(new GridBagLayout());
+		c.weighty = 0.96;
+		c.weightx = 1;
+		c.gridheight = 2;
+		studentResults.add(studentResultsScroll, c);
+		c.weighty = 0.96;
+		c.weightx = 1;
+		c.gridheight = 2;
+		subjectResults.add(subjectResultsScroll, c);
+		
 		currentResults = studentResults;
-		subjectResults = setupFilterResultsPanel(getInitialDataSubject());
 		subjectResults.setVisible(false);
 		c.gridheight = 3;
 		c.weighty = 1;
@@ -255,10 +268,27 @@ public class managementScreen extends JPanel  {
 		//display settings for search location
 		c.gridx = 0;
 		c.gridy = 1;
-		c.gridheight = 2;
-		c.weighty = 0.96;
+		c.gridheight = 1;
+		c.weighty = 0.86;
 		c.weightx = 1;
-		filterDisplayPanel.add(searchResultsLocation, c);
+		filterDisplayPanel.add(searchResultsLocation, c);		
+		
+		JButton newSubject = new JButton("Add New Subject");
+		JButton newStudent  = new JButton("Add New Student");
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.weighty = 0.04;
+		c.weightx = 1;
+		subjectResults.add(newSubject, c);
+		studentResults.add(newStudent, c);
+		
+		//display settings for add new button
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.weighty = 0.10; 
+		c.weightx = 1;
 		
 		return filterDisplayPanel;
 	}
