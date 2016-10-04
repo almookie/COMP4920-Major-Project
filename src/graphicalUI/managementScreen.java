@@ -1,6 +1,7 @@
 package graphicalUI;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 
@@ -16,17 +17,19 @@ public class managementScreen extends JPanel  {
 	private JPanel currentSearchResults;
 	
 	//panels for the different filter modes
-	private JPanel studentResults;
-	private JPanel subjectResults;
+	private JScrollPane studentResults;
+	private JScrollPane subjectResults;
 	private JPanel studentSearch;
 	private JPanel subjectSearch;
 	private JPanel classSearch;
 	
+	//variable to keep track of current filter mode
+	private JScrollPane currentResults;
+	private JPanel currentSearch;
 	
 	//sizes for UI elements
 	private static Dimension searchPanelMinimumSize = new Dimension(150, 0);
 	private static Dimension contentPanelMinimumSize = new Dimension(200, 0);
-	
 	//maximum size for input fields
 	private static int MAXSEARCHSIZE = 20;
 	
@@ -141,7 +144,7 @@ public class managementScreen extends JPanel  {
 	
 	/*	setup filter display panel on bottom half of search panel
 	 * 	Stores and switches between 2 panels for Student and Subject search
-	 * 	and 3 search bars, one for each button
+	 * 	and 3 search bars, one for each button in filterPanel
 	 * 	!debug does not contain filter yet
 	 */
 	private JPanel setupFilterDisplayPanel() {
@@ -168,38 +171,107 @@ public class managementScreen extends JPanel  {
 		studentSearch.setBackground(Color.GRAY);
 		studentSearch.add(searchBarStudent, c);
 		studentSearch.setVisible(true);
+		currentSearch = studentSearch;
 		searchBarLocation.add(studentSearch, c);
 		
-		//create class search bar
+		//create subject search bar
 		subjectSearch = new JPanel(new GridBagLayout());
 		JTextField searchBarSubject = new JTextField
 				("search subjects", MAXSEARCHSIZE);
 		subjectSearch.add(searchBarSubject, c);
 		subjectSearch.setVisible(false);
-		//searchBarLocation.add(subjectSearch, c);
+		searchBarLocation.add(subjectSearch, c);
 		
+		//create class search bar
 		classSearch = new JPanel(new GridBagLayout());
 		JTextField searchBarClass = new JTextField
 				("search classes", MAXSEARCHSIZE);
-		classSearch.add(searchBarStudent, c);
+		classSearch.add(searchBarClass, c);
 		classSearch.setVisible(false);
-		//searchBarLocation.add(classSearch, c);
+		searchBarLocation.add(classSearch, c);
 		
+		//display settings for the search bars
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.05;
+		c.weighty = 0.04;
 		c.weightx = 1;
 		filterDisplayPanel.add(searchBarLocation, c);
+		
+		//create search results panels
+		studentResults = setupFilterResultsPanel(getInitialDataStudent());
+		currentResults = studentResults;
+		subjectResults = setupFilterResultsPanel(getInitialDataSubject());
+		subjectResults.setVisible(false);
+		c.gridheight = 3;
+		c.weighty = 1;
+		c.weightx = 1;
+		searchResultsLocation.add(studentResults, c);
+		searchResultsLocation.add(subjectResults, c);
+		
+		//display settings for search location
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridheight = 2;
-		c.weighty = 0.95;
+		c.weighty = 0.96;
 		c.weightx = 1;
 		filterDisplayPanel.add(searchResultsLocation, c);
 		
 		return filterDisplayPanel;
+	}
+	
+	
+	/*	panel for the display of student and subject filter results
+	 * 	!debug
+	 * 		may want to set a max size, and add more when end reached
+	 * 
+	 */
+	private JScrollPane setupFilterResultsPanel(Object[][] initialData) {
+		//create panel to store all results
+		JPanel resultsPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		//Create JTable to store results
+		JTable resultsTable = new JTable(new filterDisplayTableModel(initialData));
+		
+		//don't show the header
+		resultsTable.setTableHeader(null);
+		
+		//enable scrolling
+		JScrollPane scrollPane = new JScrollPane(resultsTable);
+		
+		return scrollPane;
+	}
+	
+	
+	/*	read from back end to obtain Student initial data to display in
+	 * 
+	 */
+	private Object[][] getInitialDataStudent() {
+		Object[][] data = {
+							{"Jackie"},
+							{"Leon"},
+							{"James"},
+							{"Ali"}
+		};
+		
+		return data;
+	}
+	
+	
+	
+	/*	read from back end to obtain Student initial data to display in
+	 * 
+	 */
+	private Object[][] getInitialDataSubject() {
+		Object[][] data = {
+							{"Maths"},
+							{"English"},
+							{"Science"},
+		};
+		
+		return data;
 	}
 	
 	

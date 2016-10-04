@@ -1,11 +1,11 @@
 /***************************************
-		IMPORTS
+			IMPORTS
 ***************************************/
+
 import java.util.ArrayList;
 
 
 public class Grade {
-
 	
 	/***************************************
 			FIELDS
@@ -20,6 +20,7 @@ public class Grade {
 	/***************************************
 			CONSTRUCTOR
 	 ***************************************/
+	
 	public Grade(int graduationYear, int grade) {
 		this.grade = grade;
 		this.graduationYear = graduationYear;
@@ -31,25 +32,26 @@ public class Grade {
 	/***************************************
 			METHODS
 	 ***************************************/
+	
 	//	SUBJECT
-	public void addSubject(Subject s) { this.subjectList.add(s); }
-	public void removeSubject(Subject s) { this.subjectList.remove(s); }
+	public void _addSubject(Subject s) { subjectList.add(s); }
+	public void _removeSubject(Subject s) { subjectList.remove(s); }
 	
 	//	STUDENT
-	public void addStudent(Student stu) { this.studentList.add(stu); }
-	public void removeStudent(Student stu) { this.studentList.remove(stu); }
+	public void _addStudent(Student stu) { studentList.add(stu); }
+	public void _removeStudent(Student stu) { studentList.remove(stu); }
 	
 	//	GETS
-	public ArrayList<Subject> getSubjectList() { return this.subjectList; }
-	public ArrayList<Student> getStudentList() { return this.studentList; }
+	public int _getGrade() { return grade; }
+	public int _getGraduationYear() { return graduationYear; }
+	public ArrayList<Subject> _getSubjectList() { return subjectList; }
+	public ArrayList<Student> _getStudentList() { return studentList; }
 	
-	public int getGrade() { return this.grade; }
-	public int getGraduationYear() { return this.graduationYear; }
-
 	//	SETS
-	public void setGrade(int grade) { this.grade = grade; }
-	public void setGraduationYear(int graduationYear) { this.graduationYear = graduationYear; }
+	public void _setGrade(int grade) { this.grade = grade; }
+	public void _setGraduationYear(int graduationYear) { this.graduationYear = graduationYear; }
 
+	
 	//	Commenting these for now just testing basics
 /*	
  * public int getStudentCount() { return students.size(); }
