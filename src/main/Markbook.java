@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Markbook {
 	private ArrayList<Subject> subjects;
 	private ArrayList<Grade> grades;
+	private int studentIDCounter;
 
 	public Markbook() {
 		this.subjects = new ArrayList<Subject>();
 		this.grades = new ArrayList<Grade>();
+		this.studentIDCounter = 0;
 	}
 	
 	public void generateRandomData() {
@@ -24,12 +26,11 @@ public class Markbook {
 		}
 		
 		// generate students for each grade
-		int studentID = 0;
 		for (Grade g : grades) {
 			for (int i = 0; i < 10; i++) {
-				Student s = new Student(studentID, "Name " + studentID, "Surname " + studentID);
+				Student s = new Student(studentIDCounter, "Name " + studentIDCounter, "Surname " + studentIDCounter);
 				g.addStudent(s);
-				studentID++;				
+				studentIDCounter++;				
 			}
 		}
 		
@@ -115,7 +116,15 @@ public class Markbook {
 		return classes;
 	}
 	
+	public ArrayList<Subject> getSubjects() {
+		return subjects;
+	}
+	
 	public void addGrade (Grade g) {
 		grades.add(g);
+	}
+	
+	public Student createStudent(String givenName, String surname) {
+		return new Student(studentIDCounter++, givenName, surname);
 	}
 }

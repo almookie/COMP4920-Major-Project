@@ -75,4 +75,8 @@ public class Assessment {
 	public void addMark(Student student, double mark) {
 		marks.put(student, mark);
 	}
+	
+	public String getName() {
+		return name;
+	}
 }
