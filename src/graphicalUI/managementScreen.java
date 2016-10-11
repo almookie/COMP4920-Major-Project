@@ -1,5 +1,7 @@
 package graphicalUI;
 
+import graphicalUI.managementScreenSource.ClassDisplay;
+
 import javax.swing.*;
 
 import java.util.ArrayList;
@@ -59,11 +61,17 @@ public class managementScreen extends JPanel  {
 	private JComboBox inputStudentGrade;
 	//	new grade
 	private JTextField inputGradeName;
+	//	new class
+	private JComboBox inputClassGrade;
+	private JComboBox inputClassSubject;
 	
 	//tables which store search results
 	private JTable subjectTable;
 	private JTable studentTable;
 	private JTable gradeTable;
+	
+	//panel storing search results for classes
+	private JPanel contents;
 
 	//variable to keep track of current filter mode
 	private JPanel currentResults;
@@ -159,6 +167,11 @@ public class managementScreen extends JPanel  {
 			filterDisplayTableModel model = (filterDisplayTableModel) subjectTable.getModel();
 			model.refreshData(getInitialDataSubject());
 			model.fireTableDataChanged();
+			
+			//refresh subject drop downs
+			filterDisplayComboBoxModel boxModel = (filterDisplayComboBoxModel) inputClassSubject.getModel();
+			boxModel.refreshData(getInitialDataSubject());
+			
 		}
 	}
 	
@@ -190,6 +203,77 @@ public class managementScreen extends JPanel  {
 			//!debug TODO
 		}
 	}
+	
+	
+	/*	reads from drop downs to add a new class
+	 * 
+	 */
+	public void addClass() {
+		filterDisplayComboBoxModel classGradeBox = (filterDisplayComboBoxModel) inputClassGrade.getModel();
+		Object classGradeObject = classGradeBox.getSelectedObject();
+		filterDisplayComboBoxModel classSubjectBox = (filterDisplayComboBoxModel) inputClassSubject.getModel();
+		Object classSubjectObject = classSubjectBox.getSelectedObject();
+		
+		if ((classGradeObject != null) && (classSubjectObject != null)) {
+			/*System.out.print("name: " + ((Grade)classGradeObject).getYear(mB.getCurrentYear()) + "\n");
+			System.out.print("name: " + ((Subject)classSubjectObject).getName() + "\n");
+			*/
+			
+			//create new class
+			Subject subjectObject = (Subject)classSubjectObject;
+			Class newClass = subjectObject.addClass((Grade)classGradeObject);
+			
+			//refresh student table
+			updateClasses(newClass);
+		}
+			
+	}
+		
+	
+	private void updateClasses(Class theClass) {
+		String name = mB.getLongName(theClass);
+		String subjectName = theClass.getSubject().getName();
+		ArrayList<Student> studentsInClass = theClass.getStudents();
+
+
+		//create a label to represent the class and its subject
+		JLabel className = new JLabel(name);
+		className.setOpaque(true);
+		className.setBackground(Color.LIGHT_GRAY);
+		
+		JLabel classSubject = new JLabel(subjectName);
+		classSubject.setOpaque(true);
+		classSubject.setBackground(Color.LIGHT_GRAY);
+		
+		//create table elements from studentsInClass
+		ArrayList<Object[]> data = new ArrayList<Object[]>();
+		for (Student student : studentsInClass) {
+			String studentName = student.getSurname()+ ","+ student.getGivenName();
+			Object[] item = {studentName, student};
+			data.add(item);
+		}
+		
+		//create a table to store all students
+		JTable resultsTable = new JTable(new filterDisplayTableModel(data));
+		//store object references inside a hidden column
+		TableColumnModel columnModel = resultsTable.getColumnModel();
+		columnModel.removeColumn(columnModel.getColumn(1));
+		
+		//add mouse listener
+		className.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
+		classSubject.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
+		
+		GridBagConstraints newc = new GridBagConstraints();
+		newc.fill = GridBagConstraints.HORIZONTAL;
+		newc.gridx = 1;
+		newc.gridwidth = 2;
+		newc.weightx = 0.8;	
+		
+		contents.add(className, newc);
+		contents.add(classSubject, newc);
+		contents.add(resultsTable, newc);
+	}
+		
 	
 	
 	/*	reads from filter tables to add a subject to a class
@@ -515,8 +599,8 @@ public class managementScreen extends JPanel  {
 				("Given Name", MAXSEARCHSIZE);
 		inputSurName = new JTextField
 				("Surname", MAXSEARCHSIZE);
-		inputStudentGrade = new JComboBox
-				(new filterDisplayComboBoxModel(getInitialDataGrade()));
+		inputStudentGrade = new JComboBox();
+		inputStudentGrade.setModel(new filterDisplayComboBoxModel(getInitialDataGrade(), inputStudentGrade));
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
@@ -681,20 +765,27 @@ public class managementScreen extends JPanel  {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridheight = 3;
+		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.weightx = 1;
-		c.weighty = 1;
+		c.weighty = 0.95;
 		
 		
-		//panel to store all tables
-		JPanel contents = new JPanel();
+		//TODO store these as variables
+		ArrayList<Class> allClasses = mB.getClasses();
+		ClassDisplay contents = new ClassDisplay(allClasses, mB);
+		
+		
+		/*
+		//panel to store all class results
+		contents = new JPanel();
 		contents.setLayout(new GridBagLayout());
 		
 		GridBagConstraints newc = new GridBagConstraints();
 		newc.fill = GridBagConstraints.HORIZONTAL;
-		newc.gridwidth = GridBagConstraints.REMAINDER;
-		newc.weightx = 1;		
+		newc.gridx = 1;
+		newc.gridwidth = 2;
+		newc.weightx = 0.8;		
 		
 		//obtain all classes from back end
 		ArrayList<Class> allClasses = mB.getClasses();
@@ -705,6 +796,7 @@ public class managementScreen extends JPanel  {
 			String name = mB.getLongName(theClass);
 			String subjectName = theClass.getSubject().getName();
 			ArrayList<Student> studentsInClass = theClass.getStudents();
+
 
 			//create a label to represent the class and its subject
 			JLabel className = new JLabel(name);
@@ -737,8 +829,45 @@ public class managementScreen extends JPanel  {
 			contents.add(classSubject, newc);
 			contents.add(resultsTable, newc);
 		}
+		*/
 		JScrollPane contentScroll = new JScrollPane(contents);
 		contentPanel.add(contentScroll, c);
+		
+		//panel for creating new classes
+		JPanel classCreationPanel = new JPanel(new GridBagLayout());
+		JButton newClassButton = new JButton("Add New Class");
+		newClassButton.setActionCommand("addNewClass");
+		inputClassGrade = new JComboBox();
+		inputClassGrade.setModel(new filterDisplayComboBoxModel(getInitialDataGrade(),inputClassGrade ));
+		
+		inputClassSubject = new JComboBox();
+		inputClassSubject.setModel(new filterDisplayComboBoxModel(getInitialDataSubject(), inputClassSubject));
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.weightx = 0.5;
+		c.weighty = 1;
+		classCreationPanel.add(inputClassGrade, c);
+		c.gridx = 1;
+		classCreationPanel.add(inputClassSubject, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 2;
+		c.weightx = 1;
+		classCreationPanel.add(newClassButton, c);
+		
+		newClassButton.addActionListener(actionListener);
+		//add to interface
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weightx = 1;
+		c.weighty = 0.05;
+		contentPanel.add(classCreationPanel, c);
 	}
 	
 }
