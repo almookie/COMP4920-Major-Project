@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import main.Markbook;
 import main.Student;
@@ -44,10 +47,26 @@ public class ClassPanel extends JPanel {
 	JPanel contentPanel;
 	JPanel buttonPanel;
 	
+	JPanel classBuffer;
+	
+	//text on button to hide/show panel
+	JButton hidePanelButton;
+	JLabel hideName1;
+	JLabel hideName2;
+	String hideText1 = "Hide";
+	String hideText2 = "Contents";
+	String showText1 = "Show";
+	String showText2 = "Contents";
+	
+	private static Dimension bufferHeight = new Dimension(130, 25);
+	
 	private Color backgroundDefault = Color.WHITE;
 	private Color titleFrameBackground = Color.LIGHT_GRAY;
 	
-	private Font nameFont = new Font("Helvetica", Font.BOLD, 16);
+	private Color backgroundHighlighted = new Color(220, 220, 220);;
+	private Color titleFrameHighlighted = new Color(160, 160, 160);
+	
+	//private Font nameFont = new Font("Helvetica", Font.BOLD, 16);
 	/*	default constructor
 	 * 
 	 */
@@ -58,6 +77,7 @@ public class ClassPanel extends JPanel {
 		
 		setupGraphical();
 		setupCollapsible();
+		setupHover();
 	}
 	
 	
@@ -73,6 +93,7 @@ public class ClassPanel extends JPanel {
 		setupCollapsible();
 		
 		refreshClass(newStudents);
+		setupHover();
 	}
 	
 	
@@ -136,9 +157,12 @@ public class ClassPanel extends JPanel {
 		c.gridy = 0;
 		c.weightx = 0.05;
 		mainPanel.add(displayName, c);
-		
 		//add buttons to mainPanel
 		buttonPanel = new JPanel(new FlowLayout());
+		buttonPanel.setOpaque(false);
+		
+		//hide/show panel button
+		c.anchor = GridBagConstraints.WEST;
 		
 		//button to add student
 		JButton addStudentButton = new JButton();
@@ -161,9 +185,23 @@ public class ClassPanel extends JPanel {
 		deleteClassButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		buttonPanel.add(deleteClassButton);
 		
-		//hide/show panel button
+		JPanel hideShowLocation = new JPanel(new GridBagLayout());
+		buttonPanel.add(hideShowLocation);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 3;
+		c.gridwidth = 3;
+		c.weighty = 1;
+		c.weightx = 1;
 		
-		
+		hidePanelButton = new JButton();
+		hidePanelButton.setLayout(new BorderLayout());
+		hideName1 = new JLabel(hideText1);
+		hideName2 = new JLabel(hideText2);
+		hidePanelButton.add(BorderLayout.NORTH, hideName1);
+		hidePanelButton.add(BorderLayout.SOUTH, hideName2);
+		hidePanelButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		hideShowLocation.add(hidePanelButton, c);
 		
 		//add button panel to mainPanel
 		c.gridx = 2;
@@ -171,25 +209,39 @@ public class ClassPanel extends JPanel {
 		c.weightx = 0.4;
 		mainPanel.add(buttonPanel, c);
 		
+		c.anchor = GridBagConstraints.CENTER;
+		
 		//setup collapsible panel
 		collapsiblePanel = new JPanel(new GridBagLayout());
 		contentPanel = new JPanel(new FlowLayout());
+		c.fill = GridBagConstraints.BOTH;
 		collapsiblePanel.add(contentPanel, c);
+		contentPanel.setOpaque(true);
+		contentPanel.setBackground(backgroundDefault);
 		
 		this.setOpaque(true);
 		this.setBackground(backgroundDefault);
+		
+		//create a buffer panel for spacing
+		classBuffer = new JPanel();
+		classBuffer.setPreferredSize(bufferHeight);
+		classBuffer.setBackground(backgroundDefault);
 		
 		//add to components to display
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.35;
+		c.weighty = 0.15;
 		c.weightx = 1;
-		c.fill = GridBagConstraints.BOTH;
 		this.add(mainPanel, c);
+		c.weighty = 0.65;
 		c.gridy = 1;
 		this.add(collapsiblePanel, c);
+		c.gridy = 2;
+		c.weighty = 0.20;
+		this.add(classBuffer, c);
+		
 	}
 
 	
@@ -200,16 +252,21 @@ public class ClassPanel extends JPanel {
 		if (isCollapsed) {
 			//open the panel
 			collapsiblePanel.setVisible(true);
+			hideName1.setText(hideText1);
+			hideName2.setText(hideText2);
 			isCollapsed = false;
+			
 		} else {
 			//close the panel
 			collapsiblePanel.setVisible(false);
+			hideName1.setText(showText1);
+			hideName2.setText(showText2);
 			isCollapsed = true;
 		}
 	}
 	
 	
-	/*	sets up the action listener for the collapsing of the panel 
+	/*	sets up the listeners for the collapsing of the panel 
 	 * 
 	 */
 	private void setupCollapsible() {
@@ -218,6 +275,51 @@ public class ClassPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				changeCollapseStatus();
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				contentPanel.setBackground(backgroundHighlighted);
+				mainPanel.setBackground(titleFrameHighlighted);
+				classBuffer.setBackground(backgroundHighlighted);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				contentPanel.setBackground(backgroundDefault);
+				mainPanel.setBackground(titleFrameBackground);
+				classBuffer.setBackground(backgroundDefault);
+			}
+		});
+		
+		hidePanelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changeCollapseStatus();
+			}
+			
+		});
+	}
+	
+	
+	/*	sets up listeners for color change on hover
+	 * 
+	 */
+	private void setupHover() {
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				contentPanel.setBackground(backgroundHighlighted);
+				mainPanel.setBackground(titleFrameHighlighted);
+				classBuffer.setBackground(backgroundHighlighted);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				contentPanel.setBackground(backgroundDefault);
+				mainPanel.setBackground(titleFrameBackground);
+				classBuffer.setBackground(backgroundDefault);
 			}
 		});
 	}

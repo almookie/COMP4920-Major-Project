@@ -21,7 +21,7 @@ public class StudentPanel extends JPanel {
 	private static Color backgroundColor = Color.CYAN;
 	private static Dimension preferredSize = new Dimension(130, 50);
 	
-	private Font bodyFont = new Font("Helvetica", Font.BOLD, 12);
+	//private Font bodyFont = new Font("Helvetica", Font.BOLD, 12);
 	
 	//Student object stored in the panel
 	Student student;
@@ -53,7 +53,7 @@ public class StudentPanel extends JPanel {
 				student.getSurname() + "," + student.getGivenName();
 		JLabel displayName = new JLabel(fullName);
 		displayName.setPreferredSize(preferredSize);
-		displayName.setFont(bodyFont);
+		//displayName.setFont(bodyFont);
 		
 		//display student name label inn center of panel
 		c.gridx = 1;

@@ -776,61 +776,8 @@ public class managementScreen extends JPanel  {
 		ClassDisplay contents = new ClassDisplay(allClasses, mB);
 		
 		
-		/*
-		//panel to store all class results
-		contents = new JPanel();
-		contents.setLayout(new GridBagLayout());
-		
-		GridBagConstraints newc = new GridBagConstraints();
-		newc.fill = GridBagConstraints.HORIZONTAL;
-		newc.gridx = 1;
-		newc.gridwidth = 2;
-		newc.weightx = 0.8;		
-		
-		//obtain all classes from back end
-		ArrayList<Class> allClasses = mB.getClasses();
-		
-		//!debug: will loop for each class
-		for (Class theClass : allClasses){
-			//extract information from the class
-			String name = mB.getLongName(theClass);
-			String subjectName = theClass.getSubject().getName();
-			ArrayList<Student> studentsInClass = theClass.getStudents();
-
-
-			//create a label to represent the class and its subject
-			JLabel className = new JLabel(name);
-			className.setOpaque(true);
-			className.setBackground(Color.LIGHT_GRAY);
-			
-			JLabel classSubject = new JLabel(subjectName);
-			classSubject.setOpaque(true);
-			classSubject.setBackground(Color.LIGHT_GRAY);
-			
-			//create table elements from studentsInClass
-			ArrayList<Object[]> data = new ArrayList<Object[]>();
-			for (Student student : studentsInClass) {
-				String studentName = student.getSurname()+ ","+ student.getGivenName();
-				Object[] item = {studentName, student};
-				data.add(item);
-			}
-			
-			//create a table to store all students
-			JTable resultsTable = new JTable(new filterDisplayTableModel(data));
-			//store object references inside a hidden column
-			TableColumnModel columnModel = resultsTable.getColumnModel();
-			columnModel.removeColumn(columnModel.getColumn(1));
-			
-			//add mouse listener
-			className.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
-			classSubject.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
-			
-			contents.add(className, newc);
-			contents.add(classSubject, newc);
-			contents.add(resultsTable, newc);
-		}
-		*/
 		JScrollPane contentScroll = new JScrollPane(contents);
+		contentScroll.getVerticalScrollBar().setUnitIncrement(16);
 		contentPanel.add(contentScroll, c);
 		
 		//panel for creating new classes
