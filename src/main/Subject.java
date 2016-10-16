@@ -41,6 +41,10 @@ public class Subject {
 		classes.remove(delete_class);
 	}
 	
+	public ArrayList<Class> getClasses(Grade g) {
+		return classesWithinGrades.get(g);
+	}
+	
 	public boolean hasClass(Class check_class) {
 		return classes.contains(check_class);
 	}

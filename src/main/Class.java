@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Class {
 	private ArrayList<Student> students; 
@@ -76,5 +77,30 @@ public class Class {
 		}
 		
 		return returnString;
+	}
+	
+	public int getStudentCount() {
+		return students.size();
+	}
+	
+	public HashMap<Student, Double> getStudentMarks() {
+		HashMap<Student, Double> studentMarks = new HashMap<Student, Double>();
+		
+		// Initialse the marks map
+		for (Student s : students) {
+			studentMarks.put(s, 0.0);
+		}
+		
+		// Add the marks for each assessment
+		for (Assessment assessment : assessments) {
+			HashMap<Student, Double> marks = assessment.getMarks();
+			double weighting = assessment.getWeighting();
+			
+			for(Student s : marks.keySet()) {
+				studentMarks.put(s, studentMarks.get(s) + marks.get(s) / weighting);
+			}
+		}
+		
+		return studentMarks;
 	}
 }

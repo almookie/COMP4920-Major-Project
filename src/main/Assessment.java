@@ -214,4 +214,8 @@ public class Assessment {
 	public double getMedian() {
 		return median;
 	}
+	
+	public HashMap<Student, Double> getMarks() {
+		return marks;
+	}
 }

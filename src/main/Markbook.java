@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Markbook {
 	private ArrayList<Subject> subjects;
@@ -122,6 +123,34 @@ public class Markbook {
 		System.out.println(this.toString());		
 	}
 	
+	// Function that searches student names
+	public ArrayList<Student> searchStudents(String searchString) {
+		ArrayList<Student> returnSearch = new ArrayList<Student>();
+		for (Grade g : grades) {
+			for (Student s : g.getStudents()) {
+				if (s.getGivenName().matches(searchString) || s.getSurname().matches(searchString)) {
+					returnSearch.add(s);
+				}
+			}
+		}
+		
+		return returnSearch;
+	}
+	
+	// Function that searches class names
+	public ArrayList<Class> searchClasses(String searchString) {
+		ArrayList<Class> returnClass = new ArrayList<Class>();
+		for (Subject subject : subjects) {		
+			for (Class c : subject.getClasses()) {
+				if (getLongName(c).matches(searchString)) {
+					returnClass.add(c);
+				}
+			}
+		}
+		
+		return returnClass;
+	}
+	
 	public ArrayList<Class> getClasses() {
 		ArrayList<Class> classes = new ArrayList<Class>();
 		
@@ -188,5 +217,29 @@ public class Markbook {
 		}
 		
 		return returnString;
+	}
+	
+	public int getRank(Student student, Subject subject, Grade grade) {
+		ArrayList<Class> classes = subject.getClasses(grade);
+		HashMap<Student, Double> marks = new HashMap<Student, Double>();
+		
+		for (Class c : classes) {
+			marks.putAll(c.getStudentMarks());
+		}
+		
+		return 0;
+	}
+	public int getStudentCount(Subject subject, Grade g) {
+		ArrayList<Class> classes = subject.getClasses(g);
+		return getStudentCount(classes);
+	}
+	
+	public int getStudentCount(ArrayList<Class> classes) {
+		int count = 0;
+		for (Class c : classes) {
+			count += c.getStudentCount();
+		}
+		
+		return count;		
 	}
 }
