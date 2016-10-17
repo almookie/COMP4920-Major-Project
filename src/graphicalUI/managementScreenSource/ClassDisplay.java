@@ -25,7 +25,7 @@ public class ClassDisplay extends JPanel {
 	Markbook mB;
 	
 	
-	/*	Default constructor
+	/*	default constructor
 	 * 
 	 */
 	public ClassDisplay(Markbook newmB) {

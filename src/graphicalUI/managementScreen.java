@@ -1,6 +1,7 @@
 package graphicalUI;
 
 import graphicalUI.managementScreenSource.ClassDisplay;
+import graphicalUI.managementScreenSource.StudentFilterBar;
 
 import javax.swing.*;
 
@@ -71,7 +72,7 @@ public class managementScreen extends JPanel  {
 	private JTable gradeTable;
 	
 	//panel storing search results for classes
-	private JPanel contents;
+	private ClassDisplay classContents;
 
 	//variable to keep track of current filter mode
 	private JPanel currentResults;
@@ -152,6 +153,7 @@ public class managementScreen extends JPanel  {
 		newLabel.setBackground(selectedBackground);
 	}
 	
+	
 	/*	reads from text fields to add a new subject
 	 * 
 	 */
@@ -221,60 +223,14 @@ public class managementScreen extends JPanel  {
 			
 			//create new class
 			Subject subjectObject = (Subject)classSubjectObject;
-			Class newClass = subjectObject.addClass((Grade)classGradeObject);
+			subjectObject.addClass((Grade)classGradeObject);
 			
-			//refresh student table
-			updateClasses(newClass);
+			//refresh the class display
+			classContents.refreshClass(mB.getClasses());
 		}
 			
 	}
 		
-	
-	private void updateClasses(Class theClass) {
-		String name = mB.getLongName(theClass);
-		String subjectName = theClass.getSubject().getName();
-		ArrayList<Student> studentsInClass = theClass.getStudents();
-
-
-		//create a label to represent the class and its subject
-		JLabel className = new JLabel(name);
-		className.setOpaque(true);
-		className.setBackground(Color.LIGHT_GRAY);
-		
-		JLabel classSubject = new JLabel(subjectName);
-		classSubject.setOpaque(true);
-		classSubject.setBackground(Color.LIGHT_GRAY);
-		
-		//create table elements from studentsInClass
-		ArrayList<Object[]> data = new ArrayList<Object[]>();
-		for (Student student : studentsInClass) {
-			String studentName = student.getSurname()+ ","+ student.getGivenName();
-			Object[] item = {studentName, student};
-			data.add(item);
-		}
-		
-		//create a table to store all students
-		JTable resultsTable = new JTable(new filterDisplayTableModel(data));
-		//store object references inside a hidden column
-		TableColumnModel columnModel = resultsTable.getColumnModel();
-		columnModel.removeColumn(columnModel.getColumn(1));
-		
-		//add mouse listener
-		className.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
-		classSubject.addMouseListener(new classSelectMouseListener(this, theClass, className, resultsTable));
-		
-		GridBagConstraints newc = new GridBagConstraints();
-		newc.fill = GridBagConstraints.HORIZONTAL;
-		newc.gridx = 1;
-		newc.gridwidth = 2;
-		newc.weightx = 0.8;	
-		
-		contents.add(className, newc);
-		contents.add(classSubject, newc);
-		contents.add(resultsTable, newc);
-	}
-		
-	
 	
 	/*	reads from filter tables to add a subject to a class
 	 * 
@@ -479,6 +435,7 @@ public class managementScreen extends JPanel  {
 		c.weightx = 1;
 		
 		//create student search bar
+		/*
 		studentSearch = new JPanel(new GridBagLayout());
 		JTextField searchBarStudent = new JTextField
 				("search students", MAXSEARCHSIZE);
@@ -486,7 +443,9 @@ public class managementScreen extends JPanel  {
 		studentSearch.add(searchBarStudent, c);
 		studentSearch.setVisible(true);
 		currentSearch = studentSearch;
-		searchBarLocation.add(studentSearch, c);
+		*/
+		StudentFilterBar studentBar = new StudentFilterBar(mB);
+		searchBarLocation.add(studentBar, c);
 		
 		//create subject search bar
 		subjectSearch = new JPanel(new GridBagLayout());
@@ -630,7 +589,7 @@ public class managementScreen extends JPanel  {
 		studentResults.add(addStudentPanel, c);
 		newStudent.addActionListener(actionListener);
 		
-		
+		//panel to add new grade
 		JPanel addGradePanel = new JPanel(new GridBagLayout());
 		JButton newGrade  = new JButton("Add New Grade");
 		newGrade.setActionCommand("newGrade");
@@ -771,12 +730,11 @@ public class managementScreen extends JPanel  {
 		c.weighty = 0.95;
 		
 		
-		//TODO store these as variables
 		ArrayList<Class> allClasses = mB.getClasses();
-		ClassDisplay contents = new ClassDisplay(allClasses, mB);
+		classContents = new ClassDisplay(allClasses, mB);
 		
 		
-		JScrollPane contentScroll = new JScrollPane(contents);
+		JScrollPane contentScroll = new JScrollPane(classContents);
 		contentScroll.getVerticalScrollBar().setUnitIncrement(16);
 		contentPanel.add(contentScroll, c);
 		
