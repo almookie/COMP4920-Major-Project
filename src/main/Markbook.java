@@ -242,4 +242,8 @@ public class Markbook {
 		
 		return count;		
 	}
+	
+	public void deleteClass(Subject s, Class c) {
+		s.removeClass(c);
+	}
 }

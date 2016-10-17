@@ -39,6 +39,12 @@ public class Subject {
 	
 	public void removeClass(Class delete_class) {
 		classes.remove(delete_class);
+		for (Grade g : classesWithinGrades.keySet()) {
+			ArrayList<Class> classesList = classesWithinGrades.get(g);
+			if (classesList.remove(delete_class)) {
+				continue;
+			}
+		}
 	}
 	
 	public ArrayList<Class> getClasses(Grade g) {
@@ -90,5 +96,4 @@ public class Subject {
 	public ArrayList<Class> getClasses() {
 		return classes;
 	}
-
 }
