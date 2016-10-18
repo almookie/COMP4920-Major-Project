@@ -21,21 +21,22 @@ public class StudentFilterItem extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
-	private static Color selectedBackgroundColor = new Color(220, 220, 220);;;
+	private static Color selectedBackgroundColor = new Color(220, 220, 220);
 	
 	StudentFilterItem self = this;
 	
 	Student student;
 	Markbook mB;
 	StudentFilterSelected selectedPanel;
-	
+	StudentFilterResults parentClass;
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterItem(Student newStudent, StudentFilterSelected newSelectedPanel, Markbook newmB) {
+	public StudentFilterItem(Student newStudent, StudentFilterResults newParentClass, StudentFilterSelected newSelectedPanel, Markbook newmB) {
 		student = newStudent;
 		mB = newmB;
 		selectedPanel = newSelectedPanel;
+		parentClass = newParentClass;
 		
 		setupGraphical();
 		setupSelect();
@@ -80,6 +81,7 @@ public class StudentFilterItem extends JPanel {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						selectedPanel.addStudent(student);
+						parentClass.refreshResults();
 					}
 					
 					@Override

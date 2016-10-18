@@ -37,6 +37,7 @@ public class StudentFilterSelectedItem extends JPanel {
 		parentPanel = newParent;
 		
 		setupGraphical();
+		setupRemoveButton();
 	}
 	
 	

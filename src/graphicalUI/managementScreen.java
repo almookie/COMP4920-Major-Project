@@ -2,6 +2,7 @@ package graphicalUI;
 
 import graphicalUI.managementScreenSource.ClassDisplay;
 import graphicalUI.managementScreenSource.StudentFilterBar;
+import graphicalUI.managementScreenSource.StudentFilterPanel;
 
 import javax.swing.*;
 
@@ -433,7 +434,8 @@ public class managementScreen extends JPanel  {
 		c.gridwidth = 3;
 		c.weighty = 1;
 		c.weightx = 1;
-		
+		StudentFilterPanel studentBar = new StudentFilterPanel(mB);
+		filterDisplayPanel.add(studentBar, c);
 		//create student search bar
 		/*
 		studentSearch = new JPanel(new GridBagLayout());
@@ -443,9 +445,9 @@ public class managementScreen extends JPanel  {
 		studentSearch.add(searchBarStudent, c);
 		studentSearch.setVisible(true);
 		currentSearch = studentSearch;
-		*/
-		//StudentFilterBar studentBar = new StudentFilterBar(mB);
-		//searchBarLocation.add(studentBar, c);
+		*//*
+		StudentFilterPanel studentBar = new StudentFilterPanel(mB);
+		searchBarLocation.add(studentBar, c);
 		
 		//create subject search bar
 		subjectSearch = new JPanel(new GridBagLayout());
@@ -516,6 +518,9 @@ public class managementScreen extends JPanel  {
 		c.weighty = 0.86;
 		c.weightx = 1;
 		filterDisplayPanel.add(searchResultsLocation, c);
+		*/
+		
+		
 		
 		//"add new" item section
 		//panel to add new subject
@@ -547,7 +552,7 @@ public class managementScreen extends JPanel  {
 		c.gridheight = 1;
 		c.weighty = 0.14;
 		c.weightx = 1;
-		subjectResults.add(addSubjectPanel, c);
+		//subjectResults.add(addSubjectPanel, c);
 		newSubject.addActionListener(actionListener);
 		
 		//panel to add new student
@@ -586,7 +591,7 @@ public class managementScreen extends JPanel  {
 		c.gridheight = 1;
 		c.weighty = 0.14;
 		c.weightx = 1;
-		studentResults.add(addStudentPanel, c);
+		//studentResults.add(addStudentPanel, c);
 		newStudent.addActionListener(actionListener);
 		
 		//panel to add new grade
@@ -608,7 +613,7 @@ public class managementScreen extends JPanel  {
 		c.gridheight = 1;
 		c.weighty = 0.14;
 		c.weightx = 1;
-		gradeResults.add(addGradePanel, c);
+		//gradeResults.add(addGradePanel, c);
 		newGrade.addActionListener(actionListener);
 		
 		return filterDisplayPanel;

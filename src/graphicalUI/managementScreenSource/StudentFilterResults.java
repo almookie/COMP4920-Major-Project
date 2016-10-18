@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import main.Markbook;
 import main.Student;
@@ -23,22 +24,32 @@ public class StudentFilterResults extends JPanel {
 	//ArrayList<StudentFilterItem> allResults;
 	
 	Markbook mB;
+	JTextField myFilterBar;
 	//panel to store selected students
 	StudentFilterSelected selectedPanel;
 	
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterResults(Markbook newmB, StudentFilterSelected newSelectedPanel) {
+	public StudentFilterResults(Markbook newmB, StudentFilterSelected newSelectedPanel, JTextField newFilterBar) {
 		//allResults = new ArrayList<StudentFilterItem>();
 		mB = newmB;
 		selectedPanel = newSelectedPanel;
+		myFilterBar = newFilterBar;
 		
 		setupGraphical();
 	}
 	
 	
-	/*	clear old display and display the new Students
+	/*	refresh displayed results from linked textbox
+	 * 
+	 */
+	public void refreshResults() {
+		updateResults(mB.searchStudents(myFilterBar.getText()));
+	}
+	
+	
+	/*	clear old display and display the new Students with provided array
 	 * 
 	 */
 	public void updateResults(ArrayList<Student> newResults) {
@@ -48,7 +59,7 @@ public class StudentFilterResults extends JPanel {
 		
 		//add new students
 		for (Student student : newResults) {
-			if (selectedPanel.hasStudent(student)) {
+			if (!selectedPanel.hasStudent(student)) {
 				addStudent(student);
 			}
 		}
@@ -62,7 +73,7 @@ public class StudentFilterResults extends JPanel {
 	 */
 	private void addStudent(Student student) {
 		StudentFilterItem newResult =
-				new StudentFilterItem(student, selectedPanel, mB);
+				new StudentFilterItem(student, this, selectedPanel, mB);
 		//allResults.add(newResult);
 		this.add(newResult, getConstraint());
 	}

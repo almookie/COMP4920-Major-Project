@@ -38,11 +38,13 @@ public class StudentFilterBar extends JPanel {
 	 * 
 	 */
 	public StudentFilterBar(Markbook newmB, StudentFilterSelected selectionBox) {
-		myResults = new StudentFilterResults(newmB, selectionBox);
 		mB = newmB;
 		scrollableResults = new JScrollPane(myResults);
 		
 		setupGraphical();
+		
+		myResults = new StudentFilterResults(newmB, selectionBox, searchBar);
+		
 		setupResultsToggle();
 		setupResultsUpdate();
 	}
