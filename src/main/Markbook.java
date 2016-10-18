@@ -120,7 +120,7 @@ public class Markbook {
 			}
 		}	
 		
-		System.out.println(this.toString());		
+		// System.out.println(this.toString());		
 	}
 	
 	// Function that searches student names
