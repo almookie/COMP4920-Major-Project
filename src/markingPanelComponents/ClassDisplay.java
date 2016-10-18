@@ -175,16 +175,8 @@ public class ClassDisplay extends JPanel {
             	AssesmentDisplay aD =null;
             	for(Class c: mB.getClasses()){
             		if(c.equals(thisClass)){
-            			System.out.println("foundit");
-            			Assessment newA  = new Assessment("NEWASS", 0, thisClass.getStudents());
-    					
-                    	for(Student s: c.getStudents()){
-                    		newA.addMark(s, 0);
-                    		
-                    	}
-
-                    	thisClass.addAssessment(newA);
-      					aD = new AssesmentDisplay(markingPanel, newA,mB,thisClass,null);
+            			
+                    	mB.createAssessment(thisClass, "newAss", 0.3);
 
                     	
             		}
