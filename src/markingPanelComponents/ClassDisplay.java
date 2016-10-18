@@ -133,8 +133,16 @@ public class ClassDisplay extends JPanel {
 		
 		
 		JPanel newAssesment = new JPanel();
+		
 	  	newAssesment.setLayout(new BoxLayout(newAssesment, BoxLayout.Y_AXIS));
 	  	newAssesment.add(new JLabel("AssesmentName"));
+	    final JTextField assName = new JTextField();
+	    newAssesment.add(assName);
+
+	  	newAssesment.add(new JLabel("AssesmentWeighting"));
+	    final JTextField assWeighting = new JTextField();
+	    newAssesment.add(assWeighting);
+
 
 
 	  	final JPanel assesments = new JPanel();
@@ -175,7 +183,7 @@ public class ClassDisplay extends JPanel {
             	AssesmentDisplay aD =null;
             	for(Class c: mB.getClasses()){
             		if(c.equals(thisClass)){
-      					aD = new AssesmentDisplay(markingPanel, mB.createAssessment(thisClass, "newAss", 0.3),mB,thisClass,null);
+      					aD = new AssesmentDisplay(markingPanel, mB.createAssessment(thisClass,assName.getText(), Double.parseDouble(assWeighting.getText())),mB,thisClass,null);
       					
 
                                                            
