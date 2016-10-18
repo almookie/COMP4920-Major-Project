@@ -142,7 +142,7 @@ public class ClassDisplay extends JPanel {
 	  	assesments.setLayout(newcardLayout);
 		for(Assessment a: thisClass.getAssessments()){
 
-			System.out.println("CONTAINT" + a.getName() );
+			//System.out.println("CONTAINT" + a.getName() );
 			
 			if(AssesmentFilter!=null ){ 
 				
@@ -244,7 +244,7 @@ public class ClassDisplay extends JPanel {
 		mainPanel.add(addAssesment,c);
 
 	
-		System.out.println("end    \n" );
+		//System.out.println("end    \n" );
 		overall.add(mainPanel,"mP");
 
 	  	
