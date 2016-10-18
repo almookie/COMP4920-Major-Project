@@ -20,7 +20,7 @@ public class Assessment {
 		marks = new HashMap<Student, Double>();
 		
 		for (Student student : students) {
-			marks.put(student, null);
+			marks.put(student, 0.0);
 		}
 	}
 	
