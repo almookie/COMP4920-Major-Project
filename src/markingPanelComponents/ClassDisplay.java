@@ -133,8 +133,16 @@ public class ClassDisplay extends JPanel {
 		
 		
 		JPanel newAssesment = new JPanel();
+		
 	  	newAssesment.setLayout(new BoxLayout(newAssesment, BoxLayout.Y_AXIS));
 	  	newAssesment.add(new JLabel("AssesmentName"));
+	    final JTextField assName = new JTextField();
+	    newAssesment.add(assName);
+
+	  	newAssesment.add(new JLabel("AssesmentWeighting"));
+	    final JTextField assWeighting = new JTextField();
+	    newAssesment.add(assWeighting);
+
 
 
 	  	final JPanel assesments = new JPanel();
@@ -142,7 +150,7 @@ public class ClassDisplay extends JPanel {
 	  	assesments.setLayout(newcardLayout);
 		for(Assessment a: thisClass.getAssessments()){
 
-			System.out.println("CONTAINT" + a.getName() );
+			//System.out.println("CONTAINT" + a.getName() );
 			
 			if(AssesmentFilter!=null ){ 
 				
@@ -175,18 +183,10 @@ public class ClassDisplay extends JPanel {
             	AssesmentDisplay aD =null;
             	for(Class c: mB.getClasses()){
             		if(c.equals(thisClass)){
-            			System.out.println("foundit");
-            			Assessment newA  = new Assessment("NEWASS", 0, thisClass.getStudents());
-    					
-                    	for(Student s: c.getStudents()){
-                    		newA.addMark(s, 0);
-                    		
-                    	}
+      					aD = new AssesmentDisplay(markingPanel, mB.createAssessment(thisClass,assName.getText(), Double.parseDouble(assWeighting.getText())),mB,thisClass,null);
+      					
 
-                    	thisClass.addAssessment(newA);
-      					aD = new AssesmentDisplay(markingPanel, newA,mB,thisClass,null);
-
-                    	
+                                                           
             		}
             	}
             	
@@ -244,7 +244,6 @@ public class ClassDisplay extends JPanel {
 		mainPanel.add(addAssesment,c);
 
 	
-		System.out.println("end    \n" );
 		overall.add(mainPanel,"mP");
 
 	  	

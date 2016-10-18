@@ -170,7 +170,7 @@ public class AssesmentDisplay extends JPanel  {
  		 									if(s.equals(returS)){
  		 										s.setGivenName(newFName);
  		 										s.setSurname(newLName);
- 		 										a.setMark(s, newMark);
+ 		 										a.addMark(s, newMark);
  		 									}
  		 								}
 
