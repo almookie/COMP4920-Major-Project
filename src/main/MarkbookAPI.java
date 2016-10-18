@@ -84,7 +84,7 @@ public interface MarkbookAPI {
 	* @param s Subject Object
 	* @return boolean success or failed
 	************************************/
-	public boolean removeClass(Class c, Subject s);
+	public boolean removeClass(Subject_Class c, Subject s);
 	
 
 	/***********************************
@@ -92,7 +92,7 @@ public interface MarkbookAPI {
 	* @param s Subject Object
 	* @return HashMap<Class, Grade>
 	************************************/
-	public HashMap<Class, Grade> getClassList(Subject s);
+	public HashMap<Subject_Class, Grade> getClassList(Subject s);
 	
 	
 	
@@ -124,7 +124,7 @@ public interface MarkbookAPI {
 	* @param c Class Object
 	* @return boolean success or failed
 	************************************/
-	public boolean enrolStudent(Student stu, Class c);
+	public boolean enrolStudent(Student stu, Subject_Class c);
 	
 
 	/***********************************
@@ -134,7 +134,7 @@ public interface MarkbookAPI {
 	* @param c Class Object
 	* @return boolean success or failed
 	************************************/
-	public boolean unenrolStudent(Student stu, Class c);
+	public boolean unenrolStudent(Student stu, Subject_Class c);
 
 
 	/***********************************
@@ -144,7 +144,7 @@ public interface MarkbookAPI {
 	* @param g Grade Object
 	* @return HashMap<Class, Subject>
 	************************************/
-	public HashMap<Class, Subject> getClassList(Student stu);
+	public HashMap<Subject_Class, Subject> getClassList(Student stu);
 	
 	
 /*************************************************
@@ -158,7 +158,7 @@ public interface MarkbookAPI {
 	* @param c Class Object
 	* @return boolean success or failed
 	************************************/
-	public boolean addAssessment(String aName, Double maxMark, Double weighing, Class c);
+	public boolean addAssessment(String aName, Double maxMark, Double weighing, Subject_Class c);
 	
 
 	/***********************************
@@ -167,7 +167,7 @@ public interface MarkbookAPI {
 	* @param c Class Object
 	* @return boolean success or failed
 	************************************/
-	public boolean removeAssessment(Assessment a, Class c);
+	public boolean removeAssessment(Assessment a, Subject_Class c);
 	
 
 	/***********************************
@@ -175,7 +175,7 @@ public interface MarkbookAPI {
 	* @param c Class Object
 	* @return ArrayList<Assessment>
 	************************************/
-	public ArrayList<Assessment> getClassAssessmentList(Class c);
+	public ArrayList<Assessment> getClassAssessmentList(Subject_Class c);
 	
 	
 }

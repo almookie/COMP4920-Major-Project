@@ -31,7 +31,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import main.*;
-import main.Class;
+import main.Subject_Class;
 import markingPanelComponents.ClassDisplay;
 
 public class markingPanel extends JPanel {
@@ -172,7 +172,7 @@ public class markingPanel extends JPanel {
 	}
 	
 	
-	public void refreshClasses(String classRegex,String assesmentRegex,String nameRegex,ArrayList<Class> classes){
+	public void refreshClasses(String classRegex,String assesmentRegex,String nameRegex,ArrayList<Subject_Class> classes){
 		
 		viewPanel = new JPanel();
 		viewPanel.setLayout(new BorderLayout());
@@ -196,7 +196,7 @@ public class markingPanel extends JPanel {
 		this.labelsPanel = new JPanel(new GridBagLayout());
 		for(int i=0; i<classes.size() ; i++){
 
- 			 Class c11 = classes.get(i);
+ 			 Subject_Class c11 = classes.get(i);
 				//display label with class name
 				String className = mB.getLongName(c11);
 				JLabel displayName = new JLabel(className);

@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 
 import main.Markbook;
 import main.Student;
-import main.Class;
+import main.Subject_Class;
 
 
 /*	Collapsible panel which stores studentPanels 
@@ -37,7 +37,7 @@ public class ClassPanel extends JPanel {
 	
 	//ArrayList of all StudentPanels stored
 	ArrayList<StudentPanel> allStudents;
-	Class thisClass;
+	Subject_Class thisClass;
 	Markbook mB;
 	
 	//two panels that make up the collapsible panel
@@ -69,7 +69,7 @@ public class ClassPanel extends JPanel {
 	/*	default constructor
 	 * 
 	 */
-	public ClassPanel(Class newClass, Markbook newmB) {
+	public ClassPanel(Subject_Class newClass, Markbook newmB) {
 		allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
@@ -83,7 +83,7 @@ public class ClassPanel extends JPanel {
 	/*	constructor to initiate with an ArrayList of Student
 	 * 
 	 */
-	public ClassPanel(ArrayList<Student> newStudents, Class newClass, Markbook newmB) {
+	public ClassPanel(ArrayList<Student> newStudents, Subject_Class newClass, Markbook newmB) {
 		allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;

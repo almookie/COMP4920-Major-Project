@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import main.Class;
+import main.Subject_Class;
 import main.Grade;
 import main.Markbook;
 import main.Student;
@@ -87,7 +87,7 @@ public class managementScreen extends JPanel  {
 	
 	//keep track of selected class
 	private JLabel selectedLabel = null;
-	private Class selectedClass = null;
+	private Subject_Class selectedClass = null;
 	private JTable selectedTable = null;
 	private Color defaultBackground = Color.LIGHT_GRAY;
 	private Color selectedBackground = Color.GRAY;
@@ -144,7 +144,7 @@ public class managementScreen extends JPanel  {
 	/*	select a new class
 	 * 
 	 */
-	public void switchToNewClass(JLabel newLabel, Class newClass, JTable newTable) {
+	public void switchToNewClass(JLabel newLabel, Subject_Class newClass, JTable newTable) {
 		if (selectedLabel != null) {
 			selectedLabel.setBackground(defaultBackground);
 		}
@@ -735,7 +735,7 @@ public class managementScreen extends JPanel  {
 		c.weighty = 0.95;
 		
 		
-		ArrayList<Class> allClasses = mB.getClasses();
+		ArrayList<Subject_Class> allClasses = mB.getClasses();
 		classContents = new ClassDisplay(allClasses, mB);
 		
 		

@@ -6,18 +6,18 @@ import java.util.HashMap;
 public class Subject {
 	private String name;
 	private String shortcode;
-	private ArrayList<Class> classes;
-	private HashMap<Grade, ArrayList<Class>> classesWithinGrades;
+	private ArrayList<Subject_Class> classes;
+	private HashMap<Grade, ArrayList<Subject_Class>> classesWithinGrades;
 	
 	public Subject(String name, String shortcode) {
 		this.name = name;
 		this.shortcode = shortcode;
-		this.classes = new ArrayList<Class>();	
-		this.classesWithinGrades = new HashMap<Grade, ArrayList<Class>>();
+		this.classes = new ArrayList<Subject_Class>();	
+		this.classesWithinGrades = new HashMap<Grade, ArrayList<Subject_Class>>();
 	}
 	
 	// creates a new class and returns it
-	public Class addClass(Grade grade) {
+	public Subject_Class addClass(Grade grade) {
 		int classNumberCount;
 		
 		if (classesWithinGrades.get(grade) != null) {
@@ -25,33 +25,33 @@ public class Subject {
 		} else {
 			classNumberCount = 1;
 		}
-		Class c = new Class(grade, this, classNumberCount);
+		Subject_Class c = new Subject_Class(grade, this, classNumberCount);
 		classes.add(c);
 		if (classesWithinGrades.get(grade) != null) {
 			classesWithinGrades.get(grade).add(c);		
 		} else {	
-			ArrayList<Class> newClassList = new ArrayList<Class>();
+			ArrayList<Subject_Class> newClassList = new ArrayList<Subject_Class>();
 			newClassList.add(c);
 			classesWithinGrades.put(grade, newClassList);
 		}
 		return c;
 	}
 	
-	public void removeClass(Class delete_class) {
+	public void removeClass(Subject_Class delete_class) {
 		classes.remove(delete_class);
 		for (Grade g : classesWithinGrades.keySet()) {
-			ArrayList<Class> classesList = classesWithinGrades.get(g);
+			ArrayList<Subject_Class> classesList = classesWithinGrades.get(g);
 			if (classesList.remove(delete_class)) {
 				continue;
 			}
 		}
 	}
 	
-	public ArrayList<Class> getClasses(Grade g) {
+	public ArrayList<Subject_Class> getClasses(Grade g) {
 		return classesWithinGrades.get(g);
 	}
 	
-	public boolean hasClass(Class check_class) {
+	public boolean hasClass(Subject_Class check_class) {
 		return classes.contains(check_class);
 	}
 	
@@ -87,13 +87,13 @@ public class Subject {
 	
 	public String toString() {
 		String output = "Subject with name: " + name + "\nShortcode: " + shortcode + ", containing the following classes: \n\n";
-		for (Class c : classes) {
+		for (Subject_Class c : classes) {
 			output += c.toString() + "\n";
 		}
 		return output;
 	}
 
-	public ArrayList<Class> getClasses() {
+	public ArrayList<Subject_Class> getClasses() {
 		return classes;
 	}
 }

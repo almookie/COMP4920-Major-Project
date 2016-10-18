@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import main.Assessment;
-import main.Class;
+import main.Subject_Class;
 import main.Markbook;
 import main.Student;
 
@@ -34,10 +34,10 @@ public class AssesmentDisplay extends JPanel  {
 	//two panels that make up the collapsible panel
 	JPanel mainPanel;
 	JPanel contentPanel;
-	Class assesmentClass;
+	Subject_Class assesmentClass;
 	String nameFilter;
 	
-	public AssesmentDisplay(markingPanel markingPanel, Assessment a, Markbook mB, Class thisClass) {
+	public AssesmentDisplay(markingPanel markingPanel, Assessment a, Markbook mB, Subject_Class thisClass) {
 		this.markingPanel = markingPanel;
 		this.myAssesment = a;
 		this.mB = mB;
@@ -47,7 +47,7 @@ public class AssesmentDisplay extends JPanel  {
 	}
 
 
-	public AssesmentDisplay(markingPanel markingPanel, Assessment a, Markbook mB, Class thisClass,
+	public AssesmentDisplay(markingPanel markingPanel, Assessment a, Markbook mB, Subject_Class thisClass,
 			String nameFilter) {
 		this.markingPanel = markingPanel;
 
@@ -150,7 +150,7 @@ public class AssesmentDisplay extends JPanel  {
  						System.out.println(value);
  						System.out.println(e.getColumn() + " --" +e.getFirstRow());
  						
- 						Class returC = (Class) model.getValueAt(e.getFirstRow(), 3);
+ 						Subject_Class returC = (Subject_Class) model.getValueAt(e.getFirstRow(), 3);
  						Assessment returA = (Assessment) model.getValueAt(e.getFirstRow(), 4);
  						
  						Student returS = (Student) model.getValueAt(e.getFirstRow(), 5);
@@ -162,7 +162,7 @@ public class AssesmentDisplay extends JPanel  {
  						returS.setGivenName(newFName);
  						returS.setSurname(newLName);
  						
- 						for(Class c : mB.getClasses()){
+ 						for(Subject_Class c : mB.getClasses()){
  							if(c.equals(returC)){
  		 						for(Assessment a : c.getAssessments()){
  		 							if(a.equals(returA)){

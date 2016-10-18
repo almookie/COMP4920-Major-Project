@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import main.Class;
+import main.Subject_Class;
 import main.Markbook;
 import main.Student;
 
@@ -39,7 +39,7 @@ public class ClassDisplay extends JPanel {
 	/*	constructor to initiate with an ArrayList of Class
 	 * 
 	 */
-	public ClassDisplay(ArrayList<Class> newClasses, Markbook newmB) {
+	public ClassDisplay(ArrayList<Subject_Class> newClasses, Markbook newmB) {
 		allClasses = new ArrayList<ClassPanel>();
 		mB = newmB;
 		
@@ -52,13 +52,13 @@ public class ClassDisplay extends JPanel {
 	/*	refresh all Class with a new ArrayList of Class
 	 * 
 	 */
-	public void refreshClass(ArrayList<Class> newClasses) {
+	public void refreshClass(ArrayList<Subject_Class> newClasses) {
 		//clear all students
 		this.removeAll();
 		allClasses.clear();
 		
 		//add new students
-		for (Class thisClass : newClasses) {
+		for (Subject_Class thisClass : newClasses) {
 			addClass(thisClass);
 		}
 	}
@@ -67,7 +67,7 @@ public class ClassDisplay extends JPanel {
 	/*	add a new classPanel to classDislay
 	 * 
 	 */
-	private void addClass(Class newClass) {
+	private void addClass(Subject_Class newClass) {
 		ClassPanel newPanel = 
 				new ClassPanel(newClass.getStudents(), newClass, mB);
 		

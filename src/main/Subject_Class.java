@@ -3,14 +3,14 @@ package main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Class {
+public class Subject_Class {
 	private ArrayList<Student> students; 
 	private ArrayList<Assessment> assessments;
 	private Grade grade;
 	private Subject subject;
 	private int classNumber;
 	
-	public Class(Grade grade, Subject subject, int classNumber) {
+	public Subject_Class(Grade grade, Subject subject, int classNumber) {
 		this.grade = grade;
 		this.subject = subject;
 		this.classNumber = classNumber;

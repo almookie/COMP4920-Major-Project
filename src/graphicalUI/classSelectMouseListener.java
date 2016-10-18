@@ -6,15 +6,15 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
-import main.Class;
+import main.Subject_Class;
 
 public class classSelectMouseListener implements MouseListener {
 	private managementScreen ms;
-	private Class attachedClass;
+	private Subject_Class attachedClass;
 	private JLabel attachedLabel;
 	private JTable attachedTable;
 	
-	public classSelectMouseListener(managementScreen newScreen ,Class myClass, JLabel myLabel, JTable myTable) {
+	public classSelectMouseListener(managementScreen newScreen ,Subject_Class myClass, JLabel myLabel, JTable myTable) {
 		ms = newScreen;
 		attachedClass = myClass;
 		attachedLabel = myLabel;

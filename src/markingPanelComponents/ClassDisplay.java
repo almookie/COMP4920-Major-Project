@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import main.Assessment;
 import main.Markbook;
 import main.Student;
-import main.Class;
+import main.Subject_Class;
 
 //TODO setup an on click action listener for collapsible panel funnctionality
 
@@ -41,7 +41,7 @@ public class ClassDisplay extends JPanel {
 
 	//ArrayList of all StudentPanels stored
 	//ArrayList<Assements> allStudents;
-	Class thisClass;
+	Subject_Class thisClass;
 	Markbook mB;
 	markingPanel markingPanel;
 	//two panels that make up the collapsible panel
@@ -53,7 +53,7 @@ public class ClassDisplay extends JPanel {
 	String NameFilter;
 
 	
-	public ClassDisplay(markingPanel markingPanel,Class newClass, Markbook newmB, String AssesmentFilter) {
+	public ClassDisplay(markingPanel markingPanel,Subject_Class newClass, Markbook newmB, String AssesmentFilter) {
 		//allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
@@ -62,7 +62,7 @@ public class ClassDisplay extends JPanel {
 		setupGraphical();
 	}
 	
-	public ClassDisplay(markingPanel markingPanel,Class newClass, Markbook newmB, String AssesmentFilter, String NameRegex) {
+	public ClassDisplay(markingPanel markingPanel,Subject_Class newClass, Markbook newmB, String AssesmentFilter, String NameRegex) {
 		//allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
@@ -78,7 +78,7 @@ public class ClassDisplay extends JPanel {
 	/*	constructor to initiate with an ArrayList of Student
 	 * 
 	 */
-	public ClassDisplay(markingPanel markingPanel,ArrayList<Student> newStudents, Class newClass, Markbook newmB) {
+	public ClassDisplay(markingPanel markingPanel,ArrayList<Student> newStudents, Subject_Class newClass, Markbook newmB) {
 		//allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
@@ -181,7 +181,7 @@ public class ClassDisplay extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
             	AssesmentDisplay aD =null;
-            	for(Class c: mB.getClasses()){
+            	for(Subject_Class c: mB.getClasses()){
             		if(c.equals(thisClass)){
       					aD = new AssesmentDisplay(markingPanel, mB.createAssessment(thisClass,assName.getText(), Double.parseDouble(assWeighting.getText())),mB,thisClass,null);
       					

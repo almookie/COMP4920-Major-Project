@@ -116,7 +116,7 @@ public class Markbook {
 				int Min = 0;
 				int Max = grades.size() - 1;
 				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
-				Class c = subjects.get(i).addClass(grades.get(random_value));
+				Subject_Class c = subjects.get(i).addClass(grades.get(random_value));
 				
 				// add 5 random students to this class
 				for (int k = 0; k <= 4; k++) {
@@ -157,10 +157,10 @@ public class Markbook {
 	}
 	
 	// Function that searches class names
-	public ArrayList<Class> searchClasses(String searchString) {
-		ArrayList<Class> returnClass = new ArrayList<Class>();
+	public ArrayList<Subject_Class> searchClasses(String searchString) {
+		ArrayList<Subject_Class> returnClass = new ArrayList<Subject_Class>();
 		for (Subject subject : subjects) {		
-			for (Class c : subject.getClasses()) {
+			for (Subject_Class c : subject.getClasses()) {
 				if (getLongName(c).matches(searchString)) {
 					returnClass.add(c);
 				}
@@ -170,8 +170,8 @@ public class Markbook {
 		return returnClass;
 	}
 	
-	public ArrayList<Class> getClasses() {
-		ArrayList<Class> classes = new ArrayList<Class>();
+	public ArrayList<Subject_Class> getClasses() {
+		ArrayList<Subject_Class> classes = new ArrayList<Subject_Class>();
 		
 		for (Subject s : subjects) {
 			classes.addAll(s.getClasses());
@@ -234,7 +234,7 @@ public class Markbook {
 	 * @param c The class to find the name of
 	 * @return Returns the name of the class in the form of YearShortcodeClass#, e.g. 9Ma2
 	 */
-	public String getLongName(Class c) {
+	public String getLongName(Subject_Class c) {
 		return c.getGrade().getYear(getCurrentYear()) + c.getSubject().getShortcode() + c.getClassNumber();
 	}
 	
@@ -273,10 +273,10 @@ public class Markbook {
 	 * @return Returns the rank of the student within the subject and grade
 	 */
 	public int getRank(Student student, Subject subject, Grade grade) {
-		ArrayList<Class> classes = subject.getClasses(grade);
+		ArrayList<Subject_Class> classes = subject.getClasses(grade);
 		HashMap<Student, Double> marks = new HashMap<Student, Double>();
 		
-		for (Class c : classes) {
+		for (Subject_Class c : classes) {
 			marks.putAll(c.getStudentMarks());
 		}
 		
@@ -290,7 +290,7 @@ public class Markbook {
 	 * @return Returns the count of students within the subject and grade
 	 */
 	public int getStudentCount(Subject subject, Grade g) {
-		ArrayList<Class> classes = subject.getClasses(g);
+		ArrayList<Subject_Class> classes = subject.getClasses(g);
 		return getStudentCount(classes);
 	}
 	
@@ -299,9 +299,9 @@ public class Markbook {
 	 * @param Classes The classes to count the number of students from
 	 * @return Returns the number of students within the set of classes
 	 */
-	public int getStudentCount(ArrayList<Class> classes) {
+	public int getStudentCount(ArrayList<Subject_Class> classes) {
 		int count = 0;
-		for (Class c : classes) {
+		for (Subject_Class c : classes) {
 			count += c.getStudentCount();
 		}
 		
@@ -313,7 +313,7 @@ public class Markbook {
 	 * @param s The subject that the class is contained in
 	 * @param c The class to delete
 	 */
-	public void deleteClass(Subject s, Class c) {
+	public void deleteClass(Subject s, Subject_Class c) {
 		s.removeClass(c);
 	}
 	
@@ -324,7 +324,7 @@ public class Markbook {
 	 * @param weighting The weighting of the assessment, e.g. 0.3 = 30%
 	 * @return The Assessment object
 	 */
-	public Assessment createAssessment(Class c, String name, double weighting) {
+	public Assessment createAssessment(Subject_Class c, String name, double weighting) {
 		return c.createNewAssessment(name, weighting);
 	}
 }

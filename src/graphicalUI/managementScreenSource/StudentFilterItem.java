@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import main.Markbook;
 import main.Student;
-import main.Class;
+import main.Subject_Class;
 
 /*	results of the student filter, click to add to selected list
  * 
