@@ -9,8 +9,9 @@ public class Markbook {
 	private ArrayList<Grade> grades;
 	private int studentIDCounter;
 	static final String JDBC_DRIVER = "org.postgresql.Driver";  
-	static final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
-	static final String USERNAME = "username";  
+	static final String DB_NAME = "MarkbookDB";
+	static final String DB_URL = "jdbc:postgresql://localhost:5433/" + DB_NAME;
+	static final String USERNAME = "postgres";  
 	static final String PASSWORD = "password";	
 
 	public Markbook() {
@@ -20,16 +21,58 @@ public class Markbook {
 	}
 	
 	public void initialisePostgreSQLDatabase() {
+		Connection connection = null;
+		Statement statement = null;
 	      try {
 	         Class.forName(JDBC_DRIVER);
-	         Connection c = DriverManager.getConnection("jdbc:postgresql://localhost/testdb", "username", "password");
+	         connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+	         databaseInitialisation(connection);
+	         connection.close();
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         System.err.println(e.getClass().getName()+": "+e.getMessage());
 	         System.exit(0);
 	      }
-	      System.out.println("Opened database successfully");
    }
+	
+	/**
+	 * Initialises the database if it has not been created yet
+	 * @param connection pass the DriverManager.getConnection() object
+	 * @throws SQLException
+	 */
+	private void databaseInitialisation(Connection connection) throws SQLException {
+		Statement statement = connection.createStatement();
+		
+		// Create a table that holds STUDENTS, where each student has an ID, First Name, Last Name and Grade
+		statement.executeUpdate(
+				"CREATE TABLE IF NOT EXISTS STUDENTS"
+				+ "(ID INT PRIMARY KEY NOT NULL,"
+				+ "GIVEN_NAME TEXT NOT NULL,"
+				+ "SURNAME TEXT NOT NULL,"
+				+ "GRADE INT NOT NULL)"
+  		);
+		
+		// Create a table that holds GRADES, where each grade has an end year
+		statement.executeUpdate(	
+				"CREATE TABLE IF NOT EXISTS GRADES" +
+				"(GRADUATION_YEAR INT PRIMARY KEY NOT NULL)"
+  		);
+		
+		// Create a table that holds ENROLMENTS, where each enrolment consists of a student within a year
+		statement.executeUpdate(	
+				"CREATE TABLE IF NOT EXISTS ENROLMENTS" +
+				"(STUDENT INT PRIMARY KEY NOT NULL,"
+				+ "GRADUATION_YEAR INT NOT NULL)"
+  		);
+		
+		// Create a table that holds CLASSES, where each grade has an end year
+		statement.executeUpdate(	
+				"CREATE TABLE IF NOT EXISTS GRADES" +
+				"(GRADUATION_YEAR INT PRIMARY KEY NOT NULL)"
+  		);
+		
+		statement.close();
+	}
 	
 	public void generateRandomData() {
 
