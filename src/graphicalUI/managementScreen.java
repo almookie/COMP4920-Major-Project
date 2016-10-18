@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import main.Subject_Class;
 import main.Grade;
 import main.Markbook;
 import main.Student;
 import main.Subject;
+import main.Subject_Class;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -51,7 +51,7 @@ public class managementScreen extends JPanel  {
 	private JPanel studentSearch;
 	private JPanel subjectSearch;
 	private JPanel gradeSearch;
-	private JPanel classSearch;
+
 	
 	//text fields for creation of new items
 	//	new subject
@@ -87,10 +87,12 @@ public class managementScreen extends JPanel  {
 	
 	//keep track of selected class
 	private JLabel selectedLabel = null;
-	private Subject_Class selectedClass = null;
+	private Class selectedClass = null;
 	private JTable selectedTable = null;
 	private Color defaultBackground = Color.LIGHT_GRAY;
 	private Color selectedBackground = Color.GRAY;
+	
+	StudentFilterPanel studentBar;
 	
 	public managementScreen(Markbook markbook) {
 		mB = markbook;
@@ -144,7 +146,7 @@ public class managementScreen extends JPanel  {
 	/*	select a new class
 	 * 
 	 */
-	public void switchToNewClass(JLabel newLabel, Subject_Class newClass, JTable newTable) {
+	public void switchToNewClass(JLabel newLabel, Class newClass, JTable newTable) {
 		if (selectedLabel != null) {
 			selectedLabel.setBackground(defaultBackground);
 		}
@@ -232,32 +234,7 @@ public class managementScreen extends JPanel  {
 			
 	}
 		
-	
-	/*	reads from filter tables to add a subject to a class
-	 * 
-	 */
-	public void studentAddToClass() {
-		int row = studentTable.getSelectedRow();
-		if ((selectedLabel != null ) && (row >= 0)) {
-			filterDisplayTableModel model = (filterDisplayTableModel)studentTable.getModel();
-			Student currentStudent = (Student)model.getValueAt(row, 1);
-			
-			selectedClass.addStudent(currentStudent);
-			
-			//refresh the display
-			filterDisplayTableModel model2 = (filterDisplayTableModel) selectedTable.getModel();
-			
-			ArrayList<Student> studentsInClass = selectedClass.getStudents();
-			ArrayList<Object[]> data = new ArrayList<Object[]>();
-			for (Student student : studentsInClass) {
-				String studentName = student.getSurname()+ ","+ student.getGivenName();
-				Object[] item = {studentName, student};
-				data.add(item);
-			}
-			model2.refreshData(data);
-			model2.fireTableDataChanged();
-		}
-	}
+
 	
 	
 	/*	check if a string is numeric
@@ -434,21 +411,8 @@ public class managementScreen extends JPanel  {
 		c.gridwidth = 3;
 		c.weighty = 1;
 		c.weightx = 1;
-		StudentFilterPanel studentBar = new StudentFilterPanel(mB);
-		filterDisplayPanel.add(studentBar, c);
-		//create student search bar
-		/*
-		studentSearch = new JPanel(new GridBagLayout());
-		JTextField searchBarStudent = new JTextField
-				("search students", MAXSEARCHSIZE);
-		studentSearch.setBackground(Color.GRAY);
-		studentSearch.add(searchBarStudent, c);
-		studentSearch.setVisible(true);
-		currentSearch = studentSearch;
-		*//*
-		StudentFilterPanel studentBar = new StudentFilterPanel(mB);
-		searchBarLocation.add(studentBar, c);
-		
+		studentBar = new StudentFilterPanel(mB);
+
 		//create subject search bar
 		subjectSearch = new JPanel(new GridBagLayout());
 		JTextField searchBarSubject = new JTextField
@@ -465,13 +429,9 @@ public class managementScreen extends JPanel  {
 		gradeSearch.setVisible(false);
 		searchBarLocation.add(gradeSearch, c);
 		
-		//create class search bar
-		classSearch = new JPanel(new GridBagLayout());
-		JTextField searchBarClass = new JTextField
-				("search classes", MAXSEARCHSIZE);
-		classSearch.add(searchBarClass, c);
-		classSearch.setVisible(false);
-		searchBarLocation.add(classSearch, c);
+		//create dummy student search bar
+		studentSearch = new JPanel(new GridBagLayout());
+		currentSearch = studentSearch;
 		
 		//display settings for the search bars
 		c.gridx = 0;
@@ -484,9 +444,7 @@ public class managementScreen extends JPanel  {
 		
 		//create search results scroll panels
 		subjectTable = setupFilterResultsPanel(getInitialDataSubject());
-		studentTable = setupFilterResultsPanel(getInitialDataStudent());
 		gradeTable = setupFilterResultsPanel(getInitialDataGrade());
-		JScrollPane studentResultsScroll = new JScrollPane(studentTable);
 		JScrollPane subjectResultsScroll = new JScrollPane(subjectTable);
 		JScrollPane gradeResultsScroll = new JScrollPane(gradeTable);
 		
@@ -497,7 +455,7 @@ public class managementScreen extends JPanel  {
 		c.weighty = 0.96;
 		c.weightx = 1;
 		c.gridheight = 2;
-		studentResults.add(studentResultsScroll, c);
+		studentResults.add(studentBar, c);
 		subjectResults.add(subjectResultsScroll, c);
 		gradeResults.add(gradeResultsScroll, c);
 		
@@ -511,14 +469,14 @@ public class managementScreen extends JPanel  {
 		searchResultsLocation.add(subjectResults, c);
 		searchResultsLocation.add(gradeResults, c);
 		
-		//display settings for search location
+		//display settings for search results location
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.weighty = 0.86;
 		c.weightx = 1;
 		filterDisplayPanel.add(searchResultsLocation, c);
-		*/
+		
 		
 		
 		
@@ -553,7 +511,7 @@ public class managementScreen extends JPanel  {
 		c.weighty = 0.14;
 		c.weightx = 1;
 		//subjectResults.add(addSubjectPanel, c);
-		newSubject.addActionListener(actionListener);
+		newSubject.addActionListener(actionListener);	
 		
 		//panel to add new student
 		JPanel addStudentPanel = new JPanel(new GridBagLayout());
@@ -615,6 +573,17 @@ public class managementScreen extends JPanel  {
 		c.weightx = 1;
 		//gradeResults.add(addGradePanel, c);
 		newGrade.addActionListener(actionListener);
+		
+		//add the "add new" panels to view
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.04;
+		c.weightx = 1;
+		subjectResults.add(addSubjectPanel, c);
+		studentResults.add(addStudentPanel, c);
+		gradeResults.add(addGradePanel, c);
 		
 		return filterDisplayPanel;
 	}
@@ -736,7 +705,7 @@ public class managementScreen extends JPanel  {
 		
 		
 		ArrayList<Subject_Class> allClasses = mB.getClasses();
-		classContents = new ClassDisplay(allClasses, mB);
+		classContents = new ClassDisplay(allClasses, mB, studentBar.getSelectedPanel());
 		
 		
 		JScrollPane contentScroll = new JScrollPane(classContents);

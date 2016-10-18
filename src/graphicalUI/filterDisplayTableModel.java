@@ -9,7 +9,7 @@ public class filterDisplayTableModel extends AbstractTableModel {
     private ArrayList<Object[]> data;
     
     
-    filterDisplayTableModel(ArrayList<Object[]> newData) {
+    public filterDisplayTableModel(ArrayList<Object[]> newData) {
     	data = newData;
     }
     

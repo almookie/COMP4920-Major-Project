@@ -80,11 +80,19 @@ public class StudentFilterSelected extends JPanel {
 	}
 	
 	
+	/*	get all stored students
+	 * 
+	 */
+	public ArrayList<Student> getSelectedStudents() {
+		return selectedStudents;
+	}
+	
+	
 	/*	remove a student from this panel
 	 * 
 	 */
 	public void removeStudent(StudentFilterSelectedItem student) {
-		selectedStudents.remove(student);
+		selectedStudents.remove(student.getStudent());
 		selectedStudentItems.remove(student);
 		this.remove(student);
 		

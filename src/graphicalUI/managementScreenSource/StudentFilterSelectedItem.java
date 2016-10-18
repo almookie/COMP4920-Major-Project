@@ -41,6 +41,11 @@ public class StudentFilterSelectedItem extends JPanel {
 	}
 	
 	
+	public Student getStudent() {
+		return student;
+	}
+	
+	
 	/*	set up the display elements
 	 * 
 	 */
@@ -83,5 +88,15 @@ public class StudentFilterSelectedItem extends JPanel {
 			}
 			
 		});
+		
+		GridBagConstraints c = new GridBagConstraints();
+		//display remove student button at right of panel
+		c.gridx = 2;
+		c.gridy = 0;
+		c.gridheight = 3;
+		c.gridwidth = 1;
+		c.weighty = 1;
+		c.weightx = 0.2;
+		this.add(removeButton, c);
 	}
 }

@@ -23,14 +23,15 @@ public class ClassDisplay extends JPanel {
 	//ArrayList of all ClassPanels stored
 	ArrayList<ClassPanel> allClasses;
 	Markbook mB;
-	
+	StudentFilterSelected selectedStudents;
 	
 	/*	default constructor
 	 * 
 	 */
-	public ClassDisplay(Markbook newmB) {
+	public ClassDisplay(Markbook newmB, StudentFilterSelected newSelectedStudents) {
 		allClasses = new ArrayList<ClassPanel>();
 		mB = newmB;
+		selectedStudents = newSelectedStudents;
 		
 		setupGraphical();
 	}
@@ -39,9 +40,10 @@ public class ClassDisplay extends JPanel {
 	/*	constructor to initiate with an ArrayList of Class
 	 * 
 	 */
-	public ClassDisplay(ArrayList<Subject_Class> newClasses, Markbook newmB) {
+	public ClassDisplay(ArrayList<Subject_Class> newClasses, Markbook newmB, StudentFilterSelected newSelectedStudents) {
 		allClasses = new ArrayList<ClassPanel>();
 		mB = newmB;
+		selectedStudents = newSelectedStudents;
 		
 		setupGraphical();
 		
@@ -61,6 +63,16 @@ public class ClassDisplay extends JPanel {
 		for (Subject_Class thisClass : newClasses) {
 			addClass(thisClass);
 		}
+		this.revalidate();
+		this.repaint();
+	}
+	
+	
+	/*	refresh class directly from backend
+	 * 
+	 */
+	public void refreshClass() {
+		refreshClass(mB.getClasses());
 	}
 	
 
@@ -69,7 +81,7 @@ public class ClassDisplay extends JPanel {
 	 */
 	private void addClass(Subject_Class newClass) {
 		ClassPanel newPanel = 
-				new ClassPanel(newClass.getStudents(), newClass, mB);
+				new ClassPanel(newClass.getStudents(), newClass, mB, this,selectedStudents);
 		
 		allClasses.add(newPanel);
 		this.add(newPanel, getConstraint());

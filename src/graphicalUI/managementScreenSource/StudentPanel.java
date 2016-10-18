@@ -55,7 +55,7 @@ public class StudentPanel extends JPanel {
 		displayName.setPreferredSize(preferredSize);
 		//displayName.setFont(bodyFont);
 		
-		//display student name label inn center of panel
+		//display student name label in center of panel
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridheight = 1;

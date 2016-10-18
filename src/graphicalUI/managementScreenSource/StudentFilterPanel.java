@@ -33,17 +33,22 @@ public class StudentFilterPanel extends JPanel {
 	}
 	
 	
+	public StudentFilterSelected getSelectedPanel() {
+		return selectedStudents;
+	}
+	
+	
 	private void setupGraphical() {
 		//use gridbag format
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.2;
+		c.weighty = 0.05;
 		c.weightx = 1;
 		this.add(filterBar, c);
 		
@@ -54,7 +59,7 @@ public class StudentFilterPanel extends JPanel {
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.8;
+		c.weighty = 0.95;
 		c.weightx = 1;
 		this.add(selectedStudentsScroll, c);
 		

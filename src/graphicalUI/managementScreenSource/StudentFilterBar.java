@@ -80,6 +80,7 @@ public class StudentFilterBar extends JPanel {
 		c.weightx = 1;
 		this.add(searchBar, c);
 		
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridheight = 2;

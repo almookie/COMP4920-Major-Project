@@ -35,6 +35,9 @@ public class ClassPanel extends JPanel {
 
 	public boolean isCollapsed = false;
 	
+	ClassDisplay parent;
+	StudentFilterSelected selectedStudents;
+	
 	//ArrayList of all StudentPanels stored
 	ArrayList<StudentPanel> allStudents;
 	Subject_Class thisClass;
@@ -62,17 +65,19 @@ public class ClassPanel extends JPanel {
 	private Color backgroundDefault = Color.WHITE;
 	private Color titleFrameBackground = Color.LIGHT_GRAY;
 	
-	private Color backgroundHighlighted = new Color(220, 220, 220);;
+	private Color backgroundHighlighted = new Color(220, 220, 220);
 	private Color titleFrameHighlighted = new Color(160, 160, 160);
 	
 	//private Font nameFont = new Font("Helvetica", Font.BOLD, 16);
 	/*	default constructor
 	 * 
 	 */
-	public ClassPanel(Subject_Class newClass, Markbook newmB) {
+	public ClassPanel(Subject_Class newClass, Markbook newmB, ClassDisplay newParentDisplay, StudentFilterSelected newSelectedStudents) {
 		allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
+		parent = newParentDisplay;
+		selectedStudents = newSelectedStudents;
 		
 		setupGraphical();
 		setupCollapsible();
@@ -83,10 +88,12 @@ public class ClassPanel extends JPanel {
 	/*	constructor to initiate with an ArrayList of Student
 	 * 
 	 */
-	public ClassPanel(ArrayList<Student> newStudents, Subject_Class newClass, Markbook newmB) {
+	public ClassPanel(ArrayList<Student> newStudents, Subject_Class newClass, Markbook newmB, ClassDisplay newParentDisplay, StudentFilterSelected newSelectedStudents) {
 		allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
+		parent = newParentDisplay;
+		selectedStudents = newSelectedStudents;
 		
 		setupGraphical();
 		setupCollapsible();
@@ -108,8 +115,17 @@ public class ClassPanel extends JPanel {
 		for (Student thisStudent : newStudents) {
 			addStudent(thisStudent);
 		}
+		
+		this.revalidate();
+		this.repaint();
 	}
 	
+	/*	refresh students in class with backend data
+	 * 
+	 */
+	public void refreshClass() {
+		refreshClass(thisClass.getStudents());
+	}
 	
 	/*	add a student to the classPanel to be displayed
 	 * 
@@ -173,6 +189,18 @@ public class ClassPanel extends JPanel {
 		addStudentButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		buttonPanel.add(addStudentButton);
+		addStudentButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Student> allStudents = selectedStudents.getSelectedStudents();
+				for (Student student : allStudents) {
+					thisClass.addStudent(student);
+				}
+				refreshClass();
+			}
+			
+		});
 		
 		//button to delete class
 		JButton deleteClassButton = new JButton();
@@ -182,6 +210,16 @@ public class ClassPanel extends JPanel {
 		deleteClassButton.add(BorderLayout.NORTH, className1);
 		deleteClassButton.add(BorderLayout.SOUTH, className2);
 		deleteClassButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		deleteClassButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mB.deleteClass(thisClass.getSubject(), thisClass);
+				parent.refreshClass();
+			}
+			
+		});
+		
 		buttonPanel.add(deleteClassButton);
 		
 		JPanel hideShowLocation = new JPanel(new GridBagLayout());
