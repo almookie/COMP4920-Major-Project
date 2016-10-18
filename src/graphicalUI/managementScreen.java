@@ -444,8 +444,8 @@ public class managementScreen extends JPanel  {
 		studentSearch.setVisible(true);
 		currentSearch = studentSearch;
 		*/
-		StudentFilterBar studentBar = new StudentFilterBar(mB);
-		searchBarLocation.add(studentBar, c);
+		//StudentFilterBar studentBar = new StudentFilterBar(mB);
+		//searchBarLocation.add(studentBar, c);
 		
 		//create subject search bar
 		subjectSearch = new JPanel(new GridBagLayout());

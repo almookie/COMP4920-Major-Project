@@ -20,17 +20,19 @@ public class StudentFilterResults extends JPanel {
 	private static Color backgroundColor = Color.WHITE;
 	
 	//all stored StudentFilterItems
-	ArrayList<StudentFilterItem> allResults;
+	//ArrayList<StudentFilterItem> allResults;
 	
 	Markbook mB;
-	
+	//panel to store selected students
+	StudentFilterSelected selectedPanel;
 	
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterResults(Markbook newmB) {
-		allResults = new ArrayList<StudentFilterItem>();
+	public StudentFilterResults(Markbook newmB, StudentFilterSelected newSelectedPanel) {
+		//allResults = new ArrayList<StudentFilterItem>();
 		mB = newmB;
+		selectedPanel = newSelectedPanel;
 		
 		setupGraphical();
 	}
@@ -41,12 +43,14 @@ public class StudentFilterResults extends JPanel {
 	 */
 	public void updateResults(ArrayList<Student> newResults) {
 		//clear old display
-		allResults.clear();
+		//allResults.clear();
 		this.removeAll();
 		
 		//add new students
 		for (Student student : newResults) {
-			addStudent(student);
+			if (selectedPanel.hasStudent(student)) {
+				addStudent(student);
+			}
 		}
 		this.revalidate();
 		this.repaint();
@@ -58,8 +62,8 @@ public class StudentFilterResults extends JPanel {
 	 */
 	private void addStudent(Student student) {
 		StudentFilterItem newResult =
-				new StudentFilterItem(student, mB);
-		allResults.add(newResult);
+				new StudentFilterItem(student, selectedPanel, mB);
+		//allResults.add(newResult);
 		this.add(newResult, getConstraint());
 	}
 	

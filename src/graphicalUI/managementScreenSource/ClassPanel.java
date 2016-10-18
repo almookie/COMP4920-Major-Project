@@ -25,7 +25,6 @@ import main.Markbook;
 import main.Student;
 import main.Class;
 
-//TODO setup an on click action listener for collapsible panel funnctionality
 
 /*	Collapsible panel which stores studentPanels 
  * 	and handles interaction with whole classes

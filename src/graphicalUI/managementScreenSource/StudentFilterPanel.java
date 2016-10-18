@@ -15,7 +15,8 @@ public class StudentFilterPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	ArrayList<Student> selectedStudents;
+	StudentFilterSelected selectedStudents;
+	StudentFilterBar filterBar;
 	Markbook mB;
 	
 	/*	default constructor
@@ -23,7 +24,8 @@ public class StudentFilterPanel extends JPanel {
 	 */
 	public StudentFilterPanel(Markbook newmB) {
 		mB = newmB;
-		selectedStudents = new ArrayList<Student>();
+		selectedStudents = new StudentFilterSelected(mB);
+		//filterBar = new StudentFilterBar(mB);
 		
 		setupGraphical();
 	}

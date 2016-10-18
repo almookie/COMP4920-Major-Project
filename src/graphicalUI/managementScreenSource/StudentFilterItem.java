@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,18 +21,24 @@ public class StudentFilterItem extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
+	private static Color selectedBackgroundColor = new Color(220, 220, 220);;;
+	
+	StudentFilterItem self = this;
 	
 	Student student;
 	Markbook mB;
+	StudentFilterSelected selectedPanel;
 	
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterItem(Student newStudent, Markbook newmB) {
+	public StudentFilterItem(Student newStudent, StudentFilterSelected newSelectedPanel, Markbook newmB) {
 		student = newStudent;
 		mB = newmB;
+		selectedPanel = newSelectedPanel;
 		
 		setupGraphical();
+		setupSelect();
 	}
 	
 	/*	set up the display elements
@@ -61,5 +69,31 @@ public class StudentFilterItem extends JPanel {
 		this.add(displayName, c);
 	}
 	
-	//setup onclick and color
+	
+	/*	sets up the mouse listeners for the selection of students
+	 *	and colored hovering
+	 * 
+	 */
+	private void setupSelect() {
+		this.addMouseListener(new MouseAdapter() {
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						selectedPanel.addStudent(student);
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						self.setBackground(selectedBackgroundColor);
+
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						self.setBackground(backgroundColor);
+
+					}
+				});
+	}
+	
 }

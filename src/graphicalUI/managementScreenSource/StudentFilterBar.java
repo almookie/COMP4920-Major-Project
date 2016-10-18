@@ -33,8 +33,12 @@ public class StudentFilterBar extends JPanel {
 	StudentFilterResults myResults;
 	JScrollPane scrollableResults;
 	
-	public StudentFilterBar(Markbook newmB) {
-		myResults = new StudentFilterResults(newmB);
+	
+	/*	default constructor
+	 * 
+	 */
+	public StudentFilterBar(Markbook newmB, StudentFilterSelected selectionBox) {
+		myResults = new StudentFilterResults(newmB, selectionBox);
 		mB = newmB;
 		scrollableResults = new JScrollPane(myResults);
 		
@@ -94,6 +98,8 @@ public class StudentFilterBar extends JPanel {
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				scrollableResults.setVisible(true);
+				myResults.updateResults(mB.searchStudents(searchBar.getText()));
+				scrollableResults.setViewportView(myResults);
 				
 				self.revalidate();
 				self.repaint();
