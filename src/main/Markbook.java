@@ -246,4 +246,8 @@ public class Markbook {
 	public void deleteClass(Subject s, Class c) {
 		s.removeClass(c);
 	}
+	
+	public Assessment createAssessment(Class c, String name, double weighting) {
+		return c.createNewAssessment(name, weighting);
+	}
 }

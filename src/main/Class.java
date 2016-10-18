@@ -103,4 +103,10 @@ public class Class {
 		
 		return studentMarks;
 	}
+
+	public Assessment createNewAssessment(String name, double weighting) {
+		Assessment newAssessment = new Assessment(name, weighting, students);	
+		assessments.add(newAssessment);
+		return newAssessment;
+	}
 }
