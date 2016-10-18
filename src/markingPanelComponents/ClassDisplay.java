@@ -175,10 +175,10 @@ public class ClassDisplay extends JPanel {
             	AssesmentDisplay aD =null;
             	for(Class c: mB.getClasses()){
             		if(c.equals(thisClass)){
-            			
-                    	mB.createAssessment(thisClass, "newAss", 0.3);
+      					aD = new AssesmentDisplay(markingPanel, mB.createAssessment(thisClass, "newAss", 0.3),mB,thisClass,null);
+      					
 
-                    	
+                                                           
             		}
             	}
             	
@@ -236,7 +236,6 @@ public class ClassDisplay extends JPanel {
 		mainPanel.add(addAssesment,c);
 
 	
-		//System.out.println("end    \n" );
 		overall.add(mainPanel,"mP");
 
 	  	
