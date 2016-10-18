@@ -33,7 +33,7 @@ public class Markbook {
 	
 	public void generateRandomData() {
 
-		initialisePostgreSQLDatabase();
+		// initialisePostgreSQLDatabase();
 
 		// method for creating random temporary data
 		final int startingYear = 2016;
