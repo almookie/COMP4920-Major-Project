@@ -9,10 +9,9 @@ public class Markbook {
 	private ArrayList<Grade> grades;
 	private int studentIDCounter;
 	static final String JDBC_DRIVER = "org.postgresql.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost/";
+	static final String DB_URL = "jdbc:postgresql://localhost:5432/testdb";
 	static final String USERNAME = "username";  
-	static final String PASSWORD = "password";
-	
+	static final String PASSWORD = "password";	
 
 	public Markbook() {
 		this.subjects = new ArrayList<Subject>();
@@ -21,18 +20,21 @@ public class Markbook {
 	}
 	
 	public void initialisePostgreSQLDatabase() {
-		try {
-			Class.forName(JDBC_DRIVER);
-			Connection db = DriverManager.getConnection(JDBC_DRIVER, USERNAME, PASSWORD);
-			db.close();
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	      try {
+	         Class.forName(JDBC_DRIVER);
+	         Connection c = DriverManager.getConnection("jdbc:postgresql://localhost/testdb", "username", "password");
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	         System.err.println(e.getClass().getName()+": "+e.getMessage());
+	         System.exit(0);
+	      }
+	      System.out.println("Opened database successfully");
+   }
 	
 	public void generateRandomData() {
-		
+
+		initialisePostgreSQLDatabase();
+
 		// method for creating random temporary data
 		final int startingYear = 2016;
 		final int endYear = 2022;
