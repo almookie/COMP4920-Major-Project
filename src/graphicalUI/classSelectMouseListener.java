@@ -23,7 +23,7 @@ public class classSelectMouseListener implements MouseListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		ms.switchToNewClass(attachedLabel, attachedClass, attachedTable);
+		//ms.switchToNewClass(attachedLabel, attachedClass, attachedTable);
 	}
 
 	@Override

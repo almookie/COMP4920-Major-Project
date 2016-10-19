@@ -17,13 +17,21 @@ public class displayScreen {
     	 JButton managmentButton = new JButton("creation");
     	 JButton searchingButton = new JButton("searching");
     	 
+    	 JButton statsButton = new JButton("Statistics");
+    	 
+    	 statsScreen statsScreen = new statsScreen(mB, frame.getSize().getHeight(), frame.getSize().getWidth());
+    	 
     	 //center to the pane
     	 managmentButton.setAlignmentX(Component.CENTER_ALIGNMENT); 
     	 searchingButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	 
+    	 statsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    	 
     	 //adding to the menu panel
     	 menu.add(managmentButton);
     	 menu.add(searchingButton);
+    	 
+    	 menu.add(statsButton);
     	 
     	 //such that its vertical
     	 menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
@@ -48,6 +56,8 @@ public class displayScreen {
          
          mainPanel.add(managmentPanel, "managmentPanel");
          mainPanel.add(mP, "searchingPanel");
+         
+         mainPanel.add(statsScreen, "statsScreen");
          
          //Note: This gives the effect of the page expanding 
          //from the center of the page
@@ -75,6 +85,13 @@ public class displayScreen {
                  cardLayout.show(mainPanel, "searchingPanel");
              }
          });
+         
+	   statsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    cardLayout.show(mainPanel, "statsScreen");
+			}
+	   });
          
          //maximise to display size
          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
