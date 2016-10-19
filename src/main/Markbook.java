@@ -20,9 +20,120 @@ public class Markbook {
 		this.studentIDCounter = 0;
 	}
 	
+	public void generateRandomData() {
+
+		
+	}
+	
+	private void generateFromPostgreSQLDatabase() {
+
+		// Connect to the database
+		Connection connection = null;
+	      try {
+	         Class.forName(JDBC_DRIVER);
+	         connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+	         Statement statement = connection.createStatement();
+	         HashMap<Integer, Grade> gradeObjects = new HashMap<Integer, Grade>();
+	         HashMap<Integer, Subject> subjectObjects = new HashMap<Integer, Subject>();
+	         
+	         // Import the GRADES table from the database
+	         ResultSet resultset = statement.executeQuery("SELECT * FROM GRADES;");
+	         
+	         // Loop through each row of the GRADES table and generate Grade objects
+	         while(resultset.next()) {
+	        	 int graduationYear = resultset.getInt("GRADUATION_YEAR");
+	        	 
+	        	 Grade grade = new Grade(graduationYear);
+	        	 grades.add(grade);
+	        	 gradeObjects.put(graduationYear, grade);
+	         }
+	         
+	         // Import the SUBJECTS table from the database
+	         resultset = statement.executeQuery("SELECT * FROM SUBJECTS;");
+	         
+	         while(resultset.next()) {
+	        	 String name = resultset.getString("NAME");
+	        	 String shortcode = resultset.getString("SHORTCODE");
+	        	 
+	        	 Subject subject = new Subject(name, shortcode);
+	        	 subjects.add(subject);
+	        	 subjectObjects.put(id, subject);
+	         }
+
+	         // Import the STUDENTS table from the database table by looping through each grade object
+	         for (Grade g : grades) {
+	        	 
+	        	 resultset = statement.executeQuery("SELECT * FROM STUDENTS WHERE GRADE = " + g.getGraduationYear() + ";");
+		         
+		         // Loop through each row of the STUDENTS table from the query and generate Student objects
+		         while(resultset.next()) {
+		        	 
+		        	 // get the students information
+		        	 int id = resultset.getInt("ID");
+		        	 String givenName = resultset.getString("GIVEN_NAME");
+		        	 String surname = resultset.getString("SURNAME");
+		        	 
+		        	 Student s = new Student(id, givenName, surname);
+		        	 g.addStudent(s);
+		         }
+	         }
+	         
+	         // Import the CLASSES table from the database
+	         resultset = statement.executeQuery("SELECT * FROM CLASSES;");
+	         
+	         // Loop through each row of the CLASSES table and generate Subject_Class objects
+	         while(resultset.next()) {
+	        	 
+	        	 
+	        	 int graduationYear = resultset.getInt("GRADUATION_YEAR");
+	        	 
+	        	 Grade grade = new Grade(graduationYear);
+	        	 grades.add(grade);
+	         }
+	         
+	         connection.close();
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	         System.err.println(e.getClass().getName()+": "+e.getMessage());
+	         System.exit(0);
+	      }		
+		
+		// Create a bunch of classes to flesh out subjects
+		for (int i = 0; i <= subjects.size() - 1; i++) {
+			
+			// add 10 classes to each subject
+			for (int j = 0; j <= 10; j++) {
+				int Min = 0;
+				int Max = grades.size() - 1;
+				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
+				Subject_Class c = subjects.get(i).addClass(grades.get(random_value));
+				
+				// add 5 random students to this class
+				for (int k = 0; k <= 4; k++) {
+					
+					// Grade tempGrade = c.getGrade();
+					// ArrayList<Student> tempStudents = tempGrade.getStudents();
+					// Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
+					c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
+				}
+				
+				// generate an assessment for each class
+				Assessment a = new Assessment("Test Assessment", 100, c.getStudents());
+				for (Student s : c.getStudents()) {
+					
+					// generate a random mark between 0 and 100
+					a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
+				}
+				
+				c.addAssessment(a);				
+			}
+		}	
+		
+		// System.out.println(this.toString());
+	}
+
 	public void initialisePostgreSQLDatabase() {
 		Connection connection = null;
-		Statement statement = null;
 	      try {
 	         Class.forName(JDBC_DRIVER);
 	         connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -65,19 +176,34 @@ public class Markbook {
 				+ "GRADUATION_YEAR INT NOT NULL)"
   		);
 		
+		// Create a table that holds SUBJECTS, where each subject has an ID, a name and shortcode
+		statement.executeUpdate(	
+				"CREATE TABLE IF NOT EXISTS SUBJECTS"
+				+ "(ID INT PRIMARY KEY NOT NULL,"
+				+ "NAME TEXT NOT NULL,"
+				+ "SHORTCODE TEXT NOT NULL)"
+  		);
+		
 		// Create a table that holds CLASSES, where each grade has an end year
 		statement.executeUpdate(	
-				"CREATE TABLE IF NOT EXISTS GRADES" +
-				"(GRADUATION_YEAR INT PRIMARY KEY NOT NULL)"
+				"CREATE TABLE IF NOT EXISTS CLASSES"
+				+ "(ID INT PRIMARY KEY NOT NULL,"
+				+ "SUBJECT INT NOT NULL,"
+				+ "GRADE INT NOT NULL)"
   		);
+		
+		// Create a table that holds CLASS_ENROLMENTS, which enrols students in a class
+		statement.executeUpdate(	
+				"CREATE TABLE IF NOT EXISTS CLASS_ENROLMENTS"
+				+ "(CLASS INT NOT NULL,"
+				+ "STUDENT INT NOT NULL)"
+  		);		
 		
 		statement.close();
 	}
 	
-	public void generateRandomData() {
-
-		// initialisePostgreSQLDatabase();
-
+	private void generateData() {
+		
 		// method for creating random temporary data
 		final int startingYear = 2016;
 		final int endYear = 2022;
@@ -182,7 +308,8 @@ public class Markbook {
 			}
 		}	
 		
-		// System.out.println(this.toString());		
+		// System.out.println(this.toString());
+		
 	}
 	
 	// Function that searches student names
