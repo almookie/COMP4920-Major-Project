@@ -22,6 +22,9 @@ public class Markbook {
 	
 	public void generateRandomData() {
 
+		// initialisePostgreSQLDatabase();
+		// generateFromPostgreSQLDatabase();
+		generateData();			
 		
 	}
 	
@@ -51,7 +54,9 @@ public class Markbook {
 	         // Import the SUBJECTS table from the database
 	         resultset = statement.executeQuery("SELECT * FROM SUBJECTS;");
 	         
+	         // Loop through each row of the SUBJECTS table and generate Subject objects
 	         while(resultset.next()) {
+	        	 int id = resultset.getInt("ID");
 	        	 String name = resultset.getString("NAME");
 	        	 String shortcode = resultset.getString("SHORTCODE");
 	        	 
