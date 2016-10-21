@@ -16,6 +16,7 @@ public class FilterPanel extends JPanel {
 
 	Markbook mB;
 	
+	//panel to handle changing pages
 	PageSelectionPanel pageSelection;
 	
 	//panels to store all components of each screen
@@ -27,6 +28,11 @@ public class FilterPanel extends JPanel {
 	GradeFilterPanel gradeFilterPanel;
 	SubjectFilterPanel subjectFilterPanel;
 	StudentFilterPanel studentFilterPanel;
+	
+	//panels to handle adding
+	AddGradePanel gradeAddPanel;
+	AddSubjectPanel subjectAddPanel;
+	AddStudentPanel studentAddPanel;
 	
 	
 	/*	default constructor
@@ -45,6 +51,11 @@ public class FilterPanel extends JPanel {
 		subjectFilterPanel = new SubjectFilterPanel(mB);
 		studentFilterPanel = new StudentFilterPanel(mB);
 		
+		//create panels to handle adding
+		gradeAddPanel = new AddGradePanel(mB);
+		subjectAddPanel = new AddSubjectPanel(mB);
+		studentAddPanel = new AddStudentPanel(mB);
+		
 		pageSelection = new PageSelectionPanel(gradePanel, subjectPanel, studentPanel);
 		
 		setupGraphical();
@@ -58,7 +69,48 @@ public class FilterPanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
+		//page selection panel
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.2;
+		c.weightx = 1;
+		this.add(pageSelection, c);
 		
+		//filter panels
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.7;
+		c.weightx = 1;
+		gradePanel.add(gradeFilterPanel, c);
+		subjectPanel.add(subjectFilterPanel, c);
+		studentPanel.add(studentFilterPanel, c);
+		
+		//add new item panels
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.3;
+		c.weightx = 1;
+		gradePanel.add(gradeAddPanel, c);
+		subjectPanel.add(subjectAddPanel, c);
+		studentPanel.add(studentAddPanel, c);
+		
+		//add content panels to self
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.8;
+		c.weightx = 1;
+		this.add(gradePanel, c);
+		this.add(subjectPanel, c);
+		this.add(studentAddPanel, c);
 	}
 	
 

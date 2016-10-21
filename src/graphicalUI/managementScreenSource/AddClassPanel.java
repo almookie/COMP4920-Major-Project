@@ -12,40 +12,41 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.Grade;
 import main.Markbook;
+import main.Subject;
+import main.Subject_Class;
 
-/*	panel used to add new students
+/*	panel used to add new classes
  * 
  */
-public class AddStudentPanel extends JPanel {
+public class AddClassPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
 	
 	private Markbook mB;
-	private JTextField givenName;
-	private JTextField surName;
 	private JComboBox<GradeComboBoxHolder> grade;
+	private JComboBox<SubjectComboBoxHolder> subject;
 	private JButton submitButton;
 	
 	//label for input status feedback
 	private JLabel statusLabel;
-	private static String defaultText = "Please enter student details";
+	private static String defaultText = "Please enter Class details";
 	private static String wrongInputText = "Incorrect details entered";
-	private static String studentAddedText = "Student added: ";
-	
-	
+	private static String classAddedText = "Class added: ";
+		
+		
 	/*	default constructor
 	 * 
 	 */
-	public AddStudentPanel(Markbook newmB) {
+	public AddClassPanel(Markbook newmB) {
 		mB = newmB;
 		
 		//create the components
-		givenName = new JTextField("Given Name");
-		surName = new JTextField("Surname");
 		grade = new JComboBox<GradeComboBoxHolder>();
-		submitButton = new JButton("Add New Student");
+		subject = new JComboBox<SubjectComboBoxHolder>();
+		submitButton = new JButton("Add New Class");
 		
 		//label for input status feedback
 		statusLabel = new JLabel(defaultText);
@@ -73,16 +74,12 @@ public class AddStudentPanel extends JPanel {
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.weighty = 0.5;
-		c.weightx = 0.4;
-		this.add(givenName, c);
+		c.weightx = 0.6;
+		this.add(subject, c);
 		
 		c.gridx = 1;
 		c.gridy = 0;
-		this.add(surName, c);
-		
-		c.gridx = 3;
-		c.gridy = 0;
-		c.weightx = 0.2;
+		c.weightx = 0.4;
 		this.add(grade, c);
 		
 		c.gridx = 0;
@@ -112,15 +109,14 @@ public class AddStudentPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (checkInput()) {
-					String studentNameGiven = givenName.getText();
-					String studentNameSurname = surName.getText();
-					String studentGrade = String.valueOf(((GradeComboBoxHolder)grade.getSelectedItem()).getGrade());
+					Subject classSubject = ((SubjectComboBoxHolder)subject.getSelectedItem()).getSubject();
+					Grade classGrade = ((GradeComboBoxHolder)grade.getSelectedItem()).getGrade();
 					
-					mB.addStudent(studentNameGiven, studentNameSurname, 
-							((GradeComboBoxHolder)grade.getSelectedItem()).getGrade());
+					Subject_Class newClass = classSubject.addClass(classGrade);
+					
 					//update statusLabel
-					String statusText = studentAddedText + studentNameSurname + ", " 
-							+ studentNameGiven + "in grade: " + studentGrade;
+					String statusText = classAddedText + mB.getLongName(newClass) + " with subject: " 
+							+ String.valueOf(classSubject) + ", and grade: " + String.valueOf(classGrade);
 					
 					statusLabel.setText(statusText);
 					
@@ -138,14 +134,10 @@ public class AddStudentPanel extends JPanel {
 	private boolean checkInput() {
 		boolean isAllowed = true;
 		
-		//check if input is not only spaces
-		if (givenName.getText().matches("^ +$")) {
+		//check if input is empty
+		if (grade.getSelectedItem() == null) {
 			isAllowed = false;
-		} else if (surName.getText().matches("^ +$")) {
-			isAllowed = false;
-		} else if ((givenName.getText() == "") || (surName.getText() == "")) {
-			isAllowed = false;
-		} else if (grade.getSelectedItem() == null) {
+		} else if (subject.getSelectedItem() == null) {
 			isAllowed = false;
 		}
 		
@@ -155,4 +147,5 @@ public class AddStudentPanel extends JPanel {
 		
 		return isAllowed;
 	}
+	
 }
