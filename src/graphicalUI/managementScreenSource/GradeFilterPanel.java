@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -16,13 +18,21 @@ public class GradeFilterPanel extends JPanel {
 	GradeFilterResults filterResults;
 	Markbook mB;
 
-	public GradeFilterPanel(Markbook newmB) {
+	public GradeFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
 		gradeFilter = new JTextField("enter grade name");
-		filterResults = new GradeFilterResults(mB, gradeFilter);
+		filterResults = new GradeFilterResults(mB, gradeFilter, mS);
 		
 		setupGraphical();
 		//default to displaying all grades
+		filterResults.updateResults();
+	}
+	
+	
+	/*	refresh this panel
+	 * 
+	 */
+	public void refresh() {
 		filterResults.updateResults();
 	}
 	

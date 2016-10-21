@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.Grade;
 import main.Markbook;
 
 /*	panel used to add new students
@@ -52,6 +54,24 @@ public class AddStudentPanel extends JPanel {
 		
 		setupGraphical();
 		setupSubmitButton();
+		refreshComboBox();
+	}
+	
+	
+	/*	refresh the combobox display
+	 * 
+	 */
+	public void refreshComboBox() {
+		grade.removeAllItems();
+		
+		ArrayList<Grade> allGrades = mB.getGrades();
+		for (Grade currentGrade : allGrades) {
+			GradeComboBoxHolder comboBoxItem = new GradeComboBoxHolder(currentGrade, mB);
+			grade.addItem(comboBoxItem);
+		}
+		
+		this.revalidate();
+		this.repaint();
 	}
 	
 	
@@ -69,7 +89,7 @@ public class AddStudentPanel extends JPanel {
 		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.weighty = 0.5;
@@ -77,16 +97,16 @@ public class AddStudentPanel extends JPanel {
 		this.add(givenName, c);
 		
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 1;
 		this.add(surName, c);
 		
-		c.gridx = 3;
-		c.gridy = 0;
+		c.gridx = 2;
+		c.gridy = 1;
 		c.weightx = 0.2;
 		this.add(grade, c);
 		
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.weighty = 0.1;
@@ -114,13 +134,14 @@ public class AddStudentPanel extends JPanel {
 				if (checkInput()) {
 					String studentNameGiven = givenName.getText();
 					String studentNameSurname = surName.getText();
-					String studentGrade = String.valueOf(((GradeComboBoxHolder)grade.getSelectedItem()).getGrade());
+					String studentGrade = 
+							String.valueOf(((GradeComboBoxHolder)grade.getSelectedItem()).getGrade().getYear(mB.getCurrentYear()));
 					
 					mB.addStudent(studentNameGiven, studentNameSurname, 
 							((GradeComboBoxHolder)grade.getSelectedItem()).getGrade());
 					//update statusLabel
-					String statusText = studentAddedText + studentNameSurname + ", " 
-							+ studentNameGiven + "in grade: " + studentGrade;
+					String statusText = studentAddedText + "[" + studentNameSurname + ", " 
+							+ studentNameGiven + "] in grade: [" + studentGrade + "]";
 					
 					statusLabel.setText(statusText);
 					
@@ -143,7 +164,7 @@ public class AddStudentPanel extends JPanel {
 			isAllowed = false;
 		} else if (surName.getText().matches("^ +$")) {
 			isAllowed = false;
-		} else if ((givenName.getText() == "") || (surName.getText() == "")) {
+		} else if ((givenName.getText().equals("")) || (surName.getText().equals(""))) {
 			isAllowed = false;
 		} else if (grade.getSelectedItem() == null) {
 			isAllowed = false;

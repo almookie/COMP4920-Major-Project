@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -24,10 +26,10 @@ public class StudentFilterPanel extends JPanel {
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterPanel(Markbook newmB) {
+	public StudentFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
 		selectedStudents = new StudentFilterSelected(mB);
-		filterBar = new StudentFilterBar(mB, selectedStudents);
+		filterBar = new StudentFilterBar(mB, selectedStudents, mS);
 		
 		setupGraphical();
 	}

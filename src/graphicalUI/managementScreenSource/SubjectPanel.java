@@ -59,7 +59,7 @@ public class SubjectPanel extends JPanel {
 		
 		//create label with student name and grade
 		String fullName = 
-				subject.getShortcode() + ":" + subject.getName();
+				subject.getShortcode() + ": " + subject.getName();
 		JLabel displayName = new JLabel(fullName);
 		
 		//display subject name label in panel
@@ -77,13 +77,13 @@ public class SubjectPanel extends JPanel {
 	 * 
 	 */
 	private void setupRemoveButton() {
-		removeButton = new JButton("Remove");
+		removeButton = new JButton("Delete");
 		removeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				parentPanel.remove(self);
-				parentPanel.refreshResults();
+				//TODO delete subject
+				parentPanel.refreshWholePage();
 			}
 			
 		});

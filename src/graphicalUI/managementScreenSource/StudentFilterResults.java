@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -27,13 +29,17 @@ public class StudentFilterResults extends JPanel {
 	JTextField myFilterBar;
 	//panel to store selected students
 	StudentFilterSelected selectedPanel;
+	managementScreen mS;
+	
 	
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterResults(Markbook newmB, StudentFilterSelected newSelectedPanel, JTextField newFilterBar) {
+	public StudentFilterResults(Markbook newmB, StudentFilterSelected newSelectedPanel,
+				JTextField newFilterBar, managementScreen newmS) {
 		//allResults = new ArrayList<StudentFilterItem>();
 		mB = newmB;
+		mS = newmS;
 		selectedPanel = newSelectedPanel;
 		myFilterBar = newFilterBar;
 		
@@ -46,6 +52,14 @@ public class StudentFilterResults extends JPanel {
 	 */
 	public void refreshResults() {
 		updateResults(mB.searchStudents(myFilterBar.getText()));
+	}
+	
+	
+	/*	refresh the whole management screen
+	 * 
+	 */
+	public void refreshWholePage() {
+		mS.refresh();
 	}
 	
 	

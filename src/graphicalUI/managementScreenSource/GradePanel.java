@@ -83,7 +83,7 @@ public class GradePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				parentPanel.remove(self);
-				parentPanel.refreshResults();
+				parentPanel.refreshWholePage();
 			}
 			
 		});

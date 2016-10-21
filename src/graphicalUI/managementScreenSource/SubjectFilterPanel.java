@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -24,13 +26,21 @@ public class SubjectFilterPanel extends JPanel {
 	/*	default constructor
 	 *
 	 */
-	public SubjectFilterPanel(Markbook newmB) {
+	public SubjectFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
 		subjectFilter = new JTextField("enter subject name");
-		filterResults = new SubjectFilterResults(mB, subjectFilter);
+		filterResults = new SubjectFilterResults(mB, subjectFilter, mS);
 		
 		setupGraphical();
 		//default to displaying all subjects
+		filterResults.updateResults();
+	}
+	
+	
+	/*	refresh this panel
+	 * 
+	 */
+	public void refresh() {
 		filterResults.updateResults();
 	}
 	

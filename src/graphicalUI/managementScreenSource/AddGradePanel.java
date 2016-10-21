@@ -60,7 +60,7 @@ public class AddGradePanel extends JPanel {
 		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.weighty = 0.5;
@@ -68,7 +68,7 @@ public class AddGradePanel extends JPanel {
 		this.add(grade, c);
 		
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.weighty = 0.1;
@@ -98,7 +98,7 @@ public class AddGradePanel extends JPanel {
 					
 					mB.addGrade(Integer.parseInt(gradeName));
 					//update statusLabel
-					String statusText = gradeAddedText + gradeName;
+					String statusText = gradeAddedText + "[" + gradeName +"]";
 					
 					statusLabel.setText(statusText);
 					

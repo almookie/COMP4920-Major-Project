@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -38,7 +40,7 @@ public class FilterPanel extends JPanel {
 	/*	default constructor
 	 * 
 	 */
-	public FilterPanel(Markbook newmB) {
+	public FilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
 		
 		//create the panels to store each page
@@ -47,9 +49,9 @@ public class FilterPanel extends JPanel {
 		studentPanel = new JPanel(new GridBagLayout());
 		
 		//create panels to handle filtering
-		gradeFilterPanel = new GradeFilterPanel(mB);
-		subjectFilterPanel = new SubjectFilterPanel(mB);
-		studentFilterPanel = new StudentFilterPanel(mB);
+		gradeFilterPanel = new GradeFilterPanel(mB, mS);
+		subjectFilterPanel = new SubjectFilterPanel(mB, mS);
+		studentFilterPanel = new StudentFilterPanel(mB, mS);
 		
 		//create panels to handle adding
 		gradeAddPanel = new AddGradePanel(mB);
@@ -59,6 +61,27 @@ public class FilterPanel extends JPanel {
 		pageSelection = new PageSelectionPanel(gradePanel, subjectPanel, studentPanel);
 		
 		setupGraphical();
+	}
+	
+	
+	/*	refresh this panel
+	 * 
+	 */
+	public void refresh() {
+		//refresh subject page
+		subjectFilterPanel.refresh();
+		
+		//refresh grade page
+		gradeFilterPanel.refresh();
+		
+		//refresh student page
+		studentAddPanel.refreshComboBox();
+		
+	}
+	
+	
+	public StudentFilterSelected getSelectedPanel() {
+		return studentFilterPanel.getSelectedPanel();
 	}
 	
 	
@@ -110,7 +133,7 @@ public class FilterPanel extends JPanel {
 		c.weightx = 1;
 		this.add(gradePanel, c);
 		this.add(subjectPanel, c);
-		this.add(studentAddPanel, c);
+		this.add(studentPanel, c);
 	}
 	
 

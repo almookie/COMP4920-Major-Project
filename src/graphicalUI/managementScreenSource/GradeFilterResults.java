@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,7 +19,8 @@ public class GradeFilterResults extends JPanel {
 	private static Color backgroundColor = Color.WHITE;
 	
 	Markbook mB;
-
+	managementScreen mS;
+	
 	//Scroll pane attached to this
 	JScrollPane myScroll = null;
 	JTextField myFilterBar;
@@ -26,8 +29,9 @@ public class GradeFilterResults extends JPanel {
 	/*	default constructor
 	 * 
 	 */
-	public GradeFilterResults(Markbook newmB, JTextField newFilterBar) {
+	public GradeFilterResults(Markbook newmB, JTextField newFilterBar, managementScreen newmS) {
 		mB = newmB;
+		mS = newmS;
 		myFilterBar = newFilterBar;
 		
 		setupGraphical();
@@ -42,12 +46,21 @@ public class GradeFilterResults extends JPanel {
 	}
 	
 	
+	/*	refresh the whole management screen
+	 * 
+	 */
+	public void refreshWholePage() {
+		mS.refresh();
+	}
+	
+	
 	/*	refresh displayed results from linked textbox
 	 * 
 	 */
 	public void refreshResults() {
 		//TODO	add filter
 		//updateResults(mB.searchSubjects(myFilterBar.getText()));
+		updateResults();
 		
 		this.revalidate();
 		this.repaint();
@@ -59,17 +72,21 @@ public class GradeFilterResults extends JPanel {
 	 * 
 	 */
 	public void updateResults(ArrayList<Grade> newResults) {
-		//clear old display
-		//allResults.clear();
-		this.removeAll();
-		
-		//add new students
-		for (Grade grade : newResults) {
-			this.addGrade(grade);
+		if (newResults.size() > 0) {
+			//clear old display
+			//allResults.clear();
+			this.removeAll();
+			
+			//add new students
+			for (Grade grade : newResults) {
+				this.addGrade(grade);
+			}
+			this.revalidate();
+			this.repaint();
+			updateScrollPane();
+		} else {
+			updateResults();
 		}
-		this.revalidate();
-		this.repaint();
-		updateScrollPane();
 	}
 	
 	

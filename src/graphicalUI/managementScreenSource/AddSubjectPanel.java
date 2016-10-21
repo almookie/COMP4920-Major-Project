@@ -62,7 +62,7 @@ public class AddSubjectPanel extends JPanel {
 		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.weighty = 0.5;
@@ -70,11 +70,11 @@ public class AddSubjectPanel extends JPanel {
 		this.add(fullName, c);
 		
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 1;
 		this.add(shortenedName, c);
 		
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.weighty = 0.1;
@@ -105,8 +105,8 @@ public class AddSubjectPanel extends JPanel {
 					
 					mB.addSubject(SubjectFullName, SubjectShortName);
 					//update statusLabel
-					String statusText = subjectAddedText + SubjectShortName + ": "
-							+ SubjectShortName;
+					String statusText = subjectAddedText + "[" + SubjectShortName + ": "
+							+ SubjectFullName + "]";
 					
 					statusLabel.setText(statusText);
 					
@@ -129,7 +129,7 @@ public class AddSubjectPanel extends JPanel {
 			isAllowed = false;
 		} else if (shortenedName.getText().matches("^ +$")) {
 			isAllowed = false;
-		} else if ((fullName.getText() == "") || (shortenedName.getText() == "")) {
+		} else if ((fullName.getText().equals("")) || (shortenedName.getText().equals(""))) {
 			isAllowed = false;
 		}
 		
