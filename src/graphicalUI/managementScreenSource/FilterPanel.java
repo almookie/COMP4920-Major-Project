@@ -15,15 +15,37 @@ public class FilterPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	Markbook mB;
+	
+	PageSelectionPanel pageSelection;
+	
+	//panels to store all components of each screen
 	JPanel gradePanel;
-	JPanel SubjectPanel;
-	JPanel StudentPanel;
+	JPanel subjectPanel;
+	JPanel studentPanel;
+	
+	//panels to handle filtering
+	GradeFilterPanel gradeFilterPanel;
+	SubjectFilterPanel subjectFilterPanel;
+	StudentFilterPanel studentFilterPanel;
+	
 	
 	/*	default constructor
 	 * 
 	 */
 	public FilterPanel(Markbook newmB) {
 		mB = newmB;
+		
+		//create the panels to store each page
+		gradePanel = new JPanel(new GridBagLayout());
+		subjectPanel = new JPanel(new GridBagLayout());
+		studentPanel = new JPanel(new GridBagLayout());
+		
+		//create panels to handle filtering
+		gradeFilterPanel = new GradeFilterPanel(mB);
+		subjectFilterPanel = new SubjectFilterPanel(mB);
+		studentFilterPanel = new StudentFilterPanel(mB);
+		
+		pageSelection = new PageSelectionPanel(gradePanel, subjectPanel, studentPanel);
 		
 		setupGraphical();
 	}
@@ -36,7 +58,8 @@ public class FilterPanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		//create panels to contain each page
 		
 	}
+	
+
 }

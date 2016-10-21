@@ -143,20 +143,6 @@ public class managementScreen extends JPanel  {
 	}
 	
 	
-	/*	select a new class
-	 * 
-	 */
-	public void switchToNewClass(JLabel newLabel, Class newClass, JTable newTable) {
-		if (selectedLabel != null) {
-			selectedLabel.setBackground(defaultBackground);
-		}
-		selectedLabel = newLabel;
-		selectedClass = newClass;
-		selectedTable = newTable;
-		newLabel.setBackground(selectedBackground);
-	}
-	
-	
 	/*	reads from text fields to add a new subject
 	 * 
 	 */
