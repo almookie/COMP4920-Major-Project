@@ -647,4 +647,8 @@ public class Markbook {
 	public int getNextAvailableClassID() {
 		return availableClassID++;
 	}
+	
+	public int getNextAssessmentID() {
+		return availableAssessmentID++;
+	}
 }
