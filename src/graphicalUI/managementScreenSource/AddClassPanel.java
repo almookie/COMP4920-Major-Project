@@ -131,7 +131,7 @@ public class AddClassPanel extends JPanel {
 	}
 	
 	
-	/*	allow the submit button to add students
+	/*	allow the submit button to add class
 	 * 
 	 */
 	private void setupSubmitButton() {
@@ -143,7 +143,9 @@ public class AddClassPanel extends JPanel {
 					Subject classSubject = ((SubjectComboBoxHolder)subject.getSelectedItem()).getSubject();
 					Grade classGrade = ((GradeComboBoxHolder)grade.getSelectedItem()).getGrade();
 					
-					Subject_Class newClass = classSubject.addClass(classGrade);
+					Subject_Class newClass = new Subject_Class
+							(mB.getNextAvailableClassID(), classGrade, classSubject, 1);
+					classSubject.addClass(newClass);
 					
 					//update statusLabel
 					String statusText = classAddedText + "[" + mB.getLongName(newClass) + "], with subject: [" 
