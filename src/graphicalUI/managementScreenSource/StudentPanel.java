@@ -24,8 +24,11 @@ import main.Student;
 public class StudentPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
 	private static Color backgroundColor = Color.CYAN;
 	private static Color selectedBackgroundColor = new Color(0, 230, 230);
+	private static Color highlightedBackgroundColor = new Color(0, 240, 240);
+	
 	private static Dimension preferredSize = new Dimension(130, 50);
 	private static Dimension deletePreferredSize = new Dimension(50, 50);
 	
@@ -46,6 +49,24 @@ public class StudentPanel extends JPanel {
 		
 		setupGraphical();
 		setupRemoveButton();
+	}
+	
+	
+	/*	change the color to highlighted color
+	 * 
+	 */
+	public void setHighlight() {
+		this.setBackground(highlightedBackgroundColor);
+		removeButton.setBackground(highlightedBackgroundColor);
+	}
+	
+	
+	/*	clear the highlighted color
+	 * 
+	 */
+	public void clearHighlight() {
+		this.setBackground(backgroundColor);
+		removeButton.setBackground(backgroundColor);
 	}
 	
 	
@@ -83,6 +104,7 @@ public class StudentPanel extends JPanel {
 		c.weighty = 1;
 		c.weightx = 0.2;
 		removeButton.setPreferredSize(deletePreferredSize);
+		removeButton.setOpaque(true);
 		removeButton.setBackground(backgroundColor);
 		removeButton.setBorder(null);
 		removeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));

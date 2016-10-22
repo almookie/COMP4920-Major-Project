@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -68,6 +69,8 @@ public class ClassPanel extends JPanel {
 	private Color backgroundHighlighted = new Color(220, 220, 220);
 	private Color titleFrameHighlighted = new Color(160, 160, 160);
 	
+	private ArrayList<StudentPanel> allStudentPanels;
+	
 	//private Font nameFont = new Font("Helvetica", Font.BOLD, 16);
 	/*	default constructor
 	 * 
@@ -77,6 +80,7 @@ public class ClassPanel extends JPanel {
 		mB = newmB;
 		parent = newParentDisplay;
 		selectedStudents = newSelectedStudents;
+		allStudentPanels = new ArrayList<StudentPanel>();
 		
 		setupGraphical();
 		setupCollapsible();
@@ -92,6 +96,7 @@ public class ClassPanel extends JPanel {
 		mB = newmB;
 		parent = newParentDisplay;
 		selectedStudents = newSelectedStudents;
+		allStudentPanels = new ArrayList<StudentPanel>();
 		
 		setupGraphical();
 		setupCollapsible();
@@ -107,12 +112,27 @@ public class ClassPanel extends JPanel {
 	public void refreshClass(ArrayList<Student> newStudents) {
 		//clear all students
 		contentPanel.removeAll();
+		allStudentPanels.clear();
+		
+		ClassPanelRow currentRow = new ClassPanelRow();
+		contentPanel.add(currentRow);
 		
 		//add new students to display
 		for (Student thisStudent : newStudents) {
 			StudentPanel newPanel = new StudentPanel(thisStudent, this);
-			
+			allStudentPanels.add(newPanel);
 			contentPanel.add(newPanel);
+			/*
+			if (!currentRow.isFull()) {
+				currentRow.addItem(newPanel);
+			}  else {
+				currentRow = new ClassPanelRow();
+				contentPanel.add(currentRow);
+				currentRow.addItem(newPanel);
+			}
+			*/
+			
+			
 		}
 		
 		this.revalidate();
@@ -276,7 +296,8 @@ public class ClassPanel extends JPanel {
 		
 		//setup collapsible panel
 		collapsiblePanel = new JPanel(new GridBagLayout());
-		contentPanel = new JPanel(new FlowLayout());
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new WrapLayout());
 		c.fill = GridBagConstraints.BOTH;
 		collapsiblePanel.add(contentPanel, c);
 		contentPanel.setOpaque(true);
@@ -336,6 +357,10 @@ public class ClassPanel extends JPanel {
 		contentPanel.setBackground(backgroundHighlighted);
 		mainPanel.setBackground(titleFrameHighlighted);
 		classBuffer.setBackground(backgroundHighlighted);
+		
+		for (StudentPanel student : allStudentPanels) {
+			student.setHighlight();
+		}
 	}
 	
 	
@@ -346,6 +371,10 @@ public class ClassPanel extends JPanel {
 		contentPanel.setBackground(backgroundDefault);
 		mainPanel.setBackground(titleFrameBackground);
 		classBuffer.setBackground(backgroundDefault);
+		
+		for (StudentPanel student : allStudentPanels) {
+			student.clearHighlight();
+		}
 	}
 	
 	
