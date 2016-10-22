@@ -1,13 +1,15 @@
 package graphicalUI;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
+
 import main.*;
 public class displayScreen {
 	
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
-    	 frame.setMinimumSize(new Dimension(400,400));
+    	 frame.setMinimumSize(new Dimension(1000,1000));
     	 Markbook mB = new Markbook();
     	 mB.generateRandomData();
     	 
@@ -99,12 +101,14 @@ public class displayScreen {
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          frame.setVisible(true);
          frame.setResizable(false);
+         
 
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
