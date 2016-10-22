@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -29,6 +32,8 @@ public class StudentFilterItem extends JPanel {
 	Markbook mB;
 	StudentFilterSelected selectedPanel;
 	StudentFilterResults parentClass;
+	JButton removeButton;
+	
 	/*	default constructor
 	 * 
 	 */
@@ -37,9 +42,11 @@ public class StudentFilterItem extends JPanel {
 		mB = newmB;
 		selectedPanel = newSelectedPanel;
 		parentClass = newParentClass;
+		removeButton = new JButton("Delete");
 		
 		setupGraphical();
 		setupSelect();
+		setupRemove();
 	}
 	
 	/*	set up the display elements
@@ -66,8 +73,16 @@ public class StudentFilterItem extends JPanel {
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.weighty = 1;
-		c.weightx = 1;
+		c.weightx = 0.8;
 		this.add(displayName, c);
+		
+		c.gridx = 2;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.weighty = 1;
+		c.weightx = 0.2;
+		this.add(removeButton,c);
 	}
 	
 	
@@ -96,6 +111,21 @@ public class StudentFilterItem extends JPanel {
 
 					}
 				});
+	}
+	
+	
+	/*	set up button to delete student
+	 * 
+	 */
+	private void setupRemove() {
+		removeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO remove student
+			}
+			
+		});
 	}
 	
 }

@@ -90,6 +90,7 @@ public class StudentFilterBar extends JPanel {
 		c.weighty = 0.9;
 		c.weightx = 1;
 		scrollableResults.setVisible(false);
+		scrollableResults.getVerticalScrollBar().setUnitIncrement(16);
 		this.add(scrollableResults, c);
 	}
 	

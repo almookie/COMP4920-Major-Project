@@ -43,6 +43,7 @@ public class GradeFilterResults extends JPanel {
 	 */
 	public void setScroll(JScrollPane newScroll) {
 		myScroll = newScroll;
+		myScroll.getVerticalScrollBar().setUnitIncrement(16);
 	}
 	
 	
