@@ -1,6 +1,7 @@
 package graphicalUI.managementScreenSource;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,8 @@ public class PageSelectionPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
-
+	private Integer preferredHeight = 50;
+	
 	//panels to switch between
 	JPanel gradePanel;
 	JPanel subjectPanel;
@@ -81,6 +83,11 @@ public class PageSelectionPanel extends JPanel {
 		//set background color
 		this.setOpaque(true);
 		this.setBackground(backgroundColor);
+		
+		//setup button size
+		Dimension preferredSize = this.getPreferredSize();
+		preferredSize.height = preferredHeight;
+		this.setPreferredSize(preferredSize);
 		
 		//add in the buttons
 		c.fill = GridBagConstraints.BOTH;

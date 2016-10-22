@@ -39,7 +39,7 @@ public class ClassPanel extends JPanel {
 	StudentFilterSelected selectedStudents;
 	
 	//ArrayList of all StudentPanels stored
-	ArrayList<StudentPanel> allStudents;
+
 	Subject_Class thisClass;
 	Markbook mB;
 	
@@ -73,7 +73,6 @@ public class ClassPanel extends JPanel {
 	 * 
 	 */
 	public ClassPanel(Subject_Class newClass, Markbook newmB, ClassDisplay newParentDisplay, StudentFilterSelected newSelectedStudents) {
-		allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
 		parent = newParentDisplay;
@@ -89,7 +88,6 @@ public class ClassPanel extends JPanel {
 	 * 
 	 */
 	public ClassPanel(ArrayList<Student> newStudents, Subject_Class newClass, Markbook newmB, ClassDisplay newParentDisplay, StudentFilterSelected newSelectedStudents) {
-		allStudents = new ArrayList<StudentPanel>();
 		thisClass = newClass;
 		mB = newmB;
 		parent = newParentDisplay;
@@ -109,11 +107,12 @@ public class ClassPanel extends JPanel {
 	public void refreshClass(ArrayList<Student> newStudents) {
 		//clear all students
 		contentPanel.removeAll();
-		allStudents.clear();
 		
-		//add new students
+		//add new students to display
 		for (Student thisStudent : newStudents) {
-			addStudent(thisStudent);
+			StudentPanel newPanel = new StudentPanel(thisStudent, this);
+			
+			contentPanel.add(newPanel);
 		}
 		
 		this.revalidate();
@@ -127,14 +126,17 @@ public class ClassPanel extends JPanel {
 		refreshClass(thisClass.getStudents());
 	}
 	
-	/*	add a student to the classPanel to be displayed
+	
+	/*	add a student to the class
 	 * 
 	 */
-	private void addStudent(Student newStudent) {
-		StudentPanel newPanel = new StudentPanel(newStudent);
-		allStudents.add(newPanel);
-		
-		contentPanel.add(newPanel);
+	public void addStudent(Student newStudent) {
+		thisClass.addStudent(newStudent);
+	}
+	
+	
+	public void removeStudent(Student newStudent) {
+		thisClass.removeStudent(newStudent);
 	}
 	
 	
@@ -202,6 +204,18 @@ public class ClassPanel extends JPanel {
 			
 		});
 		
+		addStudentButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setHighlight();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				removeHighlight();
+			}
+		});
+		
 		//button to delete class
 		JButton deleteClassButton = new JButton();
 		deleteClassButton.setLayout(new BorderLayout());
@@ -218,6 +232,18 @@ public class ClassPanel extends JPanel {
 				parent.refreshClass();
 			}
 			
+		});
+		
+		deleteClassButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setHighlight();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				removeHighlight();
+			}
 		});
 		
 		buttonPanel.add(deleteClassButton);
@@ -303,6 +329,26 @@ public class ClassPanel extends JPanel {
 	}
 	
 	
+	/*	highlights the panel
+	 * 
+	 */
+	public void setHighlight() {
+		contentPanel.setBackground(backgroundHighlighted);
+		mainPanel.setBackground(titleFrameHighlighted);
+		classBuffer.setBackground(backgroundHighlighted);
+	}
+	
+	
+	/*	cancels highlight on panel if there is one
+	 * 
+	 */
+	public void removeHighlight() {
+		contentPanel.setBackground(backgroundDefault);
+		mainPanel.setBackground(titleFrameBackground);
+		classBuffer.setBackground(backgroundDefault);
+	}
+	
+	
 	/*	sets up the listeners for the collapsing of the panel 
 	 * 
 	 */
@@ -316,16 +362,12 @@ public class ClassPanel extends JPanel {
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				contentPanel.setBackground(backgroundHighlighted);
-				mainPanel.setBackground(titleFrameHighlighted);
-				classBuffer.setBackground(backgroundHighlighted);
+				setHighlight();
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				contentPanel.setBackground(backgroundDefault);
-				mainPanel.setBackground(titleFrameBackground);
-				classBuffer.setBackground(backgroundDefault);
+				removeHighlight();
 			}
 		});
 		
@@ -347,16 +389,25 @@ public class ClassPanel extends JPanel {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				contentPanel.setBackground(backgroundHighlighted);
-				mainPanel.setBackground(titleFrameHighlighted);
-				classBuffer.setBackground(backgroundHighlighted);
+				setHighlight();
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				contentPanel.setBackground(backgroundDefault);
-				mainPanel.setBackground(titleFrameBackground);
-				classBuffer.setBackground(backgroundDefault);
+				removeHighlight();
+			}
+		});
+		
+		
+		hidePanelButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setHighlight();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				removeHighlight();
 			}
 		});
 	}

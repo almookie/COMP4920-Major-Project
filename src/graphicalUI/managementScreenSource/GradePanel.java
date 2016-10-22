@@ -77,7 +77,7 @@ public class GradePanel extends JPanel {
 	 * 
 	 */
 	private void setupRemoveButton() {
-		removeButton = new JButton("Remove");
+		removeButton = new JButton("Delete");
 		removeButton.addActionListener(new ActionListener() {
 
 			@Override
