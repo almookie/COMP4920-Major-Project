@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,6 +22,7 @@ public class StudentFilterSelectedItem extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
+	private static Color selectedBackgroundColor = new Color(220, 220, 220);
 	
 	StudentFilterSelectedItem self = this;
 	
@@ -38,6 +41,7 @@ public class StudentFilterSelectedItem extends JPanel {
 		
 		setupGraphical();
 		setupRemoveButton();
+		setupSelect();
 	}
 	
 	
@@ -98,5 +102,40 @@ public class StudentFilterSelectedItem extends JPanel {
 		c.weighty = 1;
 		c.weightx = 0.2;
 		this.add(removeButton, c);
+	}
+	
+	
+	/*	sets up the mouse listeners for colored hovering
+	 * 
+	 */
+	private void setupSelect() {
+		this.addMouseListener(new MouseAdapter() {
+			
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						self.setBackground(selectedBackgroundColor);
+
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						self.setBackground(backgroundColor);
+
+					}
+				});
+		removeButton.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				self.setBackground(selectedBackgroundColor);
+
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				self.setBackground(backgroundColor);
+
+			}
+		});
 	}
 }

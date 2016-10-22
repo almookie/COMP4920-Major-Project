@@ -14,6 +14,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import main.Markbook;
+import main.Subject_Class;
 
 /*	handles seraching in classes
  *	TODO better search function 
@@ -28,17 +29,35 @@ public class ClassSearch extends JPanel {
 	
 	private JTextField searchBar;
 	
+	private boolean hasChanged;
+	
 	/*	default constructor
 	 * 
 	 */
 	public ClassSearch (Markbook newmB, ClassDisplay newDisplayPanel) {
 		mB = newmB;
 		displayPanel = newDisplayPanel;
+		hasChanged = false;
 		
 		searchBar = new JTextField("please enter class, student, or subject name");
 		setupGraphical();
 		setupSearch();
 	}
+	
+	
+	/*	refresh the class display
+	 * 
+	 */
+	public void refreshAllClasses() {
+		if (searchBar.getText().equals("")) {
+			displayPanel.refreshClass();
+		} else if (!hasChanged) {
+			displayPanel.refreshClass();
+		} else {
+			displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+		}
+	}
+	
 	
 	private void setupGraphical() {
 		//use gridbag format
@@ -88,17 +107,32 @@ public class ClassSearch extends JPanel {
 
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
-				displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+				hasChanged = true;
+				if (searchBar.getText().equals("")) {
+					displayPanel.refreshClass();
+				} else {
+					displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+				}
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
-				displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+				hasChanged = true;
+				if (searchBar.getText().equals("")) {
+					displayPanel.refreshClass();
+				} else {
+					displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+				}
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
-				displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+				hasChanged = true;
+				if (searchBar.getText().equals("")) {
+					displayPanel.refreshClass();
+				} else {
+					displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+				}
 			}
 			
 		});
