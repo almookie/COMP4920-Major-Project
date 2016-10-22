@@ -73,7 +73,7 @@ public class StudentFilterBar extends JPanel {
 		scrollableResults.setPreferredSize(preferredSize);
 		
 		//add the search bar and related results panel
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;

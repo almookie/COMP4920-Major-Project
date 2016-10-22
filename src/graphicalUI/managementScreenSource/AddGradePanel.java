@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,6 +26,7 @@ public class AddGradePanel extends JPanel {
 	private Markbook mB;
 	private JTextField grade;
 	private JButton submitButton;
+	private managementScreen mS;
 	
 	//label for input status feedback
 	private JLabel statusLabel;
@@ -32,8 +35,9 @@ public class AddGradePanel extends JPanel {
 	private static String gradeAddedText = "Grade added: ";
 	
 	
-	public AddGradePanel(Markbook newmB) {
+	public AddGradePanel(Markbook newmB, managementScreen newmS) {
 		mB = newmB;
+		mS = newmS;
 		
 		grade = new JTextField("Grade Number");
 		submitButton = new JButton("Add New Grade");
@@ -102,7 +106,7 @@ public class AddGradePanel extends JPanel {
 					
 					statusLabel.setText(statusText);
 					
-					//TODO refresh data
+					mS.refresh();
 				}
 			}
 			

@@ -1,6 +1,7 @@
 package graphicalUI.managementScreenSource;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -84,6 +85,7 @@ public class StudentPanel extends JPanel {
 		removeButton.setPreferredSize(deletePreferredSize);
 		removeButton.setBackground(backgroundColor);
 		removeButton.setBorder(null);
+		removeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.add(removeButton, c);
 	}
 	

@@ -42,6 +42,7 @@ public class managementScreen extends JPanel  {
 	
 	//panel storing search results for classes
 	private ClassDisplay classContents;
+	private AddClassPanel classCreationPanel;
 	
 	//sizes for UI elements
 	private static Dimension searchPanelMinimumSize = new Dimension(150, 0);
@@ -58,7 +59,7 @@ public class managementScreen extends JPanel  {
 	 */
 	public void refresh() {
 		classContents.refreshClass();
-		
+		classCreationPanel.refreshComboBox();
 		searchPanel.refresh();
 		
 		this.revalidate();
@@ -134,7 +135,7 @@ public class managementScreen extends JPanel  {
 		contentPanel.add(contentScroll, c);
 		
 		//panel for creating new classes
-		AddClassPanel classCreationPanel = new AddClassPanel(mB);
+		classCreationPanel = new AddClassPanel(mB, this);
 		
 		//newClassButton.addActionListener(actionListener);
 		//add to interface

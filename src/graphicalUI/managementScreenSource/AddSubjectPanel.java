@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,6 +24,7 @@ public class AddSubjectPanel extends JPanel {
 	private static Color backgroundColor = Color.WHITE;
 	
 	private Markbook mB;
+	private managementScreen mS;
 	private JTextField fullName;
 	private JTextField shortenedName;
 	private JButton submitButton;
@@ -33,8 +36,9 @@ public class AddSubjectPanel extends JPanel {
 	private static String subjectAddedText = "Subject added: ";
 	
 	
-	public AddSubjectPanel(Markbook newmB) {
+	public AddSubjectPanel(Markbook newmB, managementScreen newmS) {
 		mB = newmB;
+		mS = newmS;
 		
 		fullName = new JTextField("Full Name");
 		shortenedName = new JTextField("Shortened Name");
@@ -110,7 +114,7 @@ public class AddSubjectPanel extends JPanel {
 					
 					statusLabel.setText(statusText);
 					
-					//TODO refresh data
+					mS.refresh();
 				}
 			}
 			

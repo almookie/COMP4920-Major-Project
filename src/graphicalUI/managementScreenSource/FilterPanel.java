@@ -54,9 +54,9 @@ public class FilterPanel extends JPanel {
 		studentFilterPanel = new StudentFilterPanel(mB, mS);
 		
 		//create panels to handle adding
-		gradeAddPanel = new AddGradePanel(mB);
-		subjectAddPanel = new AddSubjectPanel(mB);
-		studentAddPanel = new AddStudentPanel(mB);
+		gradeAddPanel = new AddGradePanel(mB, mS);
+		subjectAddPanel = new AddSubjectPanel(mB, mS);
+		studentAddPanel = new AddStudentPanel(mB, mS);
 		
 		pageSelection = new PageSelectionPanel(gradePanel, subjectPanel, studentPanel);
 		

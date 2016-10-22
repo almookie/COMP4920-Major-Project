@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -27,6 +29,7 @@ public class AddClassPanel extends JPanel {
 	private static Color backgroundColor = Color.WHITE;
 	
 	private Markbook mB;
+	private managementScreen mS;
 	private JComboBox<GradeComboBoxHolder> grade;
 	private JComboBox<SubjectComboBoxHolder> subject;
 	private JButton submitButton;
@@ -41,8 +44,9 @@ public class AddClassPanel extends JPanel {
 	/*	default constructor
 	 * 
 	 */
-	public AddClassPanel(Markbook newmB) {
+	public AddClassPanel(Markbook newmB, managementScreen newmS) {
 		mB = newmB;
+		mS = newmS;
 		
 		//create the components
 		grade = new JComboBox<GradeComboBoxHolder>();
@@ -148,7 +152,7 @@ public class AddClassPanel extends JPanel {
 					
 					statusLabel.setText(statusText);
 					
-					//TODO refresh data
+					mS.refresh();
 				}
 			}
 			
