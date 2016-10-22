@@ -5,6 +5,7 @@ import graphicalUI.managementScreen;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +22,7 @@ import main.Markbook;
 public class AddGradePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static Color backgroundColor = Color.WHITE;
+	//private static Color backgroundColor = Color.WHITE;
 	
 	private Markbook mB;
 	private JTextField grade;
@@ -30,7 +31,7 @@ public class AddGradePanel extends JPanel {
 	
 	//label for input status feedback
 	private JLabel statusLabel;
-	private static String defaultText = "Please enter subject details";
+	private static String defaultText = "Please enter grade details";
 	private static String wrongInputText = "Please enter a number for the grade";
 	private static String gradeAddedText = "Grade added: ";
 	
@@ -60,7 +61,10 @@ public class AddGradePanel extends JPanel {
 		
 		//set background color
 		this.setOpaque(true);
-		this.setBackground(backgroundColor);
+		//this.setBackground(backgroundColor);
+		
+		//set insets
+		c.insets = new Insets(10,10,0,10);
 		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -79,6 +83,7 @@ public class AddGradePanel extends JPanel {
 		c.weightx = 1;
 		this.add(statusLabel, c);
 		
+		c.insets = new Insets(10,10,10,10);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;

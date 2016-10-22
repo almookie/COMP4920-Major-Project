@@ -102,12 +102,13 @@ public class FilterPanel extends JPanel {
 		c.weightx = 1;
 		this.add(pageSelection, c);
 		
+		c.fill = GridBagConstraints.BOTH;
 		//filter panels
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.7;
+		c.weighty = 0.9;
 		c.weightx = 1;
 		gradePanel.add(gradeFilterPanel, c);
 		subjectPanel.add(subjectFilterPanel, c);
@@ -118,7 +119,7 @@ public class FilterPanel extends JPanel {
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.3;
+		c.weighty = 0.1;
 		c.weightx = 1;
 		gradePanel.add(gradeAddPanel, c);
 		subjectPanel.add(subjectAddPanel, c);

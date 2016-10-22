@@ -19,7 +19,7 @@ public class StudentFilterSelected extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
-	private static Integer preferredHeight = 100;
+	//private static Integer preferredHeight = 100;
 	
 	
 	Markbook mB;
@@ -47,6 +47,7 @@ public class StudentFilterSelected extends JPanel {
 	 */
 	public void setScroll(JScrollPane newScroll) {
 		myScroll = newScroll;
+		myScroll.getVerticalScrollBar().setUnitIncrement(16);
 	}
 	
 	
@@ -110,6 +111,8 @@ public class StudentFilterSelected extends JPanel {
 			myScroll.setViewportView(this);
 			this.revalidate();
 			this.repaint();
+			myScroll.revalidate();
+			myScroll.repaint();
 		}
 	}
 	
@@ -122,9 +125,9 @@ public class StudentFilterSelected extends JPanel {
 		this.setLayout(new GridBagLayout());
 		
 		//set preferred size
-		Dimension preferredSize = this.getPreferredSize();
-		preferredSize.height = preferredHeight;
-		this.setPreferredSize(preferredSize);
+		//Dimension preferredSize = this.getPreferredSize();
+		//preferredSize.height = preferredHeight;
+		//this.setPreferredSize(preferredSize);
 		
 		//set background color
 		this.setOpaque(true);

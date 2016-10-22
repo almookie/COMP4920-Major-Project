@@ -269,6 +269,7 @@ public class ClassPanel extends JPanel {
 		buttonPanel.add(deleteClassButton);
 		
 		JPanel hideShowLocation = new JPanel(new GridBagLayout());
+		hideShowLocation.setOpaque(false);
 		buttonPanel.add(hideShowLocation);
 		c.gridx = 0;
 		c.gridy = 0;
@@ -281,6 +282,8 @@ public class ClassPanel extends JPanel {
 		hidePanelButton.setLayout(new BorderLayout());
 		hideName1 = new JLabel(hideText1);
 		hideName2 = new JLabel(hideText2);
+		hideName1.setOpaque(false);
+		hideName2.setOpaque(false);
 		hidePanelButton.add(BorderLayout.NORTH, hideName1);
 		hidePanelButton.add(BorderLayout.SOUTH, hideName2);
 		hidePanelButton.setCursor(new Cursor(Cursor.HAND_CURSOR));

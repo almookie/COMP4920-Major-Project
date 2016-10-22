@@ -5,6 +5,7 @@ import graphicalUI.managementScreen;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import main.Subject_Class;
 public class AddClassPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static Color backgroundColor = Color.WHITE;
+	//private static Color backgroundColor = Color.WHITE;
 	
 	private Markbook mB;
 	private managementScreen mS;
@@ -97,7 +98,10 @@ public class AddClassPanel extends JPanel {
 		
 		//set background color
 		this.setOpaque(true);
-		this.setBackground(backgroundColor);
+		//this.setBackground(backgroundColor);
+		
+		//set insets
+		c.insets = new Insets(5,5,0,5);
 		
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -121,6 +125,7 @@ public class AddClassPanel extends JPanel {
 		c.weightx = 1;
 		this.add(statusLabel, c);
 		
+		c.insets = new Insets(5,5,5,5);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridheight = 1;

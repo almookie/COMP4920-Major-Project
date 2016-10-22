@@ -120,8 +120,8 @@ public class SubjectFilterResults extends JPanel {
 	private void updateScrollPane() {
 		if (myScroll != null) {
 			myScroll.setViewportView(this);
-			this.revalidate();
-			this.repaint();
+			myScroll.revalidate();
+			myScroll.repaint();
 		}
 	}
 	
