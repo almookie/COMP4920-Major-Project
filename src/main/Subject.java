@@ -4,39 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Subject {
+	private int id;
 	private String name;
 	private String shortcode;
 	private ArrayList<Subject_Class> classes;
 	private HashMap<Grade, ArrayList<Subject_Class>> classesWithinGrades;
 	
-	public Subject(String name, String shortcode) {
+	public Subject(int id, String name, String shortcode) {
+		this.id = id;
 		this.name = name;
 		this.shortcode = shortcode;
 		this.classes = new ArrayList<Subject_Class>();	
 		this.classesWithinGrades = new HashMap<Grade, ArrayList<Subject_Class>>();
 	}
 	
-	// creates a new class and returns it
-	public Subject_Class addClass(Grade grade) {
-		int classNumberCount;
-		
-		if (classesWithinGrades.get(grade) != null) {
-			classNumberCount = classesWithinGrades.get(grade).size() + 1;
-		} else {
-			classNumberCount = 1;
-		}
-		Subject_Class c = new Subject_Class(grade, this, classNumberCount);
-		classes.add(c);
-		if (classesWithinGrades.get(grade) != null) {
-			classesWithinGrades.get(grade).add(c);		
-		} else {	
-			ArrayList<Subject_Class> newClassList = new ArrayList<Subject_Class>();
-			newClassList.add(c);
-			classesWithinGrades.put(grade, newClassList);
-		}
-		return c;
+	public int getID() {
+		return id;
 	}
-	
+		
 	public void removeClass(Subject_Class delete_class) {
 		classes.remove(delete_class);
 		for (Grade g : classesWithinGrades.keySet()) {
@@ -95,5 +80,18 @@ public class Subject {
 
 	public ArrayList<Subject_Class> getClasses() {
 		return classes;
+	}
+
+	public void addClass(Subject_Class subject_class) {
+		Grade g = subject_class.getGrade();
+		this.classes.add(subject_class);
+		ArrayList<Subject_Class> gradeClasses = this.classesWithinGrades.get(g);
+		if (gradeClasses != null) {
+			gradeClasses.add(subject_class);
+		} else {
+			ArrayList<Subject_Class> newGradeClasses = new ArrayList<Subject_Class>();
+			newGradeClasses.add(subject_class);
+			this.classesWithinGrades.put(g, newGradeClasses);
+		}
 	}
 }
