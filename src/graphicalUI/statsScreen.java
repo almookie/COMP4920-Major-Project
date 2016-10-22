@@ -21,14 +21,14 @@ import javax.swing.table.DefaultTableModel;
 import main.Grade;
 import main.Markbook;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.statistics.HistogramDataset;
-import javax.swing.JTextField;
+//import org.jfree.chart.ChartFactory;
+//import org.jfree.chart.ChartPanel;
+//import org.jfree.chart.JFreeChart;
+//import org.jfree.chart.plot.PlotOrientation;
+//import org.jfree.data.statistics.HistogramDataset;
+//import javax.swing.JTextField;
 
-public class statsScreen extends JPanel {
+/*public class statsScreen extends JPanel {
 
 	private Markbook mB;
 
@@ -405,4 +405,4 @@ public class statsScreen extends JPanel {
 		
 		
 	}
-}
+}*/

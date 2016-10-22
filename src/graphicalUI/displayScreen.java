@@ -19,7 +19,7 @@ public class displayScreen {
     	 
     	 JButton statsButton = new JButton("Statistics");
     	 
-    	 statsScreen statsScreen = new statsScreen(mB, frame.getSize().getHeight(), frame.getSize().getWidth());
+    	 // statsScreen statsScreen = new statsScreen(mB, frame.getSize().getHeight(), frame.getSize().getWidth());
     	 
     	 //center to the pane
     	 managmentButton.setAlignmentX(Component.CENTER_ALIGNMENT); 
@@ -57,7 +57,7 @@ public class displayScreen {
          mainPanel.add(managmentPanel, "managmentPanel");
          mainPanel.add(mP, "searchingPanel");
          
-         mainPanel.add(statsScreen, "statsScreen");
+         // mainPanel.add(statsScreen, "statsScreen");
          
          //Note: This gives the effect of the page expanding 
          //from the center of the page
