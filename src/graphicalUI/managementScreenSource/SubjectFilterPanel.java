@@ -4,39 +4,44 @@ import graphicalUI.managementScreen;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import main.Markbook;
-import main.Student;
 
-/*	panel for searching and selecting students
+/*	filter and selection panel for subjects
  * 
  */
-public class StudentFilterPanel extends JPanel {
+public class SubjectFilterPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	StudentFilterSelected selectedStudents;
-	StudentFilterBar filterBar;
+	JTextField subjectFilter;
+	SubjectFilterResults filterResults;
 	Markbook mB;
 	
+	
 	/*	default constructor
-	 * 
+	 *
 	 */
-	public StudentFilterPanel(Markbook newmB, managementScreen mS) {
+	public SubjectFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
-		selectedStudents = new StudentFilterSelected(mB);
-		filterBar = new StudentFilterBar(mB, selectedStudents, mS);
+		subjectFilter = new JTextField("enter subject name");
+		filterResults = new SubjectFilterResults(mB, subjectFilter, mS);
 		
 		setupGraphical();
+		//default to displaying all subjects
+		filterResults.updateResults();
 	}
 	
 	
-	public StudentFilterSelected getSelectedPanel() {
-		return selectedStudents;
+	/*	refresh this panel
+	 * 
+	 */
+	public void refresh() {
+		filterResults.updateResults();
 	}
 	
 	
@@ -55,10 +60,10 @@ public class StudentFilterPanel extends JPanel {
 		c.gridwidth = 3;
 		c.weighty = 0.05;
 		c.weightx = 1;
-		this.add(filterBar, c);
+		this.add(subjectFilter, c);
 		
-		JScrollPane selectedStudentsScroll = new JScrollPane(selectedStudents);
-		selectedStudents.setScroll(selectedStudentsScroll);
+		JScrollPane subjectScroll = new JScrollPane(filterResults);
+		filterResults.setScroll(subjectScroll);
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -66,8 +71,9 @@ public class StudentFilterPanel extends JPanel {
 		c.gridwidth = 3;
 		c.weighty = 0.95;
 		c.weightx = 1;
-		this.add(selectedStudentsScroll, c);
+		this.add(subjectScroll, c);
 		
-
 	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package graphicalUI.managementScreenSource;
 
+import graphicalUI.managementScreen;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -37,13 +39,13 @@ public class StudentFilterBar extends JPanel {
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterBar(Markbook newmB, StudentFilterSelected selectionBox) {
+	public StudentFilterBar(Markbook newmB, StudentFilterSelected selectionBox, managementScreen mS) {
 		mB = newmB;
 		scrollableResults = new JScrollPane(myResults);
 		
 		setupGraphical();
 		
-		myResults = new StudentFilterResults(newmB, selectionBox, searchBar);
+		myResults = new StudentFilterResults(newmB, selectionBox, searchBar, mS);
 		
 		setupResultsToggle();
 		setupResultsUpdate();
@@ -71,7 +73,7 @@ public class StudentFilterBar extends JPanel {
 		scrollableResults.setPreferredSize(preferredSize);
 		
 		//add the search bar and related results panel
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;

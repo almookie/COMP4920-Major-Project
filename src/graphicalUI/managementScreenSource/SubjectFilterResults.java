@@ -3,47 +3,50 @@ package graphicalUI.managementScreenSource;
 import graphicalUI.managementScreen;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import main.Markbook;
 import main.Student;
+import main.Subject;
 
-/*	displays filter results
+/*	displays subject filter results
  * 
  */
-public class StudentFilterResults extends JPanel {
+public class SubjectFilterResults extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
 	
-	//all stored StudentFilterItems
-	//ArrayList<StudentFilterItem> allResults;
-	
 	Markbook mB;
-	JTextField myFilterBar;
-	//panel to store selected students
-	StudentFilterSelected selectedPanel;
 	managementScreen mS;
-	
+
+	//Scroll pane attached to this
+	JScrollPane myScroll = null;
+	JTextField myFilterBar;
 	
 	/*	default constructor
 	 * 
 	 */
-	public StudentFilterResults(Markbook newmB, StudentFilterSelected newSelectedPanel,
-				JTextField newFilterBar, managementScreen newmS) {
-		//allResults = new ArrayList<StudentFilterItem>();
+	public SubjectFilterResults(Markbook newmB, JTextField newFilterBar, managementScreen newmS) {
 		mB = newmB;
 		mS = newmS;
-		selectedPanel = newSelectedPanel;
 		myFilterBar = newFilterBar;
 		
 		setupGraphical();
+	}
+	
+	
+	/*	attach a scroll pane to this panel
+	 * 
+	 */
+	public void setScroll(JScrollPane newScroll) {
+		myScroll = newScroll;
 	}
 	
 	
@@ -51,7 +54,13 @@ public class StudentFilterResults extends JPanel {
 	 * 
 	 */
 	public void refreshResults() {
-		updateResults(mB.searchStudents(myFilterBar.getText()));
+		//TODO	add filter
+		//updateResults(mB.searchSubjects(myFilterBar.getText()));
+		updateResults();
+		
+		this.revalidate();
+		this.repaint();
+		updateScrollPane();
 	}
 	
 	
@@ -66,30 +75,54 @@ public class StudentFilterResults extends JPanel {
 	/*	clear old display and display the new Students with provided array
 	 * 
 	 */
-	public void updateResults(ArrayList<Student> newResults) {
-		//clear old display
-		//allResults.clear();
-		this.removeAll();
-		
-		//add new students
-		for (Student student : newResults) {
-			if (!selectedPanel.hasStudent(student)) {
-				addStudent(student);
+	public void updateResults(ArrayList<Subject> newResults) {
+		if (newResults.size() > 0) {
+			//clear old display
+			//allResults.clear();
+			this.removeAll();
+			
+			//add new students
+			for (Subject subject : newResults) {
+				this.addSubject(subject);
 			}
+			this.revalidate();
+			this.repaint();
+			updateScrollPane();
+		} else {
+			updateResults();
 		}
-		this.revalidate();
-		this.repaint();
+		
+	}
+	
+	
+	/*	clear old display and display the new Students with all subjects in backend
+	 * 
+	 */
+	public void updateResults() {
+		updateResults(mB.getSubjects());
 	}
 	
 	
 	/*	add a new StudentFilterItem to display
 	 * 
 	 */
-	private void addStudent(Student student) {
-		StudentFilterItem newResult =
-				new StudentFilterItem(student, this, selectedPanel, mB);
+	private void addSubject(Subject subject) {
+		SubjectPanel newResult =
+				new SubjectPanel(subject, mB, this);
 		//allResults.add(newResult);
 		this.add(newResult, getConstraint());
+	}
+	
+	
+	/*	update attached scroll pane, if there is one
+	 * 
+	 */
+	private void updateScrollPane() {
+		if (myScroll != null) {
+			myScroll.setViewportView(this);
+			this.revalidate();
+			this.repaint();
+		}
 	}
 	
 	
@@ -118,5 +151,4 @@ public class StudentFilterResults extends JPanel {
 		
 		return newc;
 	}
-	
 }
