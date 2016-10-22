@@ -32,7 +32,7 @@ public class Markbook {
 
 		initialisePostgreSQLDatabase();
 		generateFromPostgreSQLDatabase();
-		// generateData();			
+		generateData();			
 		saveDataToPSQL();
 	}
 	
