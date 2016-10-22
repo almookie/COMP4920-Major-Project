@@ -7,217 +7,25 @@ import java.util.HashMap;
 public class Markbook {
 	private ArrayList<Subject> subjects;
 	private ArrayList<Grade> grades;
+	private int studentIDCounter;
 	static final String JDBC_DRIVER = "org.postgresql.Driver";  
 	static final String DB_NAME = "MarkbookDB";
 	static final String DB_URL = "jdbc:postgresql://localhost:5433/" + DB_NAME;
 	static final String USERNAME = "postgres";  
 	static final String PASSWORD = "password";	
-	
-	// Counters to hold new ID locations
-	private int availableSubjectID;
-	private int availableStudentID;
-	private int availableClassID;
-	private int availableAssessmentID;
 
 	public Markbook() {
 		this.subjects = new ArrayList<Subject>();
 		this.grades = new ArrayList<Grade>();
-		this.availableSubjectID = 0;
-		this.availableStudentID = 0;
-		this.availableClassID = 0;
-		this.availableAssessmentID = 0;
+		this.studentIDCounter = 0;
 	}
 	
 	public void generateRandomData() {
 
-		initialisePostgreSQLDatabase();
-		generateFromPostgreSQLDatabase();
-		// generateData();			
-		saveDataToPSQL();
-	}
-	
-	private void saveDataToPSQL() {
-
-		// Connect to the database
-		Connection connection = null;
-	      try {
-	         Class.forName(JDBC_DRIVER);
-	         connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-	         Statement statement = connection.createStatement();
-	         
-	         // Delete all the content saved in the database tables
-	         String[] tables = {
-	        		 "STUDENTS",
-	        		 "GRADES",
-	        		 "ASSESSMENTS",
-	        		 "ASSESSMENT_RESULTS",
-	        		 "SUBJECTS",
-	        		 "CLASSES",
-	        		 "CLASS_ENROLMENTS"        		 
-	         };
-	         
-	         // Clear the tables
-	         for (String table : tables) {
-	        	 statement.executeUpdate("DELETE FROM " + table + ";");
-	         }
-	         
-	         // Update with new content	   
-	         
-	         // Update GRADES table
-	         for (Grade g : grades) {
-	        	 statement.executeUpdate("INSERT INTO GRADES (GRADUATION_YEAR) VALUES(" + g.getGraduationYear() + ");");
-	         }
-	         
-	         // Update SUBJECTS, CLASSES, ASSESSMENTS and ASSESSMENT_RESULTS tables at the same time
-	         for (Subject s : subjects) {
-	        	 
-	        	 // updating the SUBJECTS table
-	        	 statement.executeUpdate("INSERT INTO SUBJECTS (ID, NAME, SHORTCODE) VALUES(" + s.getID() + ", '" + s.getName() + "', '" + s.getShortcode() + "');");	 
-	        	 
-	        	 // updating the CLASSES tabe
-	        	 for (Subject_Class c : s.getClasses()) {
-		        	 statement.executeUpdate("INSERT INTO CLASSES (ID, SUBJECT, GRADE, CLASS_NUMBER) VALUES(" 
-		        			 + c.getID() + ", " + s.getID() +  ", " + c.getGrade().getGraduationYear() + ", " + c.getClassNumber() + ");");		 	
-		        	 
-		        	 // updating the ASSESSMENTS table        		 
-		        	 for (Assessment a : c.getAssessments()) {
-			        	 statement.executeUpdate("INSERT INTO ASSESSMENTS (ID, WEIGHTING, NAME, MEAN, MODE, MEDIAN, RANGE) VALUES(" 
-			        			 + a.getID() + ", " + a.getWeighting() +  ", '" + a.getName() + "', " + a.getMean() + ", " + a.getMode() + ", " + a.getMedian() + ", " + a.getRange() +");");		 
-			        	 
-			        	 // updating the ASSESSMENT_RESULTS table
-			        	 for (Student st : a.getMarks().keySet()) {
-				        	 statement.executeUpdate("INSERT INTO ASSESSMENT_RESULTS (ASSESSMENT_ID, STUDENT, MARK) VALUES(" 
-				        			 + a.getID() + ", " + st.getID() +  ", " + a.getMark(st) +");");					        		 
-			        	 }
-		        	 }
-	        	 }       	 
-	        	 
-	         }
-	         
-	         // Update STUDENTS table
-	         for (Grade g : grades) {
-	        	 for (Student s : g.getStudents()) {
-		        	 statement.executeUpdate("INSERT INTO STUDENTS (ID, GIVEN_NAME, SURNAME, GRADE) VALUES(" 
-		        			 + s.getID() + ", '" + s.getGivenName() +  "', '" + s.getSurname() + "', " + g.getGraduationYear() + ");");		        		 
-	        	 }
-	         }
-	         
-	         connection.close();
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	         System.err.println(e.getClass().getName()+": "+e.getMessage());
-	         System.exit(0);
-	      }		
-	}
-
-	private void generateData() {
-			
-			// method for creating random temporary data
-			final int startingYear = 2016;
-			final int endYear = 2022;
-			
-			// generate a number of grades
-			for (int i = startingYear; i <= endYear; i++) {
-				Grade grade = new Grade(i);
-				grades.add(grade);
-			}
-	
-			String first_names[] = { "Ali",
-					"Bill",
-					"Tony",
-					"Tim",
-					"Steve",
-					"Adam",
-					"Natalie",
-					"Sara",
-					"Sarah",
-					"Mark",
-					"Bruce",
-					"Andrew"
-			};
-	
-			String last_names[] = {	"Johnson",
-					"Smith",
-					"Williams",
-					"Wu",
-					"Sun",
-					"Broseph",
-					"Jones",
-					"Adams",
-					"Li",
-					"Pham",
-					"Banner",
-					"Davidson"
-			};
-			
-			// generate students for each grade
-			for (Grade g : grades) {
-				for (int i = 0; i < 100; i++) {
-					Student s = new Student(availableStudentID++, first_names[(int)(Math.random() * ((first_names.length)))], last_names[(int)(Math.random() * ((first_names.length)))]);
-					g.addStudent(s);			
-				}
-			}
-			
-			// generate a number of subjects
-			String subject_names[] = { 	"Chemistry",
-					"English",
-					"Mathematics",
-					"Physics",
-					"Geography",
-					"History",
-					"Art",
-					"Design and Technology"
-			};
-			
-			String subject_shortcodes[] = { "Ch",
-					"En",
-					"Ma",
-					"Ph",
-					"Ge",
-					"Hi",
-					"Ar",
-					"Dt"
-			};
-			
-			for (int i = 0; i <= subject_names.length - 1; i++) {
-				Subject subject = new Subject(availableSubjectID++, subject_names[i], subject_shortcodes[i]);
-				subjects.add(subject);
-			}
-			
-			// Create a bunch of classes to flesh out subjects
-			for (int i = 0; i <= subjects.size() - 1; i++) {
-				
-				// add 10 classes to each subject
-				for (int j = 0; j <= 100; j++) {
-					int Min = 0;
-					int Max = grades.size() - 1;
-					int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
-					Subject_Class c = new Subject_Class(availableClassID++, grades.get(random_value), subjects.get(i), 1);
-					subjects.get(i).addClass(c);
-					
-					// add 5 random students to this class
-					for (int k = 0; k <= 40; k++) {
-						
-						// Grade tempGrade = c.getGrade();
-						// ArrayList<Student> tempStudents = tempGrade.getStudents();
-						// Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
-						c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
-					}
-					
-					// generate an assessment for each class
-					Assessment a = new Assessment(availableAssessmentID++, "Test Assessment", 100, c.getStudents());
-					for (Student s : c.getStudents()) {
-						
-						// generate a random mark between 0 and 100
-						a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
-					}
-					
-					c.addAssessment(a);				
-				}
-			}	
-			
-			// System.out.println(this.toString());
-			
+		// initialisePostgreSQLDatabase();
+		// generateFromPostgreSQLDatabase();
+		generateData();			
+		
 	}
 	
 	private void generateFromPostgreSQLDatabase() {
@@ -228,12 +36,11 @@ public class Markbook {
 	         Class.forName(JDBC_DRIVER);
 	         connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 	         Statement statement = connection.createStatement();
-	         Statement nestedStatement = connection.createStatement();
-	         ResultSet resultset;
-	         ResultSet nestedResultset;
+	         HashMap<Integer, Grade> gradeObjects = new HashMap<Integer, Grade>();
+	         HashMap<Integer, Subject> subjectObjects = new HashMap<Integer, Subject>();
 	         
 	         // Import the GRADES table from the database
-	         resultset = statement.executeQuery("SELECT * FROM GRADES;");
+	         ResultSet resultset = statement.executeQuery("SELECT * FROM GRADES;");
 	         
 	         // Loop through each row of the GRADES table and generate Grade objects
 	         while(resultset.next()) {
@@ -241,6 +48,7 @@ public class Markbook {
 	        	 
 	        	 Grade grade = new Grade(graduationYear);
 	        	 grades.add(grade);
+	        	 gradeObjects.put(graduationYear, grade);
 	         }
 	         
 	         // Import the SUBJECTS table from the database
@@ -252,12 +60,9 @@ public class Markbook {
 	        	 String name = resultset.getString("NAME");
 	        	 String shortcode = resultset.getString("SHORTCODE");
 	        	 
-	        	 Subject subject = new Subject(id, name, shortcode);
+	        	 Subject subject = new Subject(name, shortcode);
 	        	 subjects.add(subject);
-	        	 
-	        	 if (id > availableSubjectID) {
-	        		 availableSubjectID = id + 1;
-	        	 }
+	        	 subjectObjects.put(id, subject);
 	         }
 
 	         // Import the STUDENTS table from the database table by looping through each grade object
@@ -275,32 +80,20 @@ public class Markbook {
 		        	 
 		        	 Student s = new Student(id, givenName, surname);
 		        	 g.addStudent(s);
-		        	 
-		        	 if (id > availableStudentID) {
-		        		 availableStudentID = id + 1;
-		        	 }
 		         }
 	         }
 	         
 	         // Import the CLASSES table from the database
-	         // Search through the database by subject
-	         for (Subject subject : subjects) {
+	         resultset = statement.executeQuery("SELECT * FROM CLASSES;");
+	         
+	         // Loop through each row of the CLASSES table and generate Subject_Class objects
+	         while(resultset.next()) {
 	        	 
-		         resultset = statement.executeQuery("SELECT * FROM CLASSES where SUBJECT = " + subject.getID() + ";");
-		         
-		         while (resultset.next()) {
-
-		        	 int id = resultset.getInt("ID");
-		        	 Grade grade = getGradeByYear(resultset.getInt("GRADE"));
-		        	 int classNumber = resultset.getInt("CLASS_NUMBER");
-		        	 
-		        	 Subject_Class subject_class = new Subject_Class(id, grade, subject, classNumber);
-		        	 subject.addClass(subject_class);	
-		        	 
-		        	 if (id > availableClassID) {
-		        		 availableClassID = id + 1;
-		        	 }
-		         }
+	        	 
+	        	 int graduationYear = resultset.getInt("GRADUATION_YEAR");
+	        	 
+	        	 Grade grade = new Grade(graduationYear);
+	        	 grades.add(grade);
 	         }
 	         
 	         connection.close();
@@ -309,6 +102,39 @@ public class Markbook {
 	         System.err.println(e.getClass().getName()+": "+e.getMessage());
 	         System.exit(0);
 	      }		
+		
+		// Create a bunch of classes to flesh out subjects
+		for (int i = 0; i <= subjects.size() - 1; i++) {
+			
+			// add 10 classes to each subject
+			for (int j = 0; j <= 10; j++) {
+				int Min = 0;
+				int Max = grades.size() - 1;
+				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
+				Subject_Class c = subjects.get(i).addClass(grades.get(random_value));
+				
+				// add 5 random students to this class
+				for (int k = 0; k <= 4; k++) {
+					
+					// Grade tempGrade = c.getGrade();
+					// ArrayList<Student> tempStudents = tempGrade.getStudents();
+					// Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
+					c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
+				}
+				
+				// generate an assessment for each class
+				Assessment a = new Assessment("Test Assessment", 100, c.getStudents());
+				for (Student s : c.getStudents()) {
+					
+					// generate a random mark between 0 and 100
+					a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
+				}
+				
+				c.addAssessment(a);				
+			}
+		}	
+		
+		// System.out.println(this.toString());
 	}
 
 	public void initialisePostgreSQLDatabase() {
@@ -368,8 +194,7 @@ public class Markbook {
 				"CREATE TABLE IF NOT EXISTS CLASSES"
 				+ "(ID INT PRIMARY KEY NOT NULL,"
 				+ "SUBJECT INT NOT NULL,"
-				+ "GRADE INT NOT NULL,"
-				+ "CLASS_NUMBER INT NOT NULL)"
+				+ "GRADE INT NOT NULL)"
   		);
 		
 		// Create a table that holds CLASS_ENROLMENTS, which enrols students in a class
@@ -379,30 +204,119 @@ public class Markbook {
 				+ "STUDENT INT NOT NULL)"
   		);		
 		
-		// Create a table that holds ASSESSMENTS
-		statement.executeUpdate(	
-				"CREATE TABLE IF NOT EXISTS ASSESSMENTS"
-				+ "(ID INT PRIMARY KEY NOT NULL,"
-				+ "WEIGHTING DOUBLE PRECISION NOT NULL,"
-				+ "NAME TEXT NOT NULL,"
-				+ "MEAN DOUBLE PRECISION NOT NULL,"
-				+ "MODE DOUBLE PRECISION NOT NULL,"
-				+ "MEDIAN DOUBLE PRECISION NOT NULL,"
-				+ "RANGE DOUBLE PRECISION NOT NULL)"
-  		);				
-		
-		// Create a table that holds ASSESSMENT RESULTS
-		statement.executeUpdate(	
-				"CREATE TABLE IF NOT EXISTS ASSESSMENT_RESULTS"
-				+ "(ASSESSMENT_ID INT NOT NULL,"
-				+ "STUDENT INT NOT NULL,"
-				+ "MARK DOUBLE PRECISION NOT NULL)"
-  		);		
-		
-		
 		statement.close();
 	}
+	
+	private void generateData() {
 		
+		// method for creating random temporary data
+		final int startingYear = 2016;
+		final int endYear = 2022;
+		
+		// generate a number of grades
+		for (int i = startingYear; i <= endYear; i++) {
+			Grade grade = new Grade(i);
+			grades.add(grade);
+		}
+
+		String first_names[] = { "Ali",
+				"Bill",
+				"Tony",
+				"Tim",
+				"Steve",
+				"Adam",
+				"Natalie",
+				"Sara",
+				"Sarah",
+				"Mark",
+				"Bruce",
+				"Andrew"
+		};
+
+		String last_names[] = {	"Johnson",
+				"Smith",
+				"Williams",
+				"Wu",
+				"Sun",
+				"Broseph",
+				"Jones",
+				"Adams",
+				"Li",
+				"Pham",
+				"Banner",
+				"Davidson"
+		};
+		
+		// generate students for each grade
+		for (Grade g : grades) {
+			for (int i = 0; i < 10; i++) {
+				Student s = new Student(studentIDCounter, first_names[(int)(Math.random() * ((first_names.length)))], last_names[(int)(Math.random() * ((first_names.length)))]);
+				g.addStudent(s);
+				studentIDCounter++;				
+			}
+		}
+		
+		// generate a number of subjects
+		String subject_names[] = { 	"Chemistry",
+				"English",
+				"Mathematics",
+				"Physics",
+				"Geography",
+				"History",
+				"Art",
+				"Design and Technology"
+		};
+		
+		String subject_shortcodes[] = { "Ch",
+				"En",
+				"Ma",
+				"Ph",
+				"Ge",
+				"Hi",
+				"Ar",
+				"Dt"
+		};
+		
+		for (int i = 0; i <= subject_names.length - 1; i++) {
+			Subject subject = new Subject(subject_names[i], subject_shortcodes[i]);
+			subjects.add(subject);
+		}
+		
+		// Create a bunch of classes to flesh out subjects
+		for (int i = 0; i <= subjects.size() - 1; i++) {
+			
+			// add 10 classes to each subject
+			for (int j = 0; j <= 10; j++) {
+				int Min = 0;
+				int Max = grades.size() - 1;
+				int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
+				Subject_Class c = subjects.get(i).addClass(grades.get(random_value));
+				
+				// add 5 random students to this class
+				for (int k = 0; k <= 4; k++) {
+					
+					// Grade tempGrade = c.getGrade();
+					// ArrayList<Student> tempStudents = tempGrade.getStudents();
+					// Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
+					c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
+				}
+				
+				// generate an assessment for each class
+				Assessment a = new Assessment("Test Assessment", 100, c.getStudents());
+				for (Student s : c.getStudents()) {
+					
+					// generate a random mark between 0 and 100
+					a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
+				}
+				
+				c.addAssessment(a);				
+			}
+		}	
+		
+		// System.out.println(this.toString());
+		
+	}
+	
 	// Function that searches student names
 	public ArrayList<Student> searchStudents(String searchString) {
 		ArrayList<Student> returnSearch = new ArrayList<Student>();
@@ -452,7 +366,7 @@ public class Markbook {
 	}
 	
 	public void addSubject(String name, String shortcode) {
-		Subject s = new Subject(availableSubjectID++, name, shortcode);
+		Subject s = new Subject(name, shortcode);
 		subjects.add(s);
 	}
 	
@@ -477,7 +391,7 @@ public class Markbook {
 	 * @return Returns the student object
 	 */
 	public Student addStudent(String givenName, String surname, Grade g) {
-		Student s = new Student(availableStudentID++, givenName, surname);
+		Student s = new Student(studentIDCounter++, givenName, surname);
 		g.addStudent(s);
 		return s;
 	}
@@ -586,64 +500,6 @@ public class Markbook {
 	 * @return The Assessment object
 	 */
 	public Assessment createAssessment(Subject_Class c, String name, double weighting) {
-		return c.createNewAssessment(availableAssessmentID++, name, weighting);
-	}
-	
-	/**
-	 * The grade object associated with a graduation year, or null if not found
-	 * @param graduationYear The year that the grade graduates in
-	 * @return The grade object associated with a graduation year, or null if not found
-	 */
-	private Grade getGradeByYear (int graduationYear) {
-		
-		for (Grade g : grades) {
-			if (g.getGraduationYear() == graduationYear) {
-				return g;
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * The grade object associated with a graduation year, or null if not found
-	 * @param graduationYear The year that the grade graduates in
-	 * @return The grade object associated with a graduation year, or null if not found
-	 */
-	private Student getStudentById (int id) {
-		
-		for (Grade g : grades) {
-			for (Student s : g.getStudents()) {
-				if (s.getID() == id) {
-					return s;
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	/** 
-	 * 
-	 * @return The next available Student ID so as to not conflict with current Students
-	 */
-	public int getNextAvailableStudentID() {
-		return availableStudentID++;
-	}
-	
-	/** 
-	 * 
-	 * @return The next available Subject ID so as to not conflict with current Subjects
-	 */
-	public int getNextAvailableSubjectID() {
-		return availableSubjectID++;
-	}
-	
-	/**
-	 * 
-	 * @return The next available Class ID so as to not conflict with current Classes
-	 */
-	public int getNextAvailableClassID() {
-		return availableClassID++;
+		return c.createNewAssessment(name, weighting);
 	}
 }

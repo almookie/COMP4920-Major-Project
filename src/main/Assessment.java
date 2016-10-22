@@ -7,25 +7,21 @@ import java.util.Map;
 
 public class Assessment {
 	private HashMap<Student, Double> marks; 
-	private double mean, standardDeviation, median, range, weighting, mode;
+	private double mean, standardDeviation, median, range, weighting;
+	private ArrayList<Double> mode;
 	private String name;
-	private int id;
 	
-	public Assessment(int id, String name, double weighting, ArrayList<Student> students) {
-		median = range = mean = standardDeviation = mode = 0;
+	public Assessment(String name, double weighting, ArrayList<Student> students) {
+		median = range = mean = standardDeviation = 0;
 		this.name = name;
-		this.id = id;
 		this.weighting = weighting;
+		this.mode = new ArrayList<Double>();
 		
 		marks = new HashMap<Student, Double>();
 		
 		for (Student student : students) {
 			marks.put(student, 0.0);
 		}
-	}
-	
-	public int getID() {
-		return this.id;
 	}
 	
 	// TODO: Unfinished
@@ -86,7 +82,7 @@ public class Assessment {
 		}
 		
 		//	[Most Frequent Mark]
-		mode = mode_mark.get(0);
+		mode = mode_mark;
 		
 		
 		//	Median
@@ -187,7 +183,7 @@ public class Assessment {
 		this.name = name;
 	}
 	
-	public double getMode() {
+	public ArrayList<Double> getMode() {
 		return mode;
 	}
 	

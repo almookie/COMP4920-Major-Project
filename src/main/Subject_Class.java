@@ -6,22 +6,16 @@ import java.util.HashMap;
 public class Subject_Class {
 	private ArrayList<Student> students; 
 	private ArrayList<Assessment> assessments;
-	private int id;
 	private Grade grade;
 	private Subject subject;
 	private int classNumber;
 	
-	public Subject_Class(int id, Grade grade, Subject subject, int classNumber) {
-		this.id = id;
+	public Subject_Class(Grade grade, Subject subject, int classNumber) {
 		this.grade = grade;
 		this.subject = subject;
 		this.classNumber = classNumber;
 		students = new ArrayList<Student>();
 		assessments = new ArrayList<Assessment>();
-	}
-	
-	public int getID() {
-		return this.id;
 	}
 	
 	public int getClassNumber() {
@@ -110,8 +104,8 @@ public class Subject_Class {
 		return studentMarks;
 	}
 
-	public Assessment createNewAssessment(int id, String name, double weighting) {
-		Assessment newAssessment = new Assessment(id, name, weighting, students);	
+	public Assessment createNewAssessment(String name, double weighting) {
+		Assessment newAssessment = new Assessment(name, weighting, students);	
 		assessments.add(newAssessment);
 		return newAssessment;
 	}
