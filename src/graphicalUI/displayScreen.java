@@ -134,11 +134,11 @@ public class displayScreen {
          managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
          mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));
     	 
-         
          mainPanel.add(managmentPanel, "managmentPanel");
          mainPanel.add(mP, "searchingPanel");
          
-         // mainPanel.add(statsScreen, "statsScreen");
+         StatsDisplay statsScreen = new StatsDisplay(mB);
+         mainPanel.add(statsScreen, "statsScreen");
          
          //Note: This gives the effect of the page expanding 
          //from the center of the page
