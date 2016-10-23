@@ -134,7 +134,8 @@ public class displayScreen {
     	 
          mainPanel.add(managmentPanel, "managmentPanel");
          mainPanel.add(mP, "searchingPanel");
-         
+         mP.refreshClasses(null, null, null, mB.getClasses());//TODO
+
        //  StatsDisplay statsScreen = new StatsDisplay(mB);
         // mainPanel.add(statsScreen, "statsScreen");
          
