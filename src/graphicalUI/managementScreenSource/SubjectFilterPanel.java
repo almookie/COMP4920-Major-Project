@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +27,7 @@ public class SubjectFilterPanel extends JPanel {
 	JTextField subjectFilter;
 	SubjectFilterResults filterResults;
 	Markbook mB;
+	JCheckBox confirmationCheck;
 	
 	//titles for this panel
 	private String searchTitle = "Filter Subjects:";
@@ -37,7 +39,8 @@ public class SubjectFilterPanel extends JPanel {
 	public SubjectFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
 		subjectFilter = new JTextField("enter subject name");
-		filterResults = new SubjectFilterResults(mB, subjectFilter, mS);
+		confirmationCheck = new JCheckBox("Do not ask for confirmation upon deleting");
+		filterResults = new SubjectFilterResults(mB, subjectFilter, mS, confirmationCheck);
 		
 		setupGraphical();
 		//default to displaying all subjects
@@ -100,9 +103,17 @@ public class SubjectFilterPanel extends JPanel {
 		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.92;
+		c.weighty = 0.90;
 		c.weightx = 1;
 		this.add(subjectScroll, c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.02;
+		c.weightx = 1;
+		this.add(confirmationCheck, c);
 		
 	}
 	

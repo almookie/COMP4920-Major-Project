@@ -9,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.Grade;
@@ -17,7 +19,7 @@ import main.Markbook;
 import main.Subject;
 
 
-/*	Stores data on an individual student and handles interaction with
+/*	Stores data on an individual grades and handles interaction with
  * 	individual grades
  * 
  */
@@ -27,6 +29,8 @@ public class GradePanel extends JPanel {
 	private static Color backgroundColor = Color.WHITE;
 	private static Color selectedBackgroundColor = new Color(220, 220, 220);
 	
+	private static String messageTitle = "Confirm Deletion";
+	private static String confirmationMessage = "Deleting this grade will remove all related classes and students. Are you sure you wish to delete the grade?";
 	
 	//subject object stored in this
 	Grade grade;
@@ -62,7 +66,7 @@ public class GradePanel extends JPanel {
 		this.setOpaque(true);
 		this.setBackground(backgroundColor);
 		
-		//create label with student name and grade
+		//create label with grade
 		String fullName = String.valueOf(grade.getYear(mB.getCurrentYear()));
 				
 		JLabel displayName = new JLabel(fullName);
@@ -87,8 +91,16 @@ public class GradePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				parentPanel.remove(self);
-				parentPanel.refreshWholePage();
+				//TODO delete GRADE
+				if (!parentPanel.dontConfirm()) {
+					
+					int result = JOptionPane.showConfirmDialog
+							(self, confirmationMessage, messageTitle, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					
+					if (result == JOptionPane.YES_OPTION) {
+						parentPanel.refreshWholePage();
+					}
+				}
 			}
 			
 		});

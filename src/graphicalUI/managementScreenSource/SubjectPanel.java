@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.Markbook;
@@ -26,6 +27,9 @@ public class SubjectPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
 	private static Color selectedBackgroundColor = new Color(220, 220, 220);
+	
+	private static String messageTitle = "Confirm Deletion";
+	private static String confirmationMessage = "Deleting this subject will remove all related classes. Are you sure you wish to delete the subject?";
 	
 	//subject object stored in this
 	Subject subject;
@@ -87,7 +91,15 @@ public class SubjectPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO delete subject
-				parentPanel.refreshWholePage();
+				if (!parentPanel.dontConfirm()) {
+					
+					int result = JOptionPane.showConfirmDialog
+							(self, confirmationMessage, messageTitle, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					
+					if (result == JOptionPane.YES_OPTION) {
+						parentPanel.refreshWholePage();
+					}
+				}
 			}
 			
 		});

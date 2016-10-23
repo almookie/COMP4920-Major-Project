@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.Markbook;
@@ -25,6 +26,10 @@ public class StudentFilterItem extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
 	private static Color selectedBackgroundColor = new Color(220, 220, 220);
+	
+	private static String messageTitle = "Confirm Deletion";
+	private static String confirmationMessage = "Are you sure you wish to delete the Student?";
+	
 	
 	StudentFilterItem self = this;
 	
@@ -118,11 +123,22 @@ public class StudentFilterItem extends JPanel {
 	 * 
 	 */
 	private void setupRemove() {
+		removeButton.setFocusable(false);
+		
 		removeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO remove student
+				if (!parentClass.dontConfirm()) {
+					
+					int result = JOptionPane.showConfirmDialog
+							(self, confirmationMessage, messageTitle, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					
+					if (result == JOptionPane.YES_OPTION) {
+						parentClass.refreshWholePage();
+					}
+				}
 			}
 			
 		});

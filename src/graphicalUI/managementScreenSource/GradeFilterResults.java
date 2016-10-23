@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -25,16 +26,27 @@ public class GradeFilterResults extends JPanel {
 	JScrollPane myScroll = null;
 	JTextField myFilterBar;
 	
+	//confirmation box
+	JCheckBox confirmationCheck;
 	
 	/*	default constructor
 	 * 
 	 */
-	public GradeFilterResults(Markbook newmB, JTextField newFilterBar, managementScreen newmS) {
+	public GradeFilterResults(Markbook newmB, JTextField newFilterBar, managementScreen newmS, JCheckBox newConfirmationCheck) {
 		mB = newmB;
 		mS = newmS;
 		myFilterBar = newFilterBar;
+		confirmationCheck = newConfirmationCheck;
 		
 		setupGraphical();
+	}
+	
+	
+	/*	check whether deletes should be confirmed
+	 * 	true if should not be confirmed, fallse if should be confirmed
+	 */
+	public boolean dontConfirm() {
+		return confirmationCheck.isSelected();
 	}
 	
 	

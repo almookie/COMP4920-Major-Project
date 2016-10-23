@@ -49,12 +49,14 @@ public class ClassSearch extends JPanel {
 	 * 
 	 */
 	public void refreshAllClasses() {
-		if (searchBar.getText().equals("")) {
-			displayPanel.refreshClass();
-		} else if (!hasChanged) {
-			displayPanel.refreshClass();
+		if (hasChanged) {
+			if (searchBar.getText().equals("")) {
+				displayPanel.refreshClass();
+			} else {
+				displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+			}
 		} else {
-			displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+			displayPanel.refreshClass(mB.getClasses());
 		}
 	}
 	
@@ -107,32 +109,53 @@ public class ClassSearch extends JPanel {
 
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
-				hasChanged = true;
-				if (searchBar.getText().equals("")) {
-					displayPanel.refreshClass();
+				if (!hasChanged) {
+					if (!(searchBar.getText().equals(""))) {
+						displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					}
 				} else {
-					displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					if (searchBar.getText().equals("")) {
+						displayPanel.refreshClass();
+					} else {
+						displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					}
 				}
+				
+				hasChanged = true;
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
-				hasChanged = true;
-				if (searchBar.getText().equals("")) {
-					displayPanel.refreshClass();
+				
+				if (!hasChanged) {
+					if (!(searchBar.getText().equals(""))) {
+						displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					}
 				} else {
-					displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					if (searchBar.getText().equals("")) {
+						displayPanel.refreshClass();
+					} else {
+						displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					}
 				}
+				hasChanged = true;
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
-				hasChanged = true;
-				if (searchBar.getText().equals("")) {
-					displayPanel.refreshClass();
+				
+				if (!hasChanged) {
+					if (!(searchBar.getText().equals(""))) {
+						displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					}
 				} else {
-					displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					if (searchBar.getText().equals("")) {
+						displayPanel.refreshClass();
+					} else {
+						displayPanel.refreshClass(mB.searchClasses(searchBar.getText()));
+					}
 				}
+				hasChanged = true;
 			}
 			
 		});

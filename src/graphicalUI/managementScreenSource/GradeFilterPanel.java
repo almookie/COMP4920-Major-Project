@@ -1,5 +1,8 @@
 package graphicalUI.managementScreenSource;
 
+/*	paanel to handlle filtering and displlay of grades
+ * 
+ */
 import graphicalUI.managementScreen;
 
 import java.awt.GridBagConstraints;
@@ -7,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,6 +26,7 @@ public class GradeFilterPanel extends JPanel {
 	JTextField gradeFilter;
 	GradeFilterResults filterResults;
 	Markbook mB;
+	JCheckBox confirmationCheck;
 	
 	//titles for this panel
 	private String searchTitle = "Filter Grades:";
@@ -29,7 +34,8 @@ public class GradeFilterPanel extends JPanel {
 	public GradeFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
 		gradeFilter = new JTextField("enter grade name");
-		filterResults = new GradeFilterResults(mB, gradeFilter, mS);
+		confirmationCheck = new JCheckBox("Do not ask for confirmation upon deleting");
+		filterResults = new GradeFilterResults(mB, gradeFilter, mS, confirmationCheck);
 		
 		setupGraphical();
 		//default to displaying all grades
@@ -92,9 +98,17 @@ public class GradeFilterPanel extends JPanel {
 		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.92;
+		c.weighty = 0.90;
 		c.weightx = 1;
 		this.add(subjectScroll, c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.02;
+		c.weightx = 1;
+		this.add(confirmationCheck, c);
 		
 	}
 }

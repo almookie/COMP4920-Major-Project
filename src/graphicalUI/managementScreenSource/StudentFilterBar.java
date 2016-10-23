@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -34,7 +35,7 @@ public class StudentFilterBar extends JPanel {
 	JTextField searchBar;
 	StudentFilterResults myResults;
 	JScrollPane scrollableResults;
-	
+	JCheckBox confirmationCheck;
 	
 	/*	default constructor
 	 * 
@@ -43,9 +44,10 @@ public class StudentFilterBar extends JPanel {
 		mB = newmB;
 		scrollableResults = new JScrollPane(myResults);
 		
+		confirmationCheck = new JCheckBox("Do not ask for confirmation upon deleting");
 		setupGraphical();
 		
-		myResults = new StudentFilterResults(newmB, selectionBox, searchBar, mS);
+		myResults = new StudentFilterResults(newmB, selectionBox, searchBar, mS, confirmationCheck);
 		
 		setupResultsToggle();
 		setupResultsUpdate();
@@ -85,13 +87,21 @@ public class StudentFilterBar extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 1;
-		c.gridheight = 2;
+		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.9;
+		c.weighty = 0.88;
 		c.weightx = 1;
 		scrollableResults.setVisible(false);
 		scrollableResults.getVerticalScrollBar().setUnitIncrement(16);
 		this.add(scrollableResults, c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.02;
+		c.weightx = 1;
+		this.add(confirmationCheck, c);
 	}
 	
 	
