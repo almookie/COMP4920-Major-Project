@@ -115,4 +115,14 @@ public class Subject_Class {
 		assessments.add(newAssessment);
 		return newAssessment;
 	}
+	
+	public double getRemainingWeightings() {
+		double weightingTotal = 0;
+		
+		for (Assessment a : assessments) {
+			weightingTotal += a.getWeighting();
+		}
+		
+		return 1 - weightingTotal;
+	}
 }
