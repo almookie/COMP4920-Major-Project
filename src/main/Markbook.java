@@ -75,10 +75,16 @@ public class Markbook {
 	        	 // updating the SUBJECTS table
 	        	 statement.executeUpdate("INSERT INTO SUBJECTS (ID, NAME, SHORTCODE) VALUES(" + s.getID() + ", '" + s.getName() + "', '" + s.getShortcode() + "');");	 
 	        	 
-	        	 // updating the CLASSES tabe
+	        	 // updating the CLASSES table
 	        	 for (Subject_Class c : s.getClasses()) {
 		        	 statement.executeUpdate("INSERT INTO CLASSES (ID, SUBJECT, GRADE, CLASS_NUMBER) VALUES(" 
-		        			 + c.getID() + ", " + s.getID() +  ", " + c.getGrade().getGraduationYear() + ", " + c.getClassNumber() + ");");		 	
+		        			 + c.getID() + ", " + s.getID() +  ", " + c.getGrade().getGraduationYear() + ", " + c.getClassNumber() + ");");		 
+		        	 
+		        	 // updating the CLASS_ENROLMENTS table
+		        	 for (Student student : c.getStudents()) {
+			        	 statement.executeUpdate("INSERT INTO CLASS_ENROLMENTS (CLASS, STUDENT) VALUES(" 
+			        			 + c.getID() + ", " + student.getID() + ");");		 
+		        	 }
 		        	 
 		        	 // updating the ASSESSMENTS table        		 
 		        	 for (Assessment a : c.getAssessments()) {
@@ -650,5 +656,30 @@ public class Markbook {
 	
 	public int getNextAssessmentID() {
 		return availableAssessmentID++;
+	}
+	
+	public void deleteSubject(Subject s) {
+		for (Subject_Class c : s.getClasses()) {
+			
+		}
+		subjects.remove(s);
+	}
+	
+	public ArrayList<Subject> searchSubjects(String searchString) {
+		ArrayList<Subject> returnList = new ArrayList<Subject>();
+		
+		for (Subject s : subjects) {
+			if (s.getName().matches(searchString)) {
+				returnList.add(s);
+			}
+		}
+		
+		return returnList;
+	}
+	
+	public ArrayList<Grade> searchGrades(String searchString) {
+		ArrayList<Grade> returnList = new ArrayList<Grade>();
+		
+		return returnList;
 	}
 }
