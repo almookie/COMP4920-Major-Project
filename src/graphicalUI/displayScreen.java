@@ -16,7 +16,6 @@ public class displayScreen {
     	 final JFrame frame = new JFrame();
     	 frame.setMinimumSize(new Dimension(1000,1000));
     	 final Markbook mB = new Markbook();
-    	 mB.generateRandomData();
     	 
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
