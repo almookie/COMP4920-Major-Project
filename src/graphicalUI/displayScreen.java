@@ -23,7 +23,7 @@ public class displayScreen {
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
     	 menu.setLayout(new GridBagLayout());
-    	 menu.setBackground(Color.GRAY);
+    	 menu.setBackground(new Color(220, 220, 220));
     	 //buttons to change pages
     	 String name1 = "<html><b>" + "Manage" + "<br>" + "Classes" + "</b></html>";
     	 final JButton managmentButton = new JButton(name1);
@@ -80,7 +80,7 @@ public class displayScreen {
 		c.weighty = 0.8;
 		c.weightx = 1;
 	 	menu.add(pageSelectionPanel, c);
-	 	pageSelectionPanel.setBackground(Color.GRAY);
+	 	pageSelectionPanel.setBackground(new Color(220, 220, 220));
  	////////
 	 	 
 	////////	-options bar
