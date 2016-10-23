@@ -39,7 +39,10 @@ public class Markbook {
 	}*/
 	
 	public void generateRandomData() {
-		generateData();			
+		initialisePostgreSQLDatabase();
+		generateFromPostgreSQLDatabase();
+		// generateData();			
+		saveDataToPSQL();
 	}
 	
 	public void loadDatabase() {
@@ -64,6 +67,7 @@ public class Markbook {
 	        		 "STUDENTS",
 	        		 "GRADES",
 	        		 "ASSESSMENTS",
+	        		 "CLASS_ASSESSMENTS",
 	        		 "ASSESSMENT_RESULTS",
 	        		 "SUBJECTS",
 	        		 "CLASSES",
@@ -177,7 +181,7 @@ public class Markbook {
 			
 			// generate students for each grade
 			for (Grade g : grades) {
-				for (int i = 0; i < 100; i++) {
+				for (int i = 0; i < 25; i++) {
 					Student s = new Student(availableStudentID++, first_names[(int)(Math.random() * ((first_names.length)))], last_names[(int)(Math.random() * ((first_names.length)))]);
 					g.addStudent(s);			
 				}
@@ -212,7 +216,7 @@ public class Markbook {
 			// Create a bunch of classes to flesh out subjects
 			for (int i = 0; i <= subjects.size() - 1; i++) {
 				
-				for (int j = 0; j <= 20; j++) {
+				for (int j = 0; j <= 5; j++) {
 					int Min = 0;
 					int Max = grades.size() - 1;
 					int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
@@ -220,7 +224,7 @@ public class Markbook {
 					subjects.get(i).addClass(c);
 					
 					// add 20 random students to this class
-					for (int k = 0; k <= 20; k++) {
+					for (int k = 0; k <= 5; k++) {
 						
 						// Grade tempGrade = c.getGrade();
 						// ArrayList<Student> tempStudents = tempGrade.getStudents();
