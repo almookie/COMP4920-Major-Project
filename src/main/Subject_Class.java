@@ -42,6 +42,9 @@ public class Subject_Class {
 	
 	public void removeStudent(Student student) {
 		students.remove(student);
+		for (Assessment a : assessments) {
+			a.removeStudent(student);
+		}
 	}
 	
 	public Grade getGrade() { 

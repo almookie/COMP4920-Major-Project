@@ -699,6 +699,7 @@ public class Markbook {
 					classesToRemove.add(c);
 				}
 			}
+			
 			for (Subject_Class c : classesToRemove) {
 				s.removeClass(c);
 			}
@@ -735,5 +736,21 @@ public class Markbook {
 	public void addClass(Subject s, Grade g, ArrayList<Student> students) {
 		Subject_Class newClass = new Subject_Class(availableClassID++, g, s, getNextAvailableClassNumber(s, g));
 		s.addClass(newClass);
+	}
+	
+	public void deleteStudent(Student student) {
+		
+		// remove student from all subjects that that contain it
+		for (Subject s : subjects) {
+			s.removeStudent(student);
+		}
+		
+		// remove student from the grade that contains it
+		for (Grade g : grades) {
+			if (g.getStudents().contains(student)) {
+				g.removeStudent(student);
+				continue;
+			}
+		}
 	}
 }
