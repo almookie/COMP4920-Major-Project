@@ -690,6 +690,17 @@ public class Markbook {
 		subjects.remove(s);
 	}
 	
+	public void deleteGrade(Grade g) {
+		grades.remove(g);
+		for (Subject s : subjects) {
+			for (Subject_Class c : s.getClasses()) {
+				if (c.getGrade() == g) {
+					s.removeClass(c);
+				}
+			}
+		}
+	}
+	
 	public ArrayList<Subject> searchSubjects(String searchString) {
 		String regexSearchString = ".*" + searchString + ".*";
 		ArrayList<Subject> returnList = new ArrayList<Subject>();
