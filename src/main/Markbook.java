@@ -918,4 +918,18 @@ public class Markbook {
 		c.addStudent(s);
 		return true;
 	}
+	
+	public ArrayList<Subject_Class> getClasses(Grade g) {
+		ArrayList<Subject_Class> returnClasses = new ArrayList<Subject_Class>();
+		
+		for (Subject s : subjects) {
+			for (Subject_Class c : s.getClasses()) {
+				if (c.getGrade() == g) {
+					returnClasses.add(c);
+				}
+			}
+		}
+		
+		return returnClasses;
+	}
 }
