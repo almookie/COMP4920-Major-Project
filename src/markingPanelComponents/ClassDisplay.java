@@ -148,8 +148,15 @@ public class ClassDisplay extends JPanel {
 	    assName.setMaximumSize(new Dimension(1000,50));
 	    newAssesment.add(assName);
 	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
-
-	  	newAssesment.add(new JLabel("AssesmentWeighting"));
+	    final JLabel remaining = new JLabel("Remaining Weight to Use : " +String.valueOf(thisClass.getRemainingWeightings()));
+	    remaining.setOpaque(true);
+		if(thisClass.getRemainingWeightings()!=0){
+		    remaining.setBackground(Color.CYAN);
+		}else{
+			remaining.setBackground(Color.red);
+		}
+	    newAssesment.add(remaining);
+	    newAssesment.add(new JLabel("AssesmentWeighting"));
 	    final JTextField assWeighting = new JTextField();
 	    
 	    assWeighting.setMaximumSize(new Dimension(1000,50));
@@ -199,7 +206,7 @@ public class ClassDisplay extends JPanel {
             	if(!assWeighting.getText().matches("-?\\d+(\\.\\d+)?")){
             		JOptionPane.showMessageDialog(null, "must be numeric", "Dialog",
 					        JOptionPane.ERROR_MESSAGE);
-            	}else if(thisClass.getRemainingWeightings() <= Double.parseDouble(assWeighting.getText())){
+            	}else if(thisClass.getRemainingWeightings() < Double.parseDouble(assWeighting.getText())){
             		JOptionPane.showMessageDialog(null, "full 100% of assesments weights have been assigned! ", "Dialog",
 					        JOptionPane.ERROR_MESSAGE);
             	}else{
