@@ -13,8 +13,8 @@ import main.*;
 public class displayScreen {
 	private static Color selectedButtonColor = Color.GRAY;
 	private static Color defaultButtonColor = Color.LIGHT_GRAY;
-	private static Color menuBackground = new Color(183, 174, 193);
-	private static Color menuBackgroundOne = new Color(189, 179, 202);
+	private static Color menuBackground = new Color(167, 161, 157);
+	private static Color menuBackgroundOne = new Color(184, 174, 165);
 
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
