@@ -21,6 +21,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -137,15 +138,7 @@ public class ClassDisplay extends JPanel {
 		
 		
 		JPanel newAssesment = new JPanel();
-		JButton cancel = new JButton("Cancel");
-	  	cancel.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(overall, "mP");
-            }
-        });
-	  	newAssesment.add(cancel);
+		
 	  	
 	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
 
@@ -201,25 +194,44 @@ public class ClassDisplay extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+            	System.out.println(thisClass.getRemainingWeightings());
             	AssesmentDisplay aD =null;
-            	for(Subject_Class c: mB.getClasses()){
-            		if(c.equals(thisClass)){
-      					aD = new AssesmentDisplay(markingPanel, mB.createAssessment(thisClass,assName.getText(), Double.parseDouble(assWeighting.getText())),mB,thisClass,null);
-      					
-
-                                                           
-            		}
-            	}
+            	if(!assWeighting.getText().matches("-?\\d+(\\.\\d+)?")){
+            		JOptionPane.showMessageDialog(null, "must be numeric", "Dialog",
+					        JOptionPane.ERROR_MESSAGE);
+            	}else if(thisClass.getRemainingWeightings() <= Double.parseDouble(assWeighting.getText())){
+            		JOptionPane.showMessageDialog(null, "full 100% of assesments weights have been assigned! ", "Dialog",
+					        JOptionPane.ERROR_MESSAGE);
+            	}else{
             	
-            	markingPanel.setMyMb(mB);
-            	markingPanel.refreshClasses(null, null, null, mB.getClasses());
-            	System.out.print("OTHERPANEL");
-            	assesments.add(aD,aD.getName());
-                cardLayout.show(overall, "mP");
+
+                	for(Subject_Class c: mB.getClasses()){
+                		if(c.equals(thisClass)){
+          					aD = new AssesmentDisplay(markingPanel, mB.createAssessment(thisClass,assName.getText(), Double.parseDouble(assWeighting.getText())),mB,thisClass,null);
+          					                  
+                		}
+                	}
+                	
+                	markingPanel.setMyMb(mB);
+                	markingPanel.refreshClasses(null, null, null, mB.getClasses());
+                	System.out.print("OTHERPANEL");
+                	assesments.add(aD,aD.getName());
+                    cardLayout.show(overall, "mP");
+            		
+            	}
+
             }
         });
 	  	newAssesment.add(create);
-	  	  	
+	  	JButton cancel = new JButton("Cancel");
+	  	cancel.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(overall, "mP");
+            }
+        });
+	  	newAssesment.add(cancel);
 	  	
 		swap.addActionListener(new ActionListener() {
             @Override
