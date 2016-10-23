@@ -90,13 +90,13 @@ public class SubjectPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO delete subject
 				if (!parentPanel.dontConfirm()) {
 					
 					int result = JOptionPane.showConfirmDialog
 							(self, confirmationMessage, messageTitle, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
 					if (result == JOptionPane.YES_OPTION) {
+						mB.deleteSubject(subject);
 						parentPanel.refreshWholePage();
 					}
 				}

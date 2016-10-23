@@ -8,6 +8,7 @@ import graphicalUI.managementScreen;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -17,7 +18,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import main.Grade;
 import main.Markbook;
 
 public class GradeFilterPanel extends JPanel {
@@ -31,13 +35,17 @@ public class GradeFilterPanel extends JPanel {
 	//titles for this panel
 	private String searchTitle = "Filter Grades:";
 
+	private boolean hasChanged;
+	
 	public GradeFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
 		gradeFilter = new JTextField("enter grade name");
 		confirmationCheck = new JCheckBox("Do not ask for confirmation upon deleting");
 		filterResults = new GradeFilterResults(mB, gradeFilter, mS, confirmationCheck);
+		hasChanged = false;
 		
 		setupGraphical();
+		setupfilterBar();
 		//default to displaying all grades
 		filterResults.updateResults();
 	}
@@ -110,5 +118,87 @@ public class GradeFilterPanel extends JPanel {
 		c.weightx = 1;
 		this.add(confirmationCheck, c);
 		
+	}
+	
+	
+	/*	setup filter bar functionality
+	 * 
+	 */
+	private void setupfilterBar() {
+		gradeFilter.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				if (!hasChanged) {
+					filterResults.updateResults();
+				} else {
+					if (gradeFilter.getText().equals("")) {
+						filterResults.updateResults();
+					} else {
+						if (checkInput()) {
+							filterResults.updateResults(mB.searchGrades(Integer.valueOf(gradeFilter.getText())));
+						} else {
+							filterResults.updateResults(new ArrayList<Grade>());
+						}
+					}
+				}
+				
+				hasChanged = true;
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				if (!hasChanged) {
+					filterResults.updateResults();
+				} else {
+					if (gradeFilter.getText().equals("")) {
+						filterResults.updateResults();
+					} else {
+						if (checkInput()) {
+							filterResults.updateResults(mB.searchGrades(Integer.valueOf(gradeFilter.getText())));
+						} else {
+							filterResults.updateResults(new ArrayList<Grade>());
+						}
+					}
+				}
+				
+				hasChanged = true;
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				if (!hasChanged) {
+					filterResults.updateResults();
+				} else {
+					if (gradeFilter.getText().equals("")) {
+						filterResults.updateResults();
+					} else {
+						if (checkInput()) {
+							filterResults.updateResults(mB.searchGrades(Integer.valueOf(gradeFilter.getText())));
+						}
+					}
+				}
+				
+				hasChanged = true;
+			}
+			
+		});
+	}
+	
+	
+	/*	check if textbox entry is of the correct format
+	 * 	true if item only has allowed characters, otherwise false
+	 */
+	private boolean checkInput() {
+		boolean isAllowed = false;
+		
+		/*	check if a string is numeric
+		 * 	credit to "CraigTP"
+		 */
+		if (gradeFilter.getText().matches("-?\\d+(\\.\\d+)?")) {
+			isAllowed = true;
+		}
+		
+		return isAllowed;
 	}
 }
