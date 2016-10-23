@@ -269,7 +269,7 @@ public class markingPanel extends JPanel {
         scroll.getVerticalScrollBar().setUnitIncrement(16);
 		viewPanel.add(scroll, BorderLayout.CENTER);
 		
-		
+
 		
 	}
 	

@@ -118,7 +118,7 @@ public class ClassDisplay extends JPanel {
 	 */
 	private void setupGraphical() {
 		//use gridbag format
-		
+
 		final CardLayout cardLayout = new CardLayout();
 		overall = new JPanel(cardLayout);
 	
@@ -143,20 +143,20 @@ public class ClassDisplay extends JPanel {
 	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
 
 	  	newAssesment.setLayout(new BoxLayout(newAssesment, BoxLayout.Y_AXIS));
-	  	newAssesment.add(new JLabel("AssesmentName"));
+	  	newAssesment.add(new JLabel("Assesment Name"));
 	    final JTextField assName = new JTextField();
 	    assName.setMaximumSize(new Dimension(1000,50));
 	    newAssesment.add(assName);
 	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
-	    final JLabel remaining = new JLabel("Remaining Weight to Use : " +String.valueOf(thisClass.getRemainingWeightings()));
-	    remaining.setOpaque(true);
-		if(thisClass.getRemainingWeightings()!=0){
-		    remaining.setBackground(Color.CYAN);
-		}else{
-			remaining.setBackground(Color.red);
-		}
-	    newAssesment.add(remaining);
-	    newAssesment.add(new JLabel("AssesmentWeighting"));
+//	    final JLabel remaining = new JLabel("Remaining Weight to Use : " +String.valueOf(thisClass.getRemainingWeightings()));
+//	    remaining.setOpaque(true);
+//		if(thisClass.getRemainingWeightings()!=0){
+//		    remaining.setBackground(Color.CYAN);
+//		}else{
+//			remaining.setBackground(Color.red);
+//		}
+//	    newAssesment.add(remaining);
+	    newAssesment.add(new JLabel("Assesment Weighting -- no. (0 to 100) to represent percent weight new assesment holds"));
 	    final JTextField assWeighting = new JTextField();
 	    
 	    assWeighting.setMaximumSize(new Dimension(1000,50));
@@ -207,7 +207,7 @@ public class ClassDisplay extends JPanel {
             		JOptionPane.showMessageDialog(null, "must be numeric", "Dialog",
 					        JOptionPane.ERROR_MESSAGE);
             	}else if(thisClass.getRemainingWeightings() < Double.parseDouble(assWeighting.getText())){
-            		JOptionPane.showMessageDialog(null, "full 100% of assesments weights have been assigned! ", "Dialog",
+            		JOptionPane.showMessageDialog(null, "There is only: " +thisClass.getRemainingWeightings()+ "% left adding" +assWeighting.getText()+ "% to total assesments is more than 100% of assesments weight! ", "Dialog",
 					        JOptionPane.ERROR_MESSAGE);
             	}else{
             	
@@ -220,15 +220,17 @@ public class ClassDisplay extends JPanel {
                 	}
                 	
                 	markingPanel.setMyMb(mB);
-                	markingPanel.refreshClasses(null, null, null, mB.getClasses());
                 	System.out.print("OTHERPANEL");
                 	assesments.add(aD,aD.getName());
+                	markingPanel.refreshClasses(null, null, null, mB.getClasses());
+
                     cardLayout.show(overall, "mP");
             		
             	}
 
             }
         });
+	  	
 	  	newAssesment.add(create);
 	  	JButton cancel = new JButton("Cancel");
 	  	cancel.addActionListener(new ActionListener() {
@@ -293,7 +295,6 @@ public class ClassDisplay extends JPanel {
 		addAssesment.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
             	
             	markingPanel.setMyMb(mB);
             	markingPanel.refreshClasses(null, null, null, mB.getClasses());

@@ -14,6 +14,7 @@ import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -79,8 +80,9 @@ public class AssesmentDisplay extends JPanel  {
 
 		JLabel weighting = new JLabel("Change current Weight: ");
 		final JTextField w = new JTextField(Double.toString(myAssesment.getWeighting()));
+		JButton changeW = new JButton("Change");
 		
-		w.addActionListener(new AbstractAction(){
+		changeW.addActionListener(new AbstractAction(){
 		    /**
 			 * 
 			 */
@@ -89,13 +91,14 @@ public class AssesmentDisplay extends JPanel  {
 			@Override
 		    public void actionPerformed(ActionEvent e)
 		    {
-		    	for(Subject_Class c : mB.getClasses()){
+		    	
+				myAssesment.setWeighting(Double.parseDouble(w.getText()));
+				
+				for(Subject_Class c : mB.getClasses()){
 		    		if(c.equals(assesmentClass)){
 	 						for(Assessment a : c.getAssessments()){
 	 									if(a.equals(myAssesment)){
-	 										myAssesment.setWeighting(Double.parseDouble(w.getText()));
-	 										a.setWeighting(Double.parseDouble(w.getText()));
-	 										c = assesmentClass;
+	 										System.out.print("OOO"+ Double.parseDouble(w.getText()) + "VS" + a.getWeighting());
 
 	 									}
 	 						}
@@ -103,7 +106,6 @@ public class AssesmentDisplay extends JPanel  {
 	 							
 		    		}		
 				}
-					
 				markingPanel.setMyMb(mB);
 				markingPanel.refreshClasses(null, null, null, mB.getClasses());
 		    }
@@ -120,25 +122,7 @@ public class AssesmentDisplay extends JPanel  {
 				}else if (Double.parseDouble(w.getText())>100){
 					JOptionPane.showMessageDialog(null, "an class can only have an total assesment worth of 100", "Dialog",
 					        JOptionPane.ERROR_MESSAGE);
-				}else{
-					for(Subject_Class c : mB.getClasses()){
-			    		if(c.equals(assesmentClass)){
-		 						for(Assessment a : c.getAssessments()){
-		 									if(a.equals(myAssesment)){
-		 										myAssesment.setWeighting(Double.parseDouble(w.getText()));
-		 										a.setWeighting(Double.parseDouble(w.getText()));
-		 									}
-		 						}
-
-		 							
-			    		}		
-					}
-						myAssesment.setWeighting(Double.parseDouble(w.getText()));
-
-					myAssesment.setWeighting(Double.parseDouble(w.getText()));
-					markingPanel.setMyMb(mB);
-					markingPanel.refreshClasses(null, null, null, mB.getClasses());
-				 }
+				}
 				}
 
 			@Override
@@ -169,7 +153,7 @@ public class AssesmentDisplay extends JPanel  {
 		g.fill = GridBagConstraints.HORIZONTAL;	
 		labels.add(displayName,g);
 		g.gridy = 2;
-		labels.add(weighting,g); 		labels.add(w,g); 
+		labels.add(weighting,g); labels.add(w,g); labels.add(changeW,g); 
 
 
 		GridBagConstraints c = new GridBagConstraints();
