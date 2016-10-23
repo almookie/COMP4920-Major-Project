@@ -73,7 +73,7 @@ public class Markbook {
 	         
 	         // Clear the tables
 	         for (String table : tables) {
-	        	 statement.executeUpdate("DROP TABLE " + table + ";");
+	        	 statement.executeUpdate("DROP TABLE IF EXISTS " + table + ";");
 	         }
 	         
 	         initialisePostgreSQLDatabase();
@@ -421,11 +421,7 @@ public class Markbook {
 	        	 Assessment a = assessmentIDMap.get(assessmentID);
 	        	 
 	        	 a.addMark(s, mark);
-	         }      
-	         
-	         
-	         
-	         
+	         }        
 	         
 	         connection.close();
 	      } catch (Exception e) {
