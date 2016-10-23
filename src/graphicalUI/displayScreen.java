@@ -11,12 +11,11 @@ import main.*;
  * 
  */
 public class displayScreen {
-	static Markbook mB;
 	
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
     	 frame.setMinimumSize(new Dimension(1000,1000));
-    	 mB = new Markbook();
+    	 final Markbook mB = new Markbook();
     	 mB.generateRandomData();
     	 
     	 //sample buttons for menu using box layout vertical span
@@ -120,28 +119,6 @@ public class displayScreen {
 		c.weightx = 1;
 		menu.add(optionsPanel, c);
 	////////
-	////////	-options bar buttons
-		loadButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				mB.loadDatabase();
-			}
-		});
-		
-		saveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				mB.saveDatabase();
-			}
-		});
-		
-		resetButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				mB.generateRandomData();
-			}
-		});
-	///////
 		
     	 //set border
     	 menu.setBorder(BorderFactory.createLineBorder(Color.GREEN));
@@ -152,7 +129,7 @@ public class displayScreen {
     	 final JPanel mainPanel = new JPanel(cardLayout);
     	 
     	 //panels
-    	 JPanel managmentPanel = new managementScreen(mB);
+    	 final managementScreen managmentPanel = new managementScreen(mB);
          markingPanel mP = new markingPanel(mB);
          
          managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -175,6 +152,30 @@ public class displayScreen {
          frame.add(menu,      BorderLayout.WEST);
          frame.add(mainPanel, BorderLayout.CENTER);
          
+////////	-options bar buttons
+		loadButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mB.loadDatabase();
+				managmentPanel.refresh();
+			}
+		});
+		
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mB.saveDatabase();
+			}
+		});
+		
+		resetButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mB.generateRandomData();
+				managmentPanel.refresh();
+			}
+		});
+	///////   
          
          managmentButton.addActionListener(new ActionListener() {
 
