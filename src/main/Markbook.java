@@ -437,9 +437,11 @@ public class Markbook {
 	// Function that searches student names
 	public ArrayList<Student> searchStudents(String searchString) {
 		ArrayList<Student> returnSearch = new ArrayList<Student>();
+		String regexSearchString = ".*" + searchString + ".*";
+		
 		for (Grade g : grades) {
 			for (Student s : g.getStudents()) {
-				if (s.getGivenName().matches(searchString) || s.getSurname().matches(searchString)) {
+				if (s.getGivenName().matches(regexSearchString) || s.getSurname().matches(regexSearchString)) {
 					returnSearch.add(s);
 				}
 			}
@@ -450,10 +452,12 @@ public class Markbook {
 	
 	// Function that searches class names
 	public ArrayList<Subject_Class> searchClasses(String searchString) {
+		String regexSearchString = ".*" + searchString + ".*";
+		
 		ArrayList<Subject_Class> returnClass = new ArrayList<Subject_Class>();
 		for (Subject subject : subjects) {		
 			for (Subject_Class c : subject.getClasses()) {
-				if (getLongName(c).matches(searchString)) {
+				if (getLongName(c).matches(regexSearchString)) {
 					returnClass.add(c);
 				}
 			}
@@ -683,17 +687,15 @@ public class Markbook {
 	}
 	
 	public void deleteSubject(Subject s) {
-		for (Subject_Class c : s.getClasses()) {
-			
-		}
 		subjects.remove(s);
 	}
 	
 	public ArrayList<Subject> searchSubjects(String searchString) {
+		String regexSearchString = ".*" + searchString + ".*";
 		ArrayList<Subject> returnList = new ArrayList<Subject>();
 		
 		for (Subject s : subjects) {
-			if (s.getName().matches(searchString)) {
+			if (s.getName().matches(regexSearchString)) {
 				returnList.add(s);
 			}
 		}
@@ -703,10 +705,11 @@ public class Markbook {
 	
 	public ArrayList<Grade> searchGrades(int searchInt) {
 		String searchString = String.valueOf(searchInt);
+		String regexSearchString = ".*" + searchString + ".*";
 		ArrayList<Grade> returnList = new ArrayList<Grade>();
 		
 		for (Grade g : grades) {
-			if (String.valueOf(g.getGraduationYear()).matches(searchString)) {
+			if (String.valueOf(g.getGraduationYear()).matches(regexSearchString)) {
 				returnList.add(g);
 			}
 		}
