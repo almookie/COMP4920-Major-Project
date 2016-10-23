@@ -11,6 +11,9 @@ import main.*;
  * 
  */
 public class displayScreen {
+	private static Color selectedButtonColor = Color.GRAY;
+	private static Color defaultButtonColor = Color.LIGHT_GRAY;
+	
 	
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
@@ -23,13 +26,13 @@ public class displayScreen {
     	 menu.setBackground(Color.GRAY);
     	 //buttons to change pages
     	 String name1 = "<html><b>" + "Manage" + "<br>" + "Classes" + "</b></html>";
-    	 JButton managmentButton = new JButton(name1);
+    	 final JButton managmentButton = new JButton(name1);
 
     	 String name2 = "<html><b>" + "Assessments" + "</b></html>";
-    	 JButton searchingButton = new JButton(name2);
+    	 final JButton searchingButton = new JButton(name2);
     	 
     	 String name3 = "<html><b>" + "Statistics" + "</b></html>";
-    	 JButton statsButton = new JButton(name3);
+    	 final JButton statsButton = new JButton(name3);
     	 
     	 // statsScreen statsScreen = new statsScreen(mB, frame.getSize().getHeight(), frame.getSize().getWidth());
     	 
@@ -118,8 +121,6 @@ public class displayScreen {
 		c.weightx = 1;
 		menu.add(optionsPanel, c);
 	////////
-		
-    	 //set border
     	 
     	 
     	 //cardlayout for the main panel two switch between possible classes of panels we create
@@ -180,6 +181,11 @@ public class displayScreen {
              @Override
              public void actionPerformed(ActionEvent e) {
                  cardLayout.show(mainPanel, "managmentPanel");
+                 
+                 managmentButton.setBackground(selectedButtonColor);
+                 searchingButton.setBackground(defaultButtonColor);
+                 statsButton.setBackground(defaultButtonColor);
+                 
              }
          });
          searchingButton.addActionListener(new ActionListener() {
@@ -187,6 +193,11 @@ public class displayScreen {
              @Override
              public void actionPerformed(ActionEvent e) {
                  cardLayout.show(mainPanel, "searchingPanel");
+                 
+                 managmentButton.setBackground(defaultButtonColor);
+                 searchingButton.setBackground(selectedButtonColor);
+                 statsButton.setBackground(defaultButtonColor);
+                 
              }
          });
          
@@ -194,9 +205,19 @@ public class displayScreen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			    cardLayout.show(mainPanel, "statsScreen");
+			    
+			    managmentButton.setBackground(defaultButtonColor);
+                searchingButton.setBackground(defaultButtonColor);
+                statsButton.setBackground(selectedButtonColor);
+                
 			}
 	   });
          
+	   managmentButton.setBackground(selectedButtonColor);
+       searchingButton.setBackground(defaultButtonColor);
+       statsButton.setBackground(defaultButtonColor);
+	   
+	   
          //maximise to display size
          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
          frame.pack();
