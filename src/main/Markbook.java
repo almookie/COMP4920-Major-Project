@@ -533,24 +533,28 @@ public class Markbook {
 	// Function that searches student names
 	public ArrayList<Student> searchStudents(String searchString) {
 		ArrayList<Student> returnSearch = new ArrayList<Student>();
-		String regexSearchString = ".*" + searchString + ".*";
 		
-		for (Grade g : grades) {
-			for (Student s : g.getStudents()) {
-				if ((s.getGivenName() + " " + s.getSurname()).matches(regexSearchString)) {
-					returnSearch.add(s);
-				}
-			}
-		}
-		
-		if (isNumeric(searchString)) {
-			int searchInt = Integer.parseInt(searchString);
+		if (!searchString.isEmpty()) {
+
+			String regexSearchString = ".*" + searchString + ".*";
 			
 			for (Grade g : grades) {
-				if (searchInt == (12 - g.getGraduationYear() + getCurrentYear())) {
-					for (Student s : g.getStudents()) {
-						if (!returnSearch.contains(s)) {
-							returnSearch.add(s);
+				for (Student s : g.getStudents()) {
+					if ((s.getGivenName() + " " + s.getSurname()).matches(regexSearchString)) {
+						returnSearch.add(s);
+					}
+				}
+			}
+			
+			if (isNumeric(searchString)) {
+				int searchInt = Integer.parseInt(searchString);
+				
+				for (Grade g : grades) {
+					if (String.valueOf((12 - g.getGraduationYear() + getCurrentYear())).matches(".*" + searchString + ".*")) {
+						for (Student s : g.getStudents()) {
+							if (!returnSearch.contains(s)) {
+								returnSearch.add(s);
+							}
 						}
 					}
 				}
