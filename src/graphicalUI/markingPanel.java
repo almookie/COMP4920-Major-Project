@@ -266,6 +266,7 @@ public class markingPanel extends JPanel {
 
 	    
         JScrollPane scroll = new JScrollPane(labelsPanel);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
 		viewPanel.add(scroll, BorderLayout.CENTER);
 		
 		
