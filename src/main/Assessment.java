@@ -226,4 +226,10 @@ public class Assessment {
 	public void removeStudent(Student student) {
 		marks.remove(student);		
 	}
+
+	public void addStudents(ArrayList<Student> students) {
+		for (Student s : students) {
+			marks.put(s, 0.0);
+		}
+	}
 }

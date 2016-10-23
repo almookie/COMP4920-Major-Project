@@ -39,7 +39,7 @@ public class Markbook {
 	}*/
 	
 	public void generateRandomData() {
-		generateData();
+		generateData();			
 	}
 	
 	public void loadDatabase() {
@@ -98,7 +98,7 @@ public class Markbook {
 			        	 statement.executeUpdate("INSERT INTO CLASS_ENROLMENTS (CLASS, STUDENT) VALUES(" 
 			        			 + c.getID() + ", " + student.getID() + ");");		 
 		        	 }
-		        	 
+		        		        	 
 		        	 // updating the ASSESSMENTS table        		 
 		        	 for (Assessment a : c.getAssessments()) {
 			        	 statement.executeUpdate("INSERT INTO ASSESSMENTS (ID, WEIGHTING, NAME, MEAN, MODE, MEDIAN, RANGE) VALUES(" 
@@ -109,6 +109,11 @@ public class Markbook {
 				        	 statement.executeUpdate("INSERT INTO ASSESSMENT_RESULTS (ASSESSMENT_ID, STUDENT, MARK) VALUES(" 
 				        			 + a.getID() + ", " + st.getID() +  ", " + a.getMark(st) +");");					        		 
 			        	 }
+		        	 }
+		        	 
+		        	 // updating the CLASS_ASSESSMENTS table
+		        	 for (Assessment a : c.getAssessments()) {
+		        		 statement.executeUpdate("INSERT INTO CLASS_ASSESSMENTS (CLASS, ASSESSMENT) VALUES (" + c.getID() + ", " + a.getID() + ");");
 		        	 }
 	        	 }       	 
 	        	 
@@ -207,16 +212,15 @@ public class Markbook {
 			// Create a bunch of classes to flesh out subjects
 			for (int i = 0; i <= subjects.size() - 1; i++) {
 				
-				// add 10 classes to each subject
-				for (int j = 0; j <= 100; j++) {
+				for (int j = 0; j <= 20; j++) {
 					int Min = 0;
 					int Max = grades.size() - 1;
 					int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
 					Subject_Class c = new Subject_Class(availableClassID++, grades.get(random_value), subjects.get(i), getNextAvailableClassNumber(subjects.get(i), grades.get(random_value)));
 					subjects.get(i).addClass(c);
 					
-					// add 5 random students to this class
-					for (int k = 0; k <= 40; k++) {
+					// add 20 random students to this class
+					for (int k = 0; k <= 20; k++) {
 						
 						// Grade tempGrade = c.getGrade();
 						// ArrayList<Student> tempStudents = tempGrade.getStudents();
@@ -273,6 +277,11 @@ public class Markbook {
 	}
 
 	private void generateFromPostgreSQLDatabase() {
+		HashMap<Integer, Subject_Class> classIDMap = new HashMap<Integer, Subject_Class>();
+		HashMap<Integer, Student> studentIDMap = new HashMap<Integer, Student>();
+		HashMap<Integer, Grade> gradeIDMap = new HashMap<Integer, Grade>();
+		HashMap<Integer, Assessment> assessmentIDMap = new HashMap<Integer, Assessment>();
+		HashMap<Integer, Subject> subjectIDMap = new HashMap<Integer, Subject>();
 
 		// Connect to the database
 		Connection connection = null;
@@ -280,9 +289,7 @@ public class Markbook {
 	         Class.forName(JDBC_DRIVER);
 	         connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 	         Statement statement = connection.createStatement();
-	         Statement nestedStatement = connection.createStatement();
 	         ResultSet resultset;
-	         ResultSet nestedResultset;
 	         
 	         // Import the GRADES table from the database
 	         resultset = statement.executeQuery("SELECT * FROM GRADES;");
@@ -293,6 +300,7 @@ public class Markbook {
 	        	 
 	        	 Grade grade = new Grade(graduationYear);
 	        	 grades.add(grade);
+	        	 gradeIDMap.put(graduationYear, grade);
 	         }
 	         
 	         // Import the SUBJECTS table from the database
@@ -306,54 +314,108 @@ public class Markbook {
 	        	 
 	        	 Subject subject = new Subject(id, name, shortcode);
 	        	 subjects.add(subject);
+	        	 subjectIDMap.put(id, subject);
 	        	 
 	        	 if (id > availableSubjectID) {
 	        		 availableSubjectID = id + 1;
 	        	 }
 	         }
-
-	         // Import the STUDENTS table from the database table by looping through each grade object
-	         for (Grade g : grades) {
+	         
+	         resultset = statement.executeQuery("SELECT * FROM STUDENTS;");
+	         
+	         while(resultset.next()) {
+	        	 int id = resultset.getInt("ID");
+	        	 String givenName = resultset.getString("GIVEN_NAME");
+	        	 String surname = resultset.getString("SURNAME");
+	        	 int gradeID = resultset.getInt("GRADE");
 	        	 
-	        	 resultset = statement.executeQuery("SELECT * FROM STUDENTS WHERE GRADE = " + g.getGraduationYear() + ";");
-		         
-		         // Loop through each row of the STUDENTS table from the query and generate Student objects
-		         while(resultset.next()) {
-		        	 
-		        	 // get the students information
-		        	 int id = resultset.getInt("ID");
-		        	 String givenName = resultset.getString("GIVEN_NAME");
-		        	 String surname = resultset.getString("SURNAME");
-		        	 
-		        	 Student s = new Student(id, givenName, surname);
-		        	 g.addStudent(s);
-		        	 
-		        	 if (id > availableStudentID) {
-		        		 availableStudentID = id + 1;
-		        	 }
-		         }
+	        	 Grade g = gradeIDMap.get(gradeID);
+	        	 
+	        	 Student s = new Student(id, givenName, surname);
+	        	 g.addStudent(s);
+	        	 studentIDMap.put(id, s);
+	        	 
+	        	 if (id > availableStudentID) {
+	        		 availableStudentID = id + 1;
+	        	 }	        	 
 	         }
 	         
-	         // Import the CLASSES table from the database
-	         // Search through the database by subject
-	         for (Subject subject : subjects) {
-	        	 
-		         resultset = statement.executeQuery("SELECT * FROM CLASSES where SUBJECT = " + subject.getID() + ";");
-		         
-		         while (resultset.next()) {
+	         resultset = statement.executeQuery("SELECT * FROM CLASSES" + ";");
+	         
+	         while (resultset.next()) {
 
-		        	 int id = resultset.getInt("ID"); 
-		        	 Grade grade = getGradeByYear(resultset.getInt("GRADE"));
-		        	 int classNumber = resultset.getInt("CLASS_NUMBER");
-		        	 
-		        	 Subject_Class subject_class = new Subject_Class(id, grade, subject, classNumber);
-		        	 subject.addClass(subject_class);	
-		        	 
-		        	 if (id > availableClassID) {
-		        		 availableClassID = id + 1;
-		        	 }
-		         }
+	        	 int id = resultset.getInt("ID"); 
+	        	 int gradeID = resultset.getInt("GRADE");
+	        	 int subjectID = resultset.getInt("SUBJECT");
+	        	 int classNumber = resultset.getInt("CLASS_NUMBER");
+	        	 
+	        	 Grade g = gradeIDMap.get(gradeID);
+	        	 Subject s = subjectIDMap.get(subjectID);
+	        	 Subject_Class subject_class = new Subject_Class(id, g, s, classNumber);
+	        	 s.addClass(subject_class);	
+	        	 classIDMap.put(id, subject_class);
+	        	 
+	        	 if (id > availableClassID) {
+	        		 availableClassID = id + 1;
+	        	 }	        	 
 	         }
+	         
+	         resultset = statement.executeQuery("SELECT * FROM CLASS_ENROLMENTS" + ";");
+	         
+	         while (resultset.next()) {
+
+	        	 int classID = resultset.getInt("CLASS"); 
+	        	 int studentID = resultset.getInt("STUDENT");
+	        	 
+	        	 Subject_Class subject_class = classIDMap.get(classID);
+	        	 Student s = studentIDMap.get(studentID);
+	        	 
+	        	 subject_class.addStudent(s);	        	 
+	         }    
+	         
+	         resultset = statement.executeQuery("SELECT * FROM ASSESSMENTS" + ";");
+	         
+	         while (resultset.next()) {
+
+	        	 int assessmentID = resultset.getInt("ID"); 
+	        	 double weighting = resultset.getDouble("WEIGHTING");
+	        	 String name = resultset.getString("NAME");   
+	        	 
+	        	 Assessment a = new Assessment(assessmentID, name, weighting, new ArrayList<Student>());
+	        	 assessmentIDMap.put(assessmentID, a);
+	         }      
+	         
+	         resultset = statement.executeQuery("SELECT * FROM CLASS_ASSESSMENTS" + ";");
+	         
+	         while (resultset.next()) {
+
+	        	 int assessmentID = resultset.getInt("ASSESSMENT"); 
+	        	 int classID = resultset.getInt("CLASS");  
+
+	        	 Assessment a = assessmentIDMap.get(assessmentID);
+	        	 Subject_Class c = classIDMap.get(classID);
+	        	 
+	        	 c.addAssessment(a);
+	        	 a.addStudents(c.getStudents());
+	         }    
+	         
+	         resultset = statement.executeQuery("SELECT * FROM ASSESSMENT_RESULTS" + ";");
+	         
+	         while (resultset.next()) {
+
+	        	 int assessmentID = resultset.getInt("ASSESSMENT_ID"); 
+	        	 int studentID = resultset.getInt("STUDENT");
+	        	 double mark = resultset.getDouble("MARK");
+	        	 
+	        	 Student s = studentIDMap.get(studentID);
+	        	 Assessment a = assessmentIDMap.get(assessmentID);
+	        	 
+	        	 a.addMark(s, mark);
+	         }      
+	         
+	         
+	         
+	         
 	         
 	         connection.close();
 	      } catch (Exception e) {
@@ -443,6 +505,13 @@ public class Markbook {
 				+ "RANGE DOUBLE PRECISION NOT NULL)"
   		);				
 		
+		// Create a table that holds CLASS_ASSESSMENTS
+		statement.executeUpdate(	
+				"CREATE TABLE IF NOT EXISTS CLASS_ASSESSMENTS"
+				+ "(CLASS INT NOT NULL,"
+				+ "ASSESSMENT INT NOT NULL)"
+  		);					
+		
 		// Create a table that holds ASSESSMENT RESULTS
 		statement.executeUpdate(	
 				"CREATE TABLE IF NOT EXISTS ASSESSMENT_RESULTS"
@@ -462,7 +531,7 @@ public class Markbook {
 		
 		for (Grade g : grades) {
 			for (Student s : g.getStudents()) {
-				if (s.getGivenName().matches(regexSearchString) || s.getSurname().matches(regexSearchString)) {
+				if ((s.getGivenName() + " " + s.getSurname()).matches(regexSearchString)) {
 					returnSearch.add(s);
 				}
 			}
