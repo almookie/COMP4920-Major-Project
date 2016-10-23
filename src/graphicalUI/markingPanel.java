@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -31,7 +32,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import main.*;
-import main.Subject_Class;
 import markingPanelComponents.ClassDisplay;
 
 public class markingPanel extends JPanel {
@@ -74,14 +74,22 @@ public class markingPanel extends JPanel {
 		//title related stuff
 		JLabel filterTitle = new JLabel("Search Options!");
 		filterTitle.setPreferredSize(new Dimension(50,60));
-		filterTitle.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 		searchPanel.add(filterTitle, BorderLayout.NORTH);
-		
+		//set border
+        Border raisedbevel = BorderFactory.createRaisedBevelBorder();
+        Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+        Border compound = BorderFactory.createCompoundBorder(
+                raisedbevel, loweredbevel);
+		filterTitle.setBorder(compound);
+
+        searchPanel.setBorder(compound);
 		JPanel lhs = new JPanel(new BorderLayout());
 		searchPanel.add(lhs,BorderLayout.WEST);
 		
 		//panel with the search fields
 		JPanel searchFieldsPanels = new JPanel(new GridBagLayout());
+        searchPanel.setBorder(compound);
+
         GridBagConstraints c = new GridBagConstraints();
         //gbc for search fields
         c.anchor = GridBagConstraints.WEST;
@@ -183,7 +191,11 @@ public class markingPanel extends JPanel {
 		JLabel searchTitle = new JLabel("Search Results To Mark On!!");
 		searchTitle.setPreferredSize(new Dimension(50,60));
 		searchTitle.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-		searchTitle.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+	       Border raisedbevel = BorderFactory.createRaisedBevelBorder();
+	        Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+	        Border compound = BorderFactory.createCompoundBorder(
+	                raisedbevel, loweredbevel);
+	        searchTitle.setBorder(compound);
 		viewPanel.add(searchTitle, BorderLayout.NORTH);
 		
 

@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -26,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -118,7 +120,11 @@ public class ClassDisplay extends JPanel {
 	 */
 	private void setupGraphical() {
 		//use gridbag format
-
+	       Border raisedbevel = BorderFactory.createRaisedBevelBorder();
+	        Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+	        Border compound = BorderFactory.createCompoundBorder(
+	                raisedbevel, loweredbevel);
+	        this.setBorder(compound);
 		final CardLayout cardLayout = new CardLayout();
 		overall = new JPanel(cardLayout);
 	
@@ -138,7 +144,8 @@ public class ClassDisplay extends JPanel {
 		
 		
 		JPanel newAssesment = new JPanel();
-		
+;
+        newAssesment.setBorder(compound);
 	  	
 	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
 
