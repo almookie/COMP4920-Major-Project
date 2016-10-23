@@ -123,6 +123,6 @@ public class Subject_Class {
 			weightingTotal += a.getWeighting();
 		}
 		
-		return 1 - weightingTotal;
+		return 100 - weightingTotal;
 	}
 }
