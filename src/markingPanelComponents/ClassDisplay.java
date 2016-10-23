@@ -148,14 +148,14 @@ public class ClassDisplay extends JPanel {
 	    assName.setMaximumSize(new Dimension(1000,50));
 	    newAssesment.add(assName);
 	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
-//	    final JLabel remaining = new JLabel("Remaining Weight to Use : " +String.valueOf(thisClass.getRemainingWeightings()));
-//	    remaining.setOpaque(true);
-//		if(thisClass.getRemainingWeightings()!=0){
-//		    remaining.setBackground(Color.CYAN);
-//		}else{
-//			remaining.setBackground(Color.red);
-//		}
-//	    newAssesment.add(remaining);
+	    final JLabel remaining = new JLabel("Remaining Weight to Use : " +String.valueOf(thisClass.getRemainingWeightings()));
+	    remaining.setOpaque(true);
+		if(thisClass.getRemainingWeightings()!=0){
+		    remaining.setBackground(Color.CYAN);
+		}else{
+			remaining.setBackground(Color.red);
+		}
+	    newAssesment.add(remaining);
 	    newAssesment.add(new JLabel("Assesment Weighting -- no. (0 to 100) to represent percent weight new assesment holds"));
 	    final JTextField assWeighting = new JTextField();
 	    
@@ -296,8 +296,6 @@ public class ClassDisplay extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-            	markingPanel.setMyMb(mB);
-            	markingPanel.refreshClasses(null, null, null, mB.getClasses());
 
                 cardLayout.show(overall, "nA");
 

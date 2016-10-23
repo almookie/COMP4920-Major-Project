@@ -275,6 +275,7 @@ public class markingPanel extends JPanel {
     	overall = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, searchPanel, viewPanel);
     	
     	main.add(overall, "overall");
+    	
         cardLayout.show(main, "overall");
 		
 	}
