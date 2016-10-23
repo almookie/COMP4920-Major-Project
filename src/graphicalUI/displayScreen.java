@@ -129,7 +129,7 @@ public class displayScreen {
     	 
     	 //panels
     	 final managementScreen managmentPanel = new managementScreen(mB);
-         markingPanel mP = new markingPanel(mB);
+         final markingPanel mP = new markingPanel(mB);
          
          managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
          mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));
@@ -157,6 +157,7 @@ public class displayScreen {
 			public void actionPerformed(ActionEvent arg0) {
 				mB.loadDatabase();
 				managmentPanel.refresh();
+				mP.refreshClasses(null, null, null, mB.getClasses());//TODO
 			}
 		});
 		
@@ -172,6 +173,7 @@ public class displayScreen {
 			public void actionPerformed(ActionEvent arg0) {
 				mB.generateRandomData();
 				managmentPanel.refresh();
+				mP.refreshClasses(null, null, null, mB.getClasses());//TODO
 			}
 		});
 	///////   
