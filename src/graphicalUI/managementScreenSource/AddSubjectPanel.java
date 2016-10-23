@@ -33,7 +33,7 @@ public class AddSubjectPanel extends JPanel {
 	//label for input status feedback
 	private JLabel statusLabel;
 	private static String defaultText = "Please enter subject details";
-	private static String wrongInputText = "Incorrect details entered";
+	private static String wrongInputText = "<html><font color='red'>Incorrect details entered</font></html>";
 	private static String subjectAddedText = "Subject added: ";
 	
 	

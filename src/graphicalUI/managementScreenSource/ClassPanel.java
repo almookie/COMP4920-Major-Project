@@ -229,8 +229,14 @@ public class ClassPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Student> allStudents = selectedStudents.getSelectedStudents();
+				//check if a student has not been added
+				boolean unaddedStudent = false;
+				
 				for (Student student : allStudents) {
-					thisClass.addStudent(student);
+					boolean isAdded = mB.addStudent(thisClass, student);
+					if (!isAdded) {
+						unaddedStudent = true;
+					}
 				}
 				refreshClass();
 			}

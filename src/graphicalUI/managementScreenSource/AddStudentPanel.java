@@ -37,7 +37,7 @@ public class AddStudentPanel extends JPanel {
 	//label for input status feedback
 	private JLabel statusLabel;
 	private static String defaultText = "Please enter student details";
-	private static String wrongInputText = "Incorrect details entered";
+	private static String wrongInputText = "<html><font color='red'>Incorrect details entered</font></html>";
 	private static String studentAddedText = "Student added: ";
 	
 	
@@ -151,9 +151,7 @@ public class AddStudentPanel extends JPanel {
 					//update statusLabel
 					String statusText = studentAddedText + "[" + studentNameSurname + ", " 
 							+ studentNameGiven + "] in grade: [" + studentGrade + "]";
-					
 					statusLabel.setText(statusText);
-					
 					mS.refresh();
 				}
 			}

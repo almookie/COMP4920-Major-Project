@@ -32,7 +32,7 @@ public class AddGradePanel extends JPanel {
 	//label for input status feedback
 	private JLabel statusLabel;
 	private static String defaultText = "Please enter grade details";
-	private static String wrongInputText = "Please enter a number for the grade";
+	private static String wrongInputText = "<html><font color='red'>Please enter a number for the grade</font></html>";
 	private static String gradeAddedText = "Grade added: ";
 	
 	

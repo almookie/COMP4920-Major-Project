@@ -41,7 +41,7 @@ public class AddClassPanel extends JPanel {
 	//label for input status feedback
 	private JLabel statusLabel;
 	private static String defaultText = "Please enter Class details";
-	private static String wrongInputText = "Incorrect details entered";
+	private static String wrongInputText = "<html><font color='red'>Incorrect details entered</font></html>";
 	private static String classAddedText = "Class added: ";
 		
 	JCheckBox confirmationCheck;
