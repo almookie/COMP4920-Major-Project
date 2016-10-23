@@ -30,22 +30,29 @@ public class StatsSearchPanel extends JPanel {
 	JTextField classFilter;
 	StatsClassFilter filterResults;
 	Markbook mB;
+	StatsMainScreen parent;
 	
 	//titles for this panel
 	private String searchTitle = "Filter Classes:";
 	private boolean hasChanged;
 	
 	
-	public StatsSearchPanel(Markbook newmB) {
+	public StatsSearchPanel(Markbook newmB,StatsMainScreen newParent) {
 		mB = newmB;
 		classFilter = new JTextField("enter class name");
 		filterResults = new StatsClassFilter(mB, classFilter, this);
 		hasChanged = false;
+		parent = newParent;
 		
 		setupGraphical();
 		setupfilterBar();
 		//default to displaying all grades
 		filterResults.updateResults();
+	}
+	
+	
+	public void showGraph (Subject_Class myClass) {
+		parent.setClass(myClass);
 	}
 	
 	/*	refresh this panel

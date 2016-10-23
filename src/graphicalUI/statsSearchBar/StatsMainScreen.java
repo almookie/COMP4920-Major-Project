@@ -5,18 +5,21 @@ import graphicalUI.managementScreenSource.FilterPanel;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import main.Assessment;
 import main.Markbook;
+import main.Subject_Class;
 
 public class StatsMainScreen extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	public StatsSearchPanel searchPanel;
-	public JPanel contentPanel;
+	public GraphPanel contentPanel;
 	
 	private Markbook mB;
 	
@@ -54,15 +57,25 @@ public class StatsMainScreen extends JPanel {
 	}
 	
 	private void setupSearchPanel() {
-		searchPanel = new StatsSearchPanel(mB);
+		searchPanel = new StatsSearchPanel(mB, this);
 		
 		
 		searchPanel.setMinimumSize(searchPanelMinimumSize);
 	}
 	
 	private void setupContentPanel() {
+		contentPanel = new GraphPanel(mB);
+		contentPanel.setMinimumSize(contentPanelMinimumSize);
+	}
+	
+	public void setClass(Subject_Class newClass2) {
+		ArrayList<Assessment> all = newClass2.getAssessments();
 		
-		//contentPanel.setMinimumSize(contentPanelMinimumSize);
+		if (all.size() > 0) {
+			contentPanel.setAssessment(all.get(0));
+			contentPanel.refreshGraph();
+		}
+		
 	}
 	
 }

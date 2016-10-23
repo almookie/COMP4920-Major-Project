@@ -65,6 +65,11 @@ public class StatsClassFilterItem extends JPanel  {
 	 */
 	private void setupSelect() {
 		this.addMouseListener(new MouseAdapter() {
+				
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						parentPanel.showGraph(myClass);
+					}
 			
 					@Override
 					public void mouseEntered(MouseEvent e) {
@@ -78,5 +83,6 @@ public class StatsClassFilterItem extends JPanel  {
 
 					}
 				});
+		
 	}
 }
