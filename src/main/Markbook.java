@@ -225,11 +225,10 @@ public class Markbook {
 					
 					// add 20 random students to this class
 					for (int k = 0; k <= 5; k++) {
-						
-						// Grade tempGrade = c.getGrade();
-						// ArrayList<Student> tempStudents = tempGrade.getStudents();
-						// Student tempStudent = tempStudents.get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
-						c.addStudent(c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1))));
+						Student randomStudent = c.getGrade().getStudents().get(0 + (int)(Math.random() * ((c.getGrade().getStudents().size() - 1) + 1)));
+						if (!c.getStudents().contains(randomStudent)) {
+							c.addStudent(randomStudent);
+						}
 					}
 					
 					// generate an assessment for each class
