@@ -190,7 +190,7 @@ public class markingPanel extends JPanel {
 		final GridBagConstraints gbc = new GridBagConstraints();
 		
         gbc.weightx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         
 		this.labelsPanel = new JPanel(new GridBagLayout());
