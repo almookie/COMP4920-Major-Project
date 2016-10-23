@@ -691,14 +691,19 @@ public class Markbook {
 	}
 	
 	public void deleteGrade(Grade g) {
-		grades.remove(g);
 		for (Subject s : subjects) {
+			
+			ArrayList<Subject_Class> classesToRemove = new ArrayList<Subject_Class>();
 			for (Subject_Class c : s.getClasses()) {
 				if (c.getGrade() == g) {
-					s.removeClass(c);
+					classesToRemove.add(c);
 				}
 			}
+			for (Subject_Class c : classesToRemove) {
+				s.removeClass(c);
+			}
 		}
+		grades.remove(g);
 	}
 	
 	public ArrayList<Subject> searchSubjects(String searchString) {
