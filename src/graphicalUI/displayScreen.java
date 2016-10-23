@@ -13,8 +13,9 @@ import main.*;
 public class displayScreen {
 	private static Color selectedButtonColor = Color.GRAY;
 	private static Color defaultButtonColor = Color.LIGHT_GRAY;
-	
-	
+	private static Color menuBackground = new Color(183, 174, 193);
+	private static Color menuBackgroundOne = new Color(189, 179, 202);
+
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
     	 frame.setMinimumSize(new Dimension(1000,1000));
@@ -23,7 +24,7 @@ public class displayScreen {
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
     	 menu.setLayout(new GridBagLayout());
-    	 menu.setBackground(new Color(220, 220, 220));
+    	 menu.setBackground(menuBackground);
     	 //buttons to change pages
     	 String name1 = "<html><b>" + "Manage" + "<br>" + "Classes" + "</b></html>";
     	 final JButton managmentButton = new JButton(name1);
@@ -44,6 +45,7 @@ public class displayScreen {
     	 
 	 ///////	-menu bar
  	 	 JLabel menuTitle = new JLabel("Navigation", SwingConstants.CENTER);
+ 	 	 
     	 JPanel pageSelectionPanel = new JPanel(new GridBagLayout());
     	 GridBagConstraints c = new GridBagConstraints();
     	 
@@ -80,11 +82,12 @@ public class displayScreen {
 		c.weighty = 0.8;
 		c.weightx = 1;
 	 	menu.add(pageSelectionPanel, c);
-	 	pageSelectionPanel.setBackground(new Color(220, 220, 220));
+	 	pageSelectionPanel.setBackground(menuBackground);
  	////////
 	 	 
 	////////	-options bar
 	 	JPanel optionsPanel = new JPanel(new GridBagLayout());
+	 	optionsPanel.setBackground(menuBackgroundOne);
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		optionsPanel.setBorder(loweredbevel);
 	 	JLabel optionsTitle = new JLabel("Options", SwingConstants.CENTER);
