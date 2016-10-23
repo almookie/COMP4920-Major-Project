@@ -932,4 +932,14 @@ public class Markbook {
 		
 		return returnClasses;
 	}
+	
+	public Subject getSubject(Subject_Class c) {
+		for (Subject s : subjects) {
+			if (s.getClasses().contains(c)) {
+				return s;
+			}
+		}
+		
+		return null;
+	}
 }
