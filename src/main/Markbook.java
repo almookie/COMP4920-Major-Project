@@ -30,13 +30,24 @@ public class Markbook {
 		this.availableAssessmentID = 0;
 	}
 	
+	/*public void generateRandomData() {
+
+		// initialisePostgreSQLDatabase();
+		// generateFromPostgreSQLDatabase();
+		// generateData();			
+		// saveDataToPSQL();
+	}*/
+	
 	public void generateRandomData() {
-
-		//initialisePostgreSQLDatabase();
-		//generateFromPostgreSQLDatabase();
-		generateData();			
-
-		//saveDataToPSQL();
+		generateData();
+	}
+	
+	public void loadDatabase() {
+		generateFromPostgreSQLDatabase();
+	}
+	
+	public void saveDatabase() {
+		saveDataToPSQL();
 	}
 	
 	private void saveDataToPSQL() {
@@ -463,6 +474,7 @@ public class Markbook {
 	// Function that searches class names
 	public ArrayList<Subject_Class> searchClasses(String searchString) {
 		String regexSearchString = ".*" + searchString + ".*";
+		regexSearchString.toLowerCase();
 		
 		ArrayList<Subject_Class> returnClass = new ArrayList<Subject_Class>();
 		for (Subject subject : subjects) {		
