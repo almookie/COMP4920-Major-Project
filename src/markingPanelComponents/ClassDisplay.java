@@ -148,13 +148,18 @@ public class ClassDisplay extends JPanel {
 	    assName.setMaximumSize(new Dimension(1000,50));
 	    newAssesment.add(assName);
 	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
-	    final JLabel remaining = new JLabel("Remaining Weight to Use : " +String.valueOf(thisClass.getRemainingWeightings()));
-	    remaining.setOpaque(true);
+	    String text = "<html><b> Remaining Weight to Use : ";
+	    
 		if(thisClass.getRemainingWeightings()!=0){
-		    remaining.setBackground(Color.CYAN);
+			text += "<font color='blue'>" + String.valueOf(thisClass.getRemainingWeightings());
 		}else{
-			remaining.setBackground(Color.red);
+			text += "<font color='red'>" +  String.valueOf(thisClass.getRemainingWeightings());
 		}
+		
+		text+="</b></font></html>";
+		final JLabel remaining = new JLabel(text);
+	    remaining.setOpaque(true);
+
 	    newAssesment.add(remaining);
 	    newAssesment.add(new JLabel("Assesment Weighting -- no. (0 to 100) to represent percent weight new assesment holds"));
 	    final JTextField assWeighting = new JTextField();
