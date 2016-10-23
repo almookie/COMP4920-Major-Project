@@ -10,11 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import main.Grade;
 import main.Markbook;
@@ -41,13 +44,15 @@ public class AddClassPanel extends JPanel {
 	private static String wrongInputText = "Incorrect details entered";
 	private static String classAddedText = "Class added: ";
 		
+	JCheckBox confirmationCheck;
 		
 	/*	default constructor
 	 * 
 	 */
-	public AddClassPanel(Markbook newmB, managementScreen newmS) {
+	public AddClassPanel(Markbook newmB, managementScreen newmS,  JCheckBox newConfirmationCheck) {
 		mB = newmB;
 		mS = newmS;
+		confirmationCheck = newConfirmationCheck;
 		
 		//create the components
 		grade = new JComboBox<GradeComboBoxHolder>();
@@ -100,12 +105,36 @@ public class AddClassPanel extends JPanel {
 		this.setOpaque(true);
 		//this.setBackground(backgroundColor);
 		
+		c.fill = GridBagConstraints.BOTH;
+		
 		//set insets
+		c.insets = new Insets(0,5,10,5);
+		
+		//panel to stoore confirmation checkbox
+		JPanel confirmationPanel = new JPanel(new GridBagLayout());
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 3;
+		c.gridwidth = 3;
+		c.weighty = 1;
+		c.weightx = 1;
+		confirmationPanel.add(confirmationCheck, c);
+		
+		//set border
+		confirmationPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.02;
+		c.weightx = 1;
+		this.add(confirmationPanel, c);
+		
 		c.insets = new Insets(5,5,0,5);
 		
-		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.weighty = 0.5;
@@ -113,12 +142,12 @@ public class AddClassPanel extends JPanel {
 		this.add(subject, c);
 		
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 0.4;
 		this.add(grade, c);
 		
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.weighty = 0.1;
@@ -127,10 +156,10 @@ public class AddClassPanel extends JPanel {
 		
 		c.insets = new Insets(5,5,5,5);
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c.weighty = 0.4;
+		c.weighty = 0.38;
 		c.weightx = 1;
 		this.add(submitButton,c);
 	}

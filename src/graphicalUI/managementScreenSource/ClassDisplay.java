@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import main.Subject_Class;
@@ -25,15 +26,17 @@ public class ClassDisplay extends JPanel {
 	ArrayList<Subject_Class> allStoredClasses;
 	Markbook mB;
 	StudentFilterSelected selectedStudents;
+	JCheckBox confirmationCheck;
 	
 	/*	default constructor
 	 * 
 	 */
-	public ClassDisplay(Markbook newmB, StudentFilterSelected newSelectedStudents) {
+	public ClassDisplay(Markbook newmB, StudentFilterSelected newSelectedStudents, JCheckBox newConfirmationCheck) {
 		allClasses = new ArrayList<ClassPanel>();
 		allStoredClasses = new ArrayList<Subject_Class>();
 		mB = newmB;
 		selectedStudents = newSelectedStudents;
+		confirmationCheck = newConfirmationCheck;
 		
 		setupGraphical();
 	}
@@ -42,11 +45,12 @@ public class ClassDisplay extends JPanel {
 	/*	constructor to initiate with an ArrayList of Class
 	 * 
 	 */
-	public ClassDisplay(ArrayList<Subject_Class> newClasses, Markbook newmB, StudentFilterSelected newSelectedStudents) {
+	public ClassDisplay(ArrayList<Subject_Class> newClasses, Markbook newmB, StudentFilterSelected newSelectedStudents, JCheckBox newConfirmationCheck) {
 		allClasses = new ArrayList<ClassPanel>();
 		allStoredClasses = new ArrayList<Subject_Class>();
 		mB = newmB;
 		selectedStudents = newSelectedStudents;
+		confirmationCheck = newConfirmationCheck;
 		
 		setupGraphical();
 		
@@ -79,7 +83,7 @@ public class ClassDisplay extends JPanel {
 			} else {
 				//add new panel
 				ClassPanel newPanel = 
-						new ClassPanel(thisClass.getStudents(), thisClass, mB, this,selectedStudents);
+						new ClassPanel(thisClass.getStudents(), thisClass, mB, this,selectedStudents, confirmationCheck);
 				newAllClasses.add(newPanel);
 				newAllStoredClasses.add(thisClass);
 				this.add(newPanel, getConstraint());

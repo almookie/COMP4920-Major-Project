@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -38,8 +40,11 @@ public class ClassPanel extends JPanel {
 	
 	ClassDisplay parent;
 	StudentFilterSelected selectedStudents;
+	JPanel self = this;
 	
-	//ArrayList of all StudentPanels stored
+	//for class deletioon confirmation box
+	private static String messageTitle = "Confirm Deletion";
+	private static String confirmationMessage = "Are you sure you wish to delete this class?";
 
 	Subject_Class thisClass;
 	Markbook mB;
@@ -61,6 +66,8 @@ public class ClassPanel extends JPanel {
 	String showText1 = "Show";
 	String showText2 = "Contents";
 	
+	JCheckBox confirmationCheck;
+	
 	private static Dimension bufferHeight = new Dimension(130, 25);
 	
 	private Color backgroundDefault = Color.WHITE;
@@ -75,12 +82,15 @@ public class ClassPanel extends JPanel {
 	/*	default constructor
 	 * 
 	 */
-	public ClassPanel(Subject_Class newClass, Markbook newmB, ClassDisplay newParentDisplay, StudentFilterSelected newSelectedStudents) {
+	public ClassPanel(Subject_Class newClass,
+			Markbook newmB, ClassDisplay newParentDisplay, 
+			StudentFilterSelected newSelectedStudents, JCheckBox newConfirmationCheck) {
 		thisClass = newClass;
 		mB = newmB;
 		parent = newParentDisplay;
 		selectedStudents = newSelectedStudents;
 		allStudentPanels = new ArrayList<StudentPanel>();
+		confirmationCheck = newConfirmationCheck;
 		
 		setupGraphical();
 		setupCollapsible();
@@ -91,12 +101,15 @@ public class ClassPanel extends JPanel {
 	/*	constructor to initiate with an ArrayList of Student
 	 * 
 	 */
-	public ClassPanel(ArrayList<Student> newStudents, Subject_Class newClass, Markbook newmB, ClassDisplay newParentDisplay, StudentFilterSelected newSelectedStudents) {
+	public ClassPanel(ArrayList<Student> newStudents,
+			Subject_Class newClass, Markbook newmB, ClassDisplay newParentDisplay,
+			StudentFilterSelected newSelectedStudents, JCheckBox newConfirmationCheck) {
 		thisClass = newClass;
 		mB = newmB;
 		parent = newParentDisplay;
 		selectedStudents = newSelectedStudents;
 		allStudentPanels = new ArrayList<StudentPanel>();
+		confirmationCheck = newConfirmationCheck;
 		
 		setupGraphical();
 		setupCollapsible();
@@ -248,8 +261,21 @@ public class ClassPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				mB.deleteClass(thisClass.getSubject(), thisClass);
-				parent.refreshClass();
+				
+				if (!confirmationCheck.isSelected()) {
+					//with confirmation popup
+					int result = JOptionPane.showConfirmDialog
+							(self, confirmationMessage, messageTitle, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					
+					if (result == JOptionPane.YES_OPTION) {
+						mB.deleteClass(thisClass.getSubject(), thisClass);
+						parent.refreshClass();
+					}
+				} else {
+					//without confirmation popup
+					mB.deleteClass(thisClass.getSubject(), thisClass);
+					parent.refreshClass();
+				}
 			}
 			
 		});
