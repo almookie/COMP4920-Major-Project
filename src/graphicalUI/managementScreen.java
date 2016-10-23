@@ -2,6 +2,7 @@ package graphicalUI;
 
 import graphicalUI.managementScreenSource.AddClassPanel;
 import graphicalUI.managementScreenSource.ClassDisplay;
+import graphicalUI.managementScreenSource.ClassSearch;
 import graphicalUI.managementScreenSource.FilterPanel;
 import graphicalUI.managementScreenSource.StudentFilterBar;
 import graphicalUI.managementScreenSource.StudentFilterPanel;
@@ -39,10 +40,13 @@ public class managementScreen extends JPanel  {
 	
 	private Markbook mB;
 	
-	
 	//panel storing search results for classes
 	private ClassDisplay classContents;
 	private AddClassPanel classCreationPanel;
+	
+	//search bar for classes
+	private ClassSearch classSearch;
+	JCheckBox confirmationCheck;
 	
 	//sizes for UI elements
 	private static Dimension searchPanelMinimumSize = new Dimension(150, 0);
@@ -58,7 +62,7 @@ public class managementScreen extends JPanel  {
 	 * 
 	 */
 	public void refresh() {
-		classContents.refreshClass();
+		classSearch.refreshAllClasses();
 		classCreationPanel.refreshComboBox();
 		searchPanel.refresh();
 		
@@ -116,18 +120,29 @@ public class managementScreen extends JPanel  {
 		GridBagConstraints c = new GridBagConstraints();
 		contentPanel.setMinimumSize(contentPanelMinimumSize);
 		
-		//!debug; setup button constraints
+		ArrayList<Subject_Class> allClasses = mB.getClasses();
+		confirmationCheck = new JCheckBox("Do not ask for confirmation upon deleting classes");
+		classContents = new ClassDisplay(allClasses, mB, searchPanel.getSelectedPanel(), confirmationCheck);
+		classSearch = new ClassSearch(mB, classContents);
+		
+		//add the search bar
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.weightx = 1;
+		c.weighty = 0.01;
+		contentPanel.add(classSearch, c);
+		
+		//!debug; setup button constraints
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weightx = 1;
 		c.weighty = 0.95;
-		
-		
-		ArrayList<Subject_Class> allClasses = mB.getClasses();
-		classContents = new ClassDisplay(allClasses, mB, searchPanel.getSelectedPanel());
 		
 		
 		JScrollPane contentScroll = new JScrollPane(classContents);
@@ -135,16 +150,16 @@ public class managementScreen extends JPanel  {
 		contentPanel.add(contentScroll, c);
 		
 		//panel for creating new classes
-		classCreationPanel = new AddClassPanel(mB, this);
+		classCreationPanel = new AddClassPanel(mB, this, confirmationCheck);
 		
 		//newClassButton.addActionListener(actionListener);
 		//add to interface
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 3;
 		c.weightx = 1;
-		c.weighty = 0.05;
+		c.weighty = 0.04;
 		contentPanel.add(classCreationPanel, c);
 	}
 	

@@ -15,7 +15,7 @@ public class displayScreen {
     	 
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
-    	 //buttons
+    	 //buttonns to
     	 JButton managmentButton = new JButton("creation");
     	 JButton searchingButton = new JButton("searching");
     	 
@@ -44,16 +44,12 @@ public class displayScreen {
          final CardLayout cardLayout = new CardLayout();
     	 final JPanel mainPanel = new JPanel(cardLayout);
     	 
-    	 //example panels
+    	 //panels
     	 JPanel managmentPanel = new managementScreen(mB);
          markingPanel mP = new markingPanel(mB);
          
          managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
          mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-         
-         //filler content remove later
-         JLabel label1 = new JLabel("here goes stuff about CREATION");
-         JLabel label2 = new JLabel("here SEARCHING stuff may be");
     	 
          
          mainPanel.add(managmentPanel, "managmentPanel");
