@@ -73,11 +73,12 @@ public class Markbook {
 	         
 	         // Clear the tables
 	         for (String table : tables) {
-	        	 statement.executeUpdate("DELETE FROM " + table + ";");
+	        	 statement.executeUpdate("DROP TABLE " + table + ";");
 	         }
 	         
-	         // Update with new content	   
+	         initialisePostgreSQLDatabase();
 	         
+	         // Update with new content	   	         
 	         // Update GRADES table
 	         for (Grade g : grades) {
 	        	 statement.executeUpdate("INSERT INTO GRADES (GRADUATION_YEAR) VALUES(" + g.getGraduationYear() + ");");
@@ -230,7 +231,7 @@ public class Markbook {
 					}
 					
 					// generate an assessment for each class
-					Assessment a = new Assessment(availableAssessmentID++, "Test Assessment", 25, c.getStudents());
+					Assessment a = new Assessment(availableAssessmentID++, "Test Assessment 1", 25, c.getStudents());
 					for (Student s : c.getStudents()) {
 						
 						// generate a random mark between 0 and 100
@@ -240,7 +241,7 @@ public class Markbook {
 					c.addAssessment(a);		
 					
 					// generate a second assessment for each class
-					a = new Assessment(availableAssessmentID++, "Test Assessment", 75, c.getStudents());
+					a = new Assessment(availableAssessmentID++, "Test Assessment 2", 75, c.getStudents());
 					for (Student s : c.getStudents()) {
 						
 						// generate a random mark between 0 and 100
@@ -276,6 +277,11 @@ public class Markbook {
 		
 		return classNumber;
 	}
+	
+	private void refreshData() {
+		this.subjects = new ArrayList<Subject>();
+		this.grades = new ArrayList<Grade>();
+	}
 
 	private void generateFromPostgreSQLDatabase() {
 		HashMap<Integer, Subject_Class> classIDMap = new HashMap<Integer, Subject_Class>();
@@ -283,7 +289,10 @@ public class Markbook {
 		HashMap<Integer, Grade> gradeIDMap = new HashMap<Integer, Grade>();
 		HashMap<Integer, Assessment> assessmentIDMap = new HashMap<Integer, Assessment>();
 		HashMap<Integer, Subject> subjectIDMap = new HashMap<Integer, Subject>();
-
+		
+		// Delete all existing data
+		refreshData();
+		
 		// Connect to the database
 		Connection connection = null;
 	      try {
@@ -519,9 +528,7 @@ public class Markbook {
 				+ "(ASSESSMENT_ID INT NOT NULL,"
 				+ "STUDENT INT NOT NULL,"
 				+ "MARK DOUBLE PRECISION NOT NULL)"
-  		);		
-		
-		
+  		);				
 		statement.close();
 	}
 		
@@ -546,16 +553,32 @@ public class Markbook {
 		String regexSearchString = ".*" + searchString + ".*";
 		regexSearchString.toLowerCase();
 		
-		ArrayList<Subject_Class> returnClass = new ArrayList<Subject_Class>();
+		ArrayList<Subject_Class> returnClasses = new ArrayList<Subject_Class>();
 		for (Subject subject : subjects) {		
 			for (Subject_Class c : subject.getClasses()) {
 				if (getLongName(c).matches(regexSearchString)) {
-					returnClass.add(c);
+					returnClasses.add(c);
+				}
+				
+				for (Student student : c.getStudents()) {
+					if ((student.getGivenName() + " " + student.getSurname()).matches(regexSearchString)) {
+						if (!returnClasses.contains(c)) {
+							returnClasses.add(c);
+						}
+					}
+				}
+			}
+			
+			if (subject.getName().matches(regexSearchString)) {
+				for (Subject_Class c : subject.getClasses()) {
+					if (!returnClasses.contains(c)) {
+						returnClasses.add(c);
+					}					
 				}
 			}
 		}
 		
-		return returnClass;
+		return returnClasses;
 	}
 	
 	public ArrayList<Subject_Class> getClasses() {
