@@ -45,7 +45,9 @@ public class ClassPanel extends JPanel {
 	//for class deletioon confirmation box
 	private static String messageTitle = "Confirm Deletion";
 	private static String confirmationMessage = "Are you sure you wish to delete this class?";
-
+	private static String wrongInputText = "<html><font color='red'>Duplicate or incorrect grade students not added</font></html>";
+	private static String defaultText = "Students added";
+	
 	Subject_Class thisClass;
 	Markbook mB;
 	
@@ -67,6 +69,7 @@ public class ClassPanel extends JPanel {
 	String showText2 = "Contents";
 	
 	JCheckBox confirmationCheck;
+	JLabel statusLabel;
 	
 	private static Dimension bufferHeight = new Dimension(130, 25);
 	
@@ -91,6 +94,7 @@ public class ClassPanel extends JPanel {
 		selectedStudents = newSelectedStudents;
 		allStudentPanels = new ArrayList<StudentPanel>();
 		confirmationCheck = newConfirmationCheck;
+		statusLabel = new JLabel();
 		
 		setupGraphical();
 		setupCollapsible();
@@ -110,6 +114,7 @@ public class ClassPanel extends JPanel {
 		selectedStudents = newSelectedStudents;
 		allStudentPanels = new ArrayList<StudentPanel>();
 		confirmationCheck = newConfirmationCheck;
+		statusLabel = new JLabel();
 		
 		setupGraphical();
 		setupCollapsible();
@@ -238,6 +243,13 @@ public class ClassPanel extends JPanel {
 						unaddedStudent = true;
 					}
 				}
+				
+				if (unaddedStudent) {
+					statusLabel.setText(wrongInputText);
+				} else {
+					statusLabel.setText(defaultText);
+				}
+				
 				refreshClass();
 			}
 			
@@ -321,6 +333,9 @@ public class ClassPanel extends JPanel {
 		hidePanelButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		hideShowLocation.add(hidePanelButton, c);
 		
+		//statusLabel
+		buttonPanel.add(statusLabel);
+		
 		//add button panel to mainPanel
 		c.gridx = 2;
 		c.gridwidth = 1;
@@ -345,6 +360,14 @@ public class ClassPanel extends JPanel {
 		classBuffer = new JPanel();
 		classBuffer.setPreferredSize(bufferHeight);
 		classBuffer.setBackground(backgroundDefault);
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.15;
+		c.weightx = 1;
+		mainPanel.add(statusLabel, c);
 		
 		//add to components to display
 		c.gridx = 0;
