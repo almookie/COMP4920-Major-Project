@@ -1,42 +1,149 @@
 package graphicalUI;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
 
 import main.*;
+
+/*	main gui class, setup the gui display
+ * 
+ */
 public class displayScreen {
+	static Markbook mB;
 	
     private static void createAndShowGUI() {
     	 final JFrame frame = new JFrame();
     	 frame.setMinimumSize(new Dimension(1000,1000));
-    	 Markbook mB = new Markbook();
+    	 mB = new Markbook();
     	 mB.generateRandomData();
     	 
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
-    	 //buttonns to
-    	 JButton managmentButton = new JButton("creation");
-    	 JButton searchingButton = new JButton("searching");
+    	 menu.setLayout(new GridBagLayout());
     	 
-    	 JButton statsButton = new JButton("Statistics");
+    	 //buttons to change pages
+    	 String name1 = "<html><b>" + "Manage" + "<br>" + "Classes" + "</b></html>";
+    	 JButton managmentButton = new JButton(name1);
+
+    	 String name2 = "<html><b>" + "Assessments" + "</b></html>";
+    	 JButton searchingButton = new JButton(name2);
+    	 
+    	 String name3 = "<html><b>" + "Statistics" + "</b></html>";
+    	 JButton statsButton = new JButton(name3);
     	 
     	 // statsScreen statsScreen = new statsScreen(mB, frame.getSize().getHeight(), frame.getSize().getWidth());
     	 
     	 //center to the pane
     	 managmentButton.setAlignmentX(Component.CENTER_ALIGNMENT); 
     	 searchingButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    	 
     	 statsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	 
-    	 //adding to the menu panel
-    	 menu.add(managmentButton);
-    	 menu.add(searchingButton);
     	 
-    	 menu.add(statsButton);
+	 ///////	-menu bar
+ 	 	 JLabel menuTitle = new JLabel("Navigation", SwingConstants.CENTER);
+    	 JPanel pageSelectionPanel = new JPanel(new GridBagLayout());
+    	 GridBagConstraints c = new GridBagConstraints();
     	 
-    	 //such that its vertical
-    	 menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
+    	 c.fill = GridBagConstraints.BOTH;
+    	 
+    	 c.insets = new Insets(0,0,0,1);
+    	 c.gridx = 0;
+		 c.gridy = 0;
+		 c.gridheight = 1;
+		 c.gridwidth = 3;
+		 c.weighty = 0.03;
+	 	 c.weightx = 1;
+	 	 pageSelectionPanel.add(menuTitle , c);
+    	 
+    	 c.gridx = 0;
+		 c.gridy = 1;
+		 c.gridheight = 1;
+		 c.gridwidth = 3;
+		 c.weighty = 0.31;
+	 	 c.weightx = 1;
+    	 
+	 	 pageSelectionPanel.add(managmentButton , c);
+	 	 
+	 	 c.gridy = 2;
+	 	 pageSelectionPanel.add(searchingButton, c);
+ 
+	 	 c.gridy = 3;
+	 	 pageSelectionPanel.add(statsButton, c);
+	 	
+	 	c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.8;
+		c.weightx = 1;
+	 	menu.add(pageSelectionPanel, c);
+	 	 
+ 	////////
+	 	 
+	////////	-options bar
+	 	JPanel optionsPanel = new JPanel(new GridBagLayout());
+		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+		optionsPanel.setBorder(loweredbevel);
+	 	JLabel optionsTitle = new JLabel("Options", SwingConstants.CENTER);
+	 	String loadName = "<html><b>" + "Load"+ "<br>" + "Database" + "</b></html>";
+	 	JButton loadButton = new JButton(loadName);
+	 	String saveName = "<html><b>" + "Save"+ "<br>" + "Database" + "</b></html>";
+	 	JButton saveButton = new JButton(saveName);
+	 	String resetName = "<html><b>" + "Generate"+ "<br>" + "Random" + "<br>" + "Database" + "</b></html>";
+	 	JButton resetButton = new JButton(resetName);
+	 	c.insets = new Insets(0,0,0,8);
+	 	c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.1;
+		c.weightx = 1;
+		optionsPanel.add(optionsTitle, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weighty = 0.3;
+		c.weightx = 1;
+		optionsPanel.add(loadButton, c);
+		c.gridy = 2;
+		optionsPanel.add(saveButton, c);
+		c.gridy = 3;
+		optionsPanel.add(resetButton, c);
+		
+		c.insets = new Insets(20,0,0,8);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.weighty = 0.2;
+		c.weightx = 1;
+		menu.add(optionsPanel, c);
+	////////
+	////////	-options bar buttons
+		loadButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mB.loadDatabase();
+			}
+		});
+		
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mB.saveDatabase();
+			}
+		});
+		
+		resetButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mB.generateRandomData();
+			}
+		});
+	///////
+		
+    	 //set border
     	 menu.setBorder(BorderFactory.createLineBorder(Color.GREEN));
     	 
     	 
@@ -100,6 +207,7 @@ public class displayScreen {
          
 
     }
+    
     
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         //Schedule a job for the event-dispatching thread:
