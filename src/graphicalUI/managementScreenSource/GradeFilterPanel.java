@@ -39,7 +39,7 @@ public class GradeFilterPanel extends JPanel {
 	
 	public GradeFilterPanel(Markbook newmB, managementScreen mS) {
 		mB = newmB;
-		gradeFilter = new JTextField("enter grade name");
+		gradeFilter = new JTextField("enter grade name or graduation year");
 		confirmationCheck = new JCheckBox("Do not ask for confirmation upon deleting");
 		filterResults = new GradeFilterResults(mB, gradeFilter, mS, confirmationCheck);
 		hasChanged = false;

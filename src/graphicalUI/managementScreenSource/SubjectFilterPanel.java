@@ -5,6 +5,7 @@ import graphicalUI.managementScreen;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -14,7 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import main.Grade;
 import main.Markbook;
 
 /*	filter and selection panel for subjects
@@ -32,6 +36,7 @@ public class SubjectFilterPanel extends JPanel {
 	//titles for this panel
 	private String searchTitle = "Filter Subjects:";
 	
+	private boolean hasChanged;
 	
 	/*	default constructor
 	 *
@@ -42,7 +47,10 @@ public class SubjectFilterPanel extends JPanel {
 		confirmationCheck = new JCheckBox("Do not ask for confirmation upon deleting");
 		filterResults = new SubjectFilterResults(mB, subjectFilter, mS, confirmationCheck);
 		
+		hasChanged = false;
+		
 		setupGraphical();
+		setupfilterBar();
 		//default to displaying all subjects
 		filterResults.updateResults();
 	}
@@ -118,4 +126,57 @@ public class SubjectFilterPanel extends JPanel {
 	}
 	
 	
+	/*	setup filter bar functionality
+	 * 
+	 */
+	private void setupfilterBar() {
+		subjectFilter.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				if (!hasChanged) {
+					filterResults.updateResults();
+				} else {
+					if (subjectFilter.getText().equals("")) {
+						filterResults.updateResults();
+					} else {
+						filterResults.updateResults(mB.searchSubjects(subjectFilter.getText()));
+					}
+				}
+				
+				hasChanged = true;
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				if (!hasChanged) {
+					filterResults.updateResults();
+				} else {
+					if (subjectFilter.getText().equals("")) {
+						filterResults.updateResults();
+					} else {
+						filterResults.updateResults(mB.searchSubjects(subjectFilter.getText()));
+					}
+				}
+				
+				hasChanged = true;
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				if (!hasChanged) {
+					filterResults.updateResults();
+				} else {
+					if (subjectFilter.getText().equals("")) {
+						filterResults.updateResults();
+					} else {
+						filterResults.updateResults(mB.searchSubjects(subjectFilter.getText()));
+					}
+				}
+				
+				hasChanged = true;
+			}
+			
+		});
+	}
 }
