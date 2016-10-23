@@ -94,4 +94,11 @@ public class Subject {
 			this.classesWithinGrades.put(g, newGradeClasses);
 		}
 	}
+
+	public void removeStudent(Student student) {
+		for (Subject_Class c : classes) {
+			c.removeStudent(student);
+		}
+		
+	}
 }

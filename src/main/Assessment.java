@@ -222,4 +222,8 @@ public class Assessment {
 	public HashMap<Student, Double> getMarks() {
 		return marks;
 	}
+
+	public void removeStudent(Student student) {
+		marks.remove(student);		
+	}
 }
