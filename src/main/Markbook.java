@@ -1,6 +1,8 @@
 package main;
 
 import java.sql.*;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -541,7 +543,28 @@ public class Markbook {
 			}
 		}
 		
+		if (isNumeric(searchString)) {
+			int searchInt = Integer.parseInt(searchString);
+			
+			for (Grade g : grades) {
+				if (searchInt == (12 - g.getGraduationYear() + getCurrentYear())) {
+					for (Student s : g.getStudents()) {
+						if (!returnSearch.contains(s)) {
+							returnSearch.add(s);
+						}
+					}
+				}
+			}
+		}
+		
 		return returnSearch;
+	}
+	
+	public static boolean isNumeric(String str)	{
+	  NumberFormat formatter = NumberFormat.getInstance();
+	  ParsePosition pos = new ParsePosition(0);
+	  formatter.parse(str, pos);
+	  return str.length() == pos.getIndex();
 	}
 	
 	// Function that searches class names
