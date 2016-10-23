@@ -677,9 +677,15 @@ public class Markbook {
 		return returnList;
 	}
 	
-	public ArrayList<Grade> searchGrades(String searchString) {
+	public ArrayList<Grade> searchGrades(int searchInt) {
+		String searchString = String.valueOf(searchInt);
 		ArrayList<Grade> returnList = new ArrayList<Grade>();
 		
+		for (Grade g : grades) {
+			if (String.valueOf(g.getGraduationYear()).matches(searchString)) {
+				returnList.add(g);
+			}
+		}
 		return returnList;
 	}
 }
