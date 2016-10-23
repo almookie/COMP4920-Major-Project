@@ -214,7 +214,17 @@ public class Markbook {
 					}
 					
 					// generate an assessment for each class
-					Assessment a = new Assessment(availableAssessmentID++, "Test Assessment", 100, c.getStudents());
+					Assessment a = new Assessment(availableAssessmentID++, "Test Assessment", 25, c.getStudents());
+					for (Student s : c.getStudents()) {
+						
+						// generate a random mark between 0 and 100
+						a.addMark(s, 0 + (int)(Math.random() * ((100 - 0) + 1)));
+					}
+					
+					c.addAssessment(a);		
+					
+					// generate a second assessment for each class
+					a = new Assessment(availableAssessmentID++, "Test Assessment", 75, c.getStudents());
 					for (Student s : c.getStudents()) {
 						
 						// generate a random mark between 0 and 100
