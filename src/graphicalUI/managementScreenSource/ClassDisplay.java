@@ -22,6 +22,7 @@ public class ClassDisplay extends JPanel {
 
 	//ArrayList of all ClassPanels stored
 	ArrayList<ClassPanel> allClasses;
+	ArrayList<Subject_Class> allStoredClasses;
 	Markbook mB;
 	StudentFilterSelected selectedStudents;
 	
@@ -30,6 +31,7 @@ public class ClassDisplay extends JPanel {
 	 */
 	public ClassDisplay(Markbook newmB, StudentFilterSelected newSelectedStudents) {
 		allClasses = new ArrayList<ClassPanel>();
+		allStoredClasses = new ArrayList<Subject_Class>();
 		mB = newmB;
 		selectedStudents = newSelectedStudents;
 		
@@ -42,6 +44,7 @@ public class ClassDisplay extends JPanel {
 	 */
 	public ClassDisplay(ArrayList<Subject_Class> newClasses, Markbook newmB, StudentFilterSelected newSelectedStudents) {
 		allClasses = new ArrayList<ClassPanel>();
+		allStoredClasses = new ArrayList<Subject_Class>();
 		mB = newmB;
 		selectedStudents = newSelectedStudents;
 		
@@ -55,14 +58,38 @@ public class ClassDisplay extends JPanel {
 	 * 
 	 */
 	public void refreshClass(ArrayList<Subject_Class> newClasses) {
-		//clear all students
+		//create new arraylist for allclasses
+		ArrayList<ClassPanel> newAllClasses = new ArrayList<ClassPanel>();
+		ArrayList<Subject_Class> newAllStoredClasses = new ArrayList<Subject_Class>();
+		
+		//clear display
 		this.removeAll();
-		allClasses.clear();
 		
 		//add new students
 		for (Subject_Class thisClass : newClasses) {
-			addClass(thisClass);
+			int index = allStoredClasses.indexOf(thisClass);
+			
+			if (index >= 0) {
+				//move old panel
+				allClasses.get(index).refreshClass();
+				
+				newAllClasses.add(allClasses.get(index));
+				newAllStoredClasses.add(allStoredClasses.get(index));
+				this.add(allClasses.get(index), getConstraint());
+			} else {
+				//add new panel
+				ClassPanel newPanel = 
+						new ClassPanel(thisClass.getStudents(), thisClass, mB, this,selectedStudents);
+				newAllClasses.add(newPanel);
+				newAllStoredClasses.add(thisClass);
+				this.add(newPanel, getConstraint());
+			}
 		}
+		
+		//swap to new stuff
+		allClasses = newAllClasses;
+		allStoredClasses = newAllStoredClasses;
+		
 		this.revalidate();
 		this.repaint();
 	}
@@ -78,15 +105,16 @@ public class ClassDisplay extends JPanel {
 
 	/*	add a new classPanel to classDislay
 	 * 
-	 */
+	 *//*
 	private void addClass(Subject_Class newClass) {
 		ClassPanel newPanel = 
 				new ClassPanel(newClass.getStudents(), newClass, mB, this,selectedStudents);
 		
 		allClasses.add(newPanel);
+		allStoredClasses.add(newClass);
 		this.add(newPanel, getConstraint());
 	}
-	
+	*/
 	
 	/*	set up the display elements
 	 * 
