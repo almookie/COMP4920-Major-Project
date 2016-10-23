@@ -95,6 +95,8 @@ public class AssesmentDisplay extends JPanel  {
 	 									if(a.equals(myAssesment)){
 	 										myAssesment.setWeighting(Double.parseDouble(w.getText()));
 	 										a.setWeighting(Double.parseDouble(w.getText()));
+	 										c = assesmentClass;
+
 	 									}
 	 						}
 
@@ -102,8 +104,6 @@ public class AssesmentDisplay extends JPanel  {
 		    		}		
 				}
 					
-				
-				myAssesment.setWeighting(Double.parseDouble(w.getText()));
 				markingPanel.setMyMb(mB);
 				markingPanel.refreshClasses(null, null, null, mB.getClasses());
 		    }
@@ -133,6 +133,8 @@ public class AssesmentDisplay extends JPanel  {
 		 							
 			    		}		
 					}
+						myAssesment.setWeighting(Double.parseDouble(w.getText()));
+
 					myAssesment.setWeighting(Double.parseDouble(w.getText()));
 					markingPanel.setMyMb(mB);
 					markingPanel.refreshClasses(null, null, null, mB.getClasses());
