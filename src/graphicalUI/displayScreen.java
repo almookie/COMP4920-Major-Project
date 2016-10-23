@@ -20,7 +20,7 @@ public class displayScreen {
     	 //sample buttons for menu using box layout vertical span
     	 JPanel menu = new JPanel();
     	 menu.setLayout(new GridBagLayout());
-    	 
+    	 menu.setBackground(Color.GRAY);
     	 //buttons to change pages
     	 String name1 = "<html><b>" + "Manage" + "<br>" + "Classes" + "</b></html>";
     	 JButton managmentButton = new JButton(name1);
@@ -77,7 +77,7 @@ public class displayScreen {
 		c.weighty = 0.8;
 		c.weightx = 1;
 	 	menu.add(pageSelectionPanel, c);
-	 	 
+	 	pageSelectionPanel.setBackground(Color.GRAY);
  	////////
 	 	 
 	////////	-options bar
@@ -120,7 +120,6 @@ public class displayScreen {
 	////////
 		
     	 //set border
-    	 menu.setBorder(BorderFactory.createLineBorder(Color.GREEN));
     	 
     	 
     	 //cardlayout for the main panel two switch between possible classes of panels we create
@@ -131,14 +130,12 @@ public class displayScreen {
     	 final managementScreen managmentPanel = new managementScreen(mB);
          final markingPanel mP = new markingPanel(mB);
          
-         managmentPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-         mP.setBorder(BorderFactory.createLineBorder(Color.BLUE));
     	 
          mainPanel.add(managmentPanel, "managmentPanel");
          mainPanel.add(mP, "searchingPanel");
          
-         StatsDisplay statsScreen = new StatsDisplay(mB);
-         mainPanel.add(statsScreen, "statsScreen");
+       //  StatsDisplay statsScreen = new StatsDisplay(mB);
+        // mainPanel.add(statsScreen, "statsScreen");
          
          //Note: This gives the effect of the page expanding 
          //from the center of the page
