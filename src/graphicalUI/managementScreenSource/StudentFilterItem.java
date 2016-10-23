@@ -138,6 +138,8 @@ public class StudentFilterItem extends JPanel {
 					if (result == JOptionPane.YES_OPTION) {
 						parentClass.refreshWholePage();
 					}
+				} else {
+					parentClass.refreshWholePage();
 				}
 			}
 			

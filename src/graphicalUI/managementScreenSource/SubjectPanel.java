@@ -99,6 +99,9 @@ public class SubjectPanel extends JPanel {
 						mB.deleteSubject(subject);
 						parentPanel.refreshWholePage();
 					}
+				} else {
+					mB.deleteSubject(subject);
+					parentPanel.refreshWholePage();
 				}
 			}
 			

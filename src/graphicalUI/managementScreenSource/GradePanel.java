@@ -98,8 +98,12 @@ public class GradePanel extends JPanel {
 							(self, confirmationMessage, messageTitle, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
 					if (result == JOptionPane.YES_OPTION) {
+						mB.deleteGrade(grade);
 						parentPanel.refreshWholePage();
 					}
+				} else {
+					mB.deleteGrade(grade);
+					parentPanel.refreshWholePage();
 				}
 			}
 			
