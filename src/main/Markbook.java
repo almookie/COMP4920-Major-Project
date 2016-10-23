@@ -876,4 +876,19 @@ public class Markbook {
 		
 		return null;
 	}
+	
+	public boolean addStudent(Subject_Class c, Student s) {
+		
+		if (c.getStudents().contains(s)) {
+			return false;
+		}
+
+		Grade g = getGrade(s);
+		if (c.getGrade() != g) {
+			return false;
+		}
+		
+		c.addStudent(s);
+		return true;
+	}
 }
