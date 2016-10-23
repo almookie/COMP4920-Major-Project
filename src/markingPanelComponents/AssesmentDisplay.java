@@ -92,6 +92,8 @@ public class AssesmentDisplay extends JPanel  {
 				if(!w.getText().matches("-?\\d+(\\.\\d+)?")){
 				 JOptionPane.showMessageDialog(null, "must be numeric", "Dialog",
 					        JOptionPane.ERROR_MESSAGE);
+				 }else{
+					 myAssesment.setWeighting(Double.parseDouble(w.getText()));
 				 }
 				}
 
