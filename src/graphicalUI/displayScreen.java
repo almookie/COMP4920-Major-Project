@@ -120,6 +120,12 @@ public class displayScreen {
 		c.weighty = 0.2;
 		c.weightx = 1;
 		menu.add(optionsPanel, c);
+		
+		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
+		Border loweredbevel1 = BorderFactory.createLoweredBevelBorder();
+		Border compound = BorderFactory.createCompoundBorder(
+                raisedbevel, loweredbevel1);
+		menu.setBorder(compound);
 	////////
     	 
     	 
