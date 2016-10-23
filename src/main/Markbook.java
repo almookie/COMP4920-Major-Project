@@ -868,4 +868,16 @@ public class Markbook {
 			}
 		}
 	}
+	
+	public Grade getGrade(Student student) {
+		
+		for (Grade g : grades) {	
+			ArrayList<Student> searchGrade = g.getStudents();
+			if (searchGrade.contains(student)) {
+				return g;
+			}
+		}
+		
+		return null;
+	}
 }
