@@ -1,4 +1,6 @@
 package graphicalUI;
+import graphicalUI.statsSearchBar.StatsMainScreen;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -143,8 +145,8 @@ public class displayScreen {
 
          mP.refreshClasses(null, null, null, mB.getClasses());//TODO
 
-       //  StatsDisplay statsScreen = new StatsDisplay(mB);
-        // mainPanel.add(statsScreen, "statsScreen");
+         StatsMainScreen statsScreen = new StatsMainScreen(mB);
+         mainPanel.add(statsScreen, "statsScreen");
 
          
          //Note: This gives the effect of the page expanding 

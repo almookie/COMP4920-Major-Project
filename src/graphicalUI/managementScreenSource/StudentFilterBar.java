@@ -67,7 +67,7 @@ public class StudentFilterBar extends JPanel {
 		
 		//setup the search bar
 		searchBar = new JTextField
-				("enter student name", MAXSEARCHSIZE);
+				("enter student name or grade", MAXSEARCHSIZE);
 		
 		//set preferred size
 		Dimension preferredSize = this.getPreferredSize();

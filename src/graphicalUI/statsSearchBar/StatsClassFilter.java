@@ -1,52 +1,36 @@
-package graphicalUI.managementScreenSource;
+package graphicalUI.statsSearchBar;
 
-import graphicalUI.managementScreen;
+import graphicalUI.managementScreenSource.GradePanel;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import main.Grade;
 import main.Markbook;
+import main.Subject_Class;
 
-public class GradeFilterResults extends JPanel {
+public class StatsClassFilter extends JPanel {
+
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.WHITE;
 	
+	StatsSearchPanel myParent;
 	Markbook mB;
-	managementScreen mS;
-	
-	//Scroll pane attached to this
-	JScrollPane myScroll = null;
 	JTextField myFilterBar;
+	JScrollPane myScroll = null;
 	
-	//confirmation box
-	JCheckBox confirmationCheck;
-	
-	/*	default constructor
-	 * 
-	 */
-	public GradeFilterResults(Markbook newmB, JTextField newFilterBar, managementScreen newmS, JCheckBox newConfirmationCheck) {
+	public StatsClassFilter(Markbook newmB, JTextField newFilterBar, StatsSearchPanel newParent) {
 		mB = newmB;
-		mS = newmS;
 		myFilterBar = newFilterBar;
-		confirmationCheck = newConfirmationCheck;
+		myParent = newParent;
 		
 		setupGraphical();
-	}
-	
-	
-	/*	check whether deletes should be confirmed
-	 * 	true if should not be confirmed, fallse if should be confirmed
-	 */
-	public boolean dontConfirm() {
-		return confirmationCheck.isSelected();
 	}
 	
 	
@@ -56,14 +40,6 @@ public class GradeFilterResults extends JPanel {
 	public void setScroll(JScrollPane newScroll) {
 		myScroll = newScroll;
 		myScroll.getVerticalScrollBar().setUnitIncrement(16);
-	}
-	
-	
-	/*	refresh the whole management screen
-	 * 
-	 */
-	public void refreshWholePage() {
-		mS.refresh();
 	}
 	
 	
@@ -83,35 +59,33 @@ public class GradeFilterResults extends JPanel {
 	/*	clear old display and display the new Students with provided array
 	 * 
 	 */
-	public void updateResults(ArrayList<Grade> newResults) {
+	public void updateResults(ArrayList<Subject_Class> newResults) {
 		//clear old display
 		//allResults.clear();
 		this.removeAll();
 		
 		//add new students
-		for (Grade grade : newResults) {
-			this.addGrade(grade);
+		for (Subject_Class grade : newResults) {
+			this.addItem(grade);
 		}
 		this.revalidate();
 		this.repaint();
 		updateScrollPane();
 	}
 	
-	
 	/*	clear old display and display the new Students with all subjects in backend
 	 * 
 	 */
 	public void updateResults() {
-		updateResults(mB.getGrades());
+		updateResults(mB.getClasses());
 	}
-	
 	
 	/*	add a new StudentFilterItem to display
 	 * 
 	 */
-	private void addGrade(Grade grade) {
-		GradePanel newResult =
-				new GradePanel(grade, mB, this);
+	private void addItem(Subject_Class newItem) {
+		StatsClassFilterItem newResult =
+				new StatsClassFilterItem(newItem, mB, myParent);
 		//allResults.add(newResult);
 		this.add(newResult, getConstraint());
 	}
@@ -128,7 +102,6 @@ public class GradeFilterResults extends JPanel {
 		}
 	}
 	
-	
 	/*	set up the display elements
 	 * 
 	 */
@@ -140,7 +113,6 @@ public class GradeFilterResults extends JPanel {
 		this.setOpaque(true);
 		this.setBackground(backgroundColor);
 	}
-	
 	
 	/*	get GridBagConstraints required to list downwards
 	 * 
