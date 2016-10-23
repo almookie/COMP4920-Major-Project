@@ -43,6 +43,8 @@ public class markingPanel extends JPanel {
 	private Markbook mB;
 	private JSplitPane overall;
 	private JPanel searchPanel;
+    final CardLayout cardLayout = new CardLayout();
+ 	final JPanel main = new JPanel(cardLayout);
 	
 	public markingPanel(final Markbook mB) {
 		 this.mB=mB;
@@ -50,8 +52,7 @@ public class markingPanel extends JPanel {
 
 	  	 
 	  	 //cardlayout for the main panel two switch between possible classes of panels we create
-	     final CardLayout cardLayout = new CardLayout();
-	  	 final JPanel main = new JPanel(cardLayout);
+
 	  	 
 	  	 //example panels
 	       
@@ -164,7 +165,7 @@ public class markingPanel extends JPanel {
 
 	  
 	
-			this.add(main);
+		   this.add(main);
 
 	
 	
@@ -268,8 +269,13 @@ public class markingPanel extends JPanel {
         JScrollPane scroll = new JScrollPane(labelsPanel);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
 		viewPanel.add(scroll, BorderLayout.CENTER);
-		
+	    
 
+
+    	overall = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, searchPanel, viewPanel);
+    	
+    	main.add(overall, "overall");
+        cardLayout.show(main, "overall");
 		
 	}
 	
