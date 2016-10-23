@@ -18,10 +18,12 @@ public class Markbook {
 	private int availableStudentID;
 	private int availableClassID;
 	private int availableAssessmentID;
+	private HashMap<Subject, HashMap<Grade, Integer>> availableClassNumbers;
 
 	public Markbook() {
 		this.subjects = new ArrayList<Subject>();
 		this.grades = new ArrayList<Grade>();
+		this.availableClassNumbers = new HashMap<Subject, HashMap<Grade, Integer>>();
 		this.availableSubjectID = 0;
 		this.availableStudentID = 0;
 		this.availableClassID = 0;
@@ -199,7 +201,7 @@ public class Markbook {
 					int Min = 0;
 					int Max = grades.size() - 1;
 					int random_value = Min + (int)(Math.random() * ((Max - Min) + 1));
-					Subject_Class c = new Subject_Class(availableClassID++, grades.get(random_value), subjects.get(i), 1);
+					Subject_Class c = new Subject_Class(availableClassID++, grades.get(random_value), subjects.get(i), getNextAvailableClassNumber(subjects.get(i), grades.get(random_value)));
 					subjects.get(i).addClass(c);
 					
 					// add 5 random students to this class
@@ -227,6 +229,28 @@ public class Markbook {
 			
 	}
 	
+	public int getNextAvailableClassNumber(Subject subject, Grade grade) {
+		
+		// if there isn't an entry for the specific subject in this map yet
+		if (availableClassNumbers.get(subject) == null) {
+			
+			HashMap<Grade, Integer> newGradeIntegerMap = new HashMap<Grade, Integer>();
+			newGradeIntegerMap.put(grade, 0);
+			availableClassNumbers.put(subject, newGradeIntegerMap);
+		
+		// otherwise if there isn't an entry in the grade hashmap for that specific grade
+		} else if (availableClassNumbers.get(subject).get(grade) == null) {
+			
+			availableClassNumbers.get(subject).put(grade, 0);
+		}
+		
+		// get the classnumber value and increment it		
+		int classNumber = availableClassNumbers.get(subject).get(grade);
+		availableClassNumbers.get(subject).put(grade, ++classNumber);
+		
+		return classNumber;
+	}
+
 	private void generateFromPostgreSQLDatabase() {
 
 		// Connect to the database
@@ -297,7 +321,7 @@ public class Markbook {
 		         
 		         while (resultset.next()) {
 
-		        	 int id = resultset.getInt("ID");
+		        	 int id = resultset.getInt("ID"); 
 		        	 Grade grade = getGradeByYear(resultset.getInt("GRADE"));
 		        	 int classNumber = resultset.getInt("CLASS_NUMBER");
 		        	 
@@ -413,9 +437,11 @@ public class Markbook {
 	// Function that searches student names
 	public ArrayList<Student> searchStudents(String searchString) {
 		ArrayList<Student> returnSearch = new ArrayList<Student>();
+		String regexSearchString = ".*" + searchString + ".*";
+		
 		for (Grade g : grades) {
 			for (Student s : g.getStudents()) {
-				if (s.getGivenName().matches(searchString) || s.getSurname().matches(searchString)) {
+				if (s.getGivenName().matches(regexSearchString) || s.getSurname().matches(regexSearchString)) {
 					returnSearch.add(s);
 				}
 			}
@@ -426,10 +452,12 @@ public class Markbook {
 	
 	// Function that searches class names
 	public ArrayList<Subject_Class> searchClasses(String searchString) {
+		String regexSearchString = ".*" + searchString + ".*";
+		
 		ArrayList<Subject_Class> returnClass = new ArrayList<Subject_Class>();
 		for (Subject subject : subjects) {		
 			for (Subject_Class c : subject.getClasses()) {
-				if (getLongName(c).matches(searchString)) {
+				if (getLongName(c).matches(regexSearchString)) {
 					returnClass.add(c);
 				}
 			}
@@ -659,17 +687,15 @@ public class Markbook {
 	}
 	
 	public void deleteSubject(Subject s) {
-		for (Subject_Class c : s.getClasses()) {
-			
-		}
 		subjects.remove(s);
 	}
 	
 	public ArrayList<Subject> searchSubjects(String searchString) {
+		String regexSearchString = ".*" + searchString + ".*";
 		ArrayList<Subject> returnList = new ArrayList<Subject>();
 		
 		for (Subject s : subjects) {
-			if (s.getName().matches(searchString)) {
+			if (s.getName().matches(regexSearchString)) {
 				returnList.add(s);
 			}
 		}
@@ -677,9 +703,21 @@ public class Markbook {
 		return returnList;
 	}
 	
-	public ArrayList<Grade> searchGrades(String searchString) {
+	public ArrayList<Grade> searchGrades(int searchInt) {
+		String searchString = String.valueOf(searchInt);
+		String regexSearchString = ".*" + searchString + ".*";
 		ArrayList<Grade> returnList = new ArrayList<Grade>();
 		
+		for (Grade g : grades) {
+			if (String.valueOf(g.getGraduationYear()).matches(regexSearchString)) {
+				returnList.add(g);
+			}
+		}
 		return returnList;
+	}
+	
+	public void addClass(Subject s, Grade g, ArrayList<Student> students) {
+		Subject_Class newClass = new Subject_Class(availableClassID++, g, s, getNextAvailableClassNumber(s, g));
+		s.addClass(newClass);
 	}
 }

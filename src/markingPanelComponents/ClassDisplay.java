@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -23,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import main.Assessment;
@@ -133,15 +137,32 @@ public class ClassDisplay extends JPanel {
 		
 		
 		JPanel newAssesment = new JPanel();
-		
+		JButton cancel = new JButton("Cancel");
+	  	cancel.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(overall, "mP");
+            }
+        });
+	  	newAssesment.add(cancel);
+	  	
+	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
+
 	  	newAssesment.setLayout(new BoxLayout(newAssesment, BoxLayout.Y_AXIS));
 	  	newAssesment.add(new JLabel("AssesmentName"));
 	    final JTextField assName = new JTextField();
+	    assName.setMaximumSize(new Dimension(1000,50));
 	    newAssesment.add(assName);
+	    newAssesment.add(Box.createRigidArea(new Dimension(5,70)));
 
 	  	newAssesment.add(new JLabel("AssesmentWeighting"));
 	    final JTextField assWeighting = new JTextField();
+	    
+	    assWeighting.setMaximumSize(new Dimension(1000,50));
+
 	    newAssesment.add(assWeighting);
+	    newAssesment.add(Box.createRigidArea(new Dimension(5,50)));
 
 
 
@@ -198,6 +219,7 @@ public class ClassDisplay extends JPanel {
             }
         });
 	  	newAssesment.add(create);
+	  	  	
 	  	
 		swap.addActionListener(new ActionListener() {
             @Override

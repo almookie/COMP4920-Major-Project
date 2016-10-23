@@ -8,17 +8,23 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.util.Vector;
 
+import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-
 import main.Assessment;
 import main.Subject_Class;
 import main.Markbook;
@@ -64,19 +70,69 @@ public class AssesmentDisplay extends JPanel  {
 		mainPanel.setLayout(new GridBagLayout());
 		
 		String assName = myAssesment.getName();
+		JPanel labels = new JPanel(new GridBagLayout());
 		JLabel displayName = new JLabel(assName);
-		displayName.setOpaque(true);
-		displayName.setBackground(Color.GREEN);
-		displayName.setForeground(Color.WHITE);
+
+		JLabel weighting = new JLabel("Change current Weight: ");
+		final JTextField w = new JTextField(Double.toString(myAssesment.getWeighting()));
+//		
+//		w.addActionListener(new AbstractAction(){
+//		    @Override
+//		    public void actionPerformed(ActionEvent e)
+//		    {
+//		        System.out.println("some action");
+//		    }
+//			
+//		});
+		w.getDocument().addDocumentListener(new DocumentListener() {
 
 
-		mainPanel.add(displayName);
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(!w.getText().matches("-?\\d+(\\.\\d+)?")){
+				 JOptionPane.showMessageDialog(null, "must be numeric", "Dialog",
+					        JOptionPane.ERROR_MESSAGE);
+				 }
+				}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+	            System.out.println("2");
+				
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				System.out.print("3");	    	//do whatever you want here the user has entered some text
+				
+			}
+	      }
+	    );
 		
+		w.setPreferredSize(new Dimension(40, 25));
+		weighting.setOpaque(true);
+		weighting.setBackground(Color.lightGray);
+		
+		displayName.setOpaque(true);
+		displayName.setBackground(Color.CYAN);
+
+		GridBagConstraints g = new GridBagConstraints();
+		
+		g.gridy = 1;
+
+		g.fill = GridBagConstraints.HORIZONTAL;	
+		labels.add(displayName,g);
+		g.gridy = 2;
+		labels.add(weighting,g); 		labels.add(w,g); 
+
+
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.BOTH;
-
+		c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
 		c.gridy = 1;
+		mainPanel.add(labels);
+		
 
 			
 			String[][] data1 = null;
