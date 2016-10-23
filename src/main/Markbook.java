@@ -716,11 +716,11 @@ public class Markbook {
 	
 	public ArrayList<Grade> searchGrades(int searchInt) {
 		String searchString = String.valueOf(searchInt);
-		String regexSearchString = ".*" + searchString + ".*";
+		String regexSearchString = ".*" + (12 - searchInt + getCurrentYear()) + ".*";
 		ArrayList<Grade> returnList = new ArrayList<Grade>();
 		
 		for (Grade g : grades) {
-			if (String.valueOf(g.getGraduationYear()).matches(regexSearchString)) {
+			if (String.valueOf(g.getGraduationYear()).matches(searchString) || String.valueOf(g.getGraduationYear()).matches(regexSearchString)) {
 				returnList.add(g);
 			}
 		}
