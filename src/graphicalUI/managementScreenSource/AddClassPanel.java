@@ -178,7 +178,7 @@ public class AddClassPanel extends JPanel {
 					Grade classGrade = ((GradeComboBoxHolder)grade.getSelectedItem()).getGrade();
 					
 					Subject_Class newClass = new Subject_Class
-							(mB.getNextAvailableClassID(), classGrade, classSubject, 1);
+							(mB.getNextAvailableClassID(), classGrade, classSubject, mB.getNextAvailableClassNumber(classSubject, classGrade));
 					classSubject.addClass(newClass);
 					
 					//update statusLabel

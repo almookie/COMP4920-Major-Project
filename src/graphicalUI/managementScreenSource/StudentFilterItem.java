@@ -69,8 +69,9 @@ public class StudentFilterItem extends JPanel {
 		//create label with student name and grade
 		String fullName = 
 				student.getSurname() + "," + student.getGivenName();
-		//String grade = TODO
-		JLabel displayName = new JLabel(fullName);
+		String grade = String.valueOf(mB.getGrade(student).getYear(mB.getCurrentYear()));
+		String displayText = fullName + "   Grade: " + grade;
+		JLabel displayName = new JLabel(displayText);
 		
 		//display student name label in center of panel
 		c.gridx = 1;
