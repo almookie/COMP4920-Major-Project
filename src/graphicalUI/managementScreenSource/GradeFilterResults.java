@@ -73,21 +73,17 @@ public class GradeFilterResults extends JPanel {
 	 * 
 	 */
 	public void updateResults(ArrayList<Grade> newResults) {
-		if (newResults.size() > 0) {
-			//clear old display
-			//allResults.clear();
-			this.removeAll();
-			
-			//add new students
-			for (Grade grade : newResults) {
-				this.addGrade(grade);
-			}
-			this.revalidate();
-			this.repaint();
-			updateScrollPane();
-		} else {
-			updateResults();
+		//clear old display
+		//allResults.clear();
+		this.removeAll();
+		
+		//add new students
+		for (Grade grade : newResults) {
+			this.addGrade(grade);
 		}
+		this.revalidate();
+		this.repaint();
+		updateScrollPane();
 	}
 	
 	

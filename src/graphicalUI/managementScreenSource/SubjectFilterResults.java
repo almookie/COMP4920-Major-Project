@@ -77,22 +77,17 @@ public class SubjectFilterResults extends JPanel {
 	 * 
 	 */
 	public void updateResults(ArrayList<Subject> newResults) {
-		if (newResults.size() > 0) {
-			//clear old display
-			//allResults.clear();
-			this.removeAll();
-			
-			//add new students
-			for (Subject subject : newResults) {
-				this.addSubject(subject);
-			}
-			this.revalidate();
-			this.repaint();
-			updateScrollPane();
-		} else {
-			updateResults();
-		}
+		//clear old display
+		//allResults.clear();
+		this.removeAll();
 		
+		//add new students
+		for (Subject subject : newResults) {
+			this.addSubject(subject);
+		}
+		this.revalidate();
+		this.repaint();
+		updateScrollPane();
 	}
 	
 	
