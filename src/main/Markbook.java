@@ -30,11 +30,11 @@ public class Markbook {
 	
 	public void generateRandomData() {
 
-		initialisePostgreSQLDatabase();
-		generateFromPostgreSQLDatabase();
-		//generateData();			
+		//initialisePostgreSQLDatabase();
+		//generateFromPostgreSQLDatabase();
+		generateData();			
 
-		saveDataToPSQL();
+		//saveDataToPSQL();
 	}
 	
 	private void saveDataToPSQL() {
